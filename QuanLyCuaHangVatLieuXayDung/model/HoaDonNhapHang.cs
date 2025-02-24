@@ -22,7 +22,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 
         public override string LoaiHoaDon()
         {
-            return "Hóa đơn nhập hàng";
+            return "Hóa đơn nhập vật liệu";
         }
 
         public override double TongTien()

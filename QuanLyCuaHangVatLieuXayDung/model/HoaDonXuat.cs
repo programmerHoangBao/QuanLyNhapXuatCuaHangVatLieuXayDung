@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace QuanLyCuaHangVatLieuXayDung.model
 {
-    internal class HoaDonBanHang : HoaDon
+    internal class HoaDonXuat: HoaDon
     {
         private DoiTac khachHang = new KhachHang();
         private int phuongThucThanhToan;
         private double giamChietKhau = 0;
 
-        public HoaDonBanHang()
+        public HoaDonXuat()
         {
         }
 
@@ -22,7 +22,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 
         public override string LoaiHoaDon()
         {
-            return "Hóa đơn bán hàng";
+            return "Hóa đơn xuất";
         }
 
         public override double TongTien()
