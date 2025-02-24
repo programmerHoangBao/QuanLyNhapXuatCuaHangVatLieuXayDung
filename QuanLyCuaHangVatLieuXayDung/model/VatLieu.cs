@@ -33,3 +33,9 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         internal DoiTac NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
     }
 }
+
+/*
+    Thuộc tính trạng thái:
+        - true: sẽ hiển thị cho actor
+        - false: sẽ không hiển thị cho actor thấy
+ */

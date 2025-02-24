@@ -35,3 +35,9 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public abstract string LoaiDoiTac();
     }
 }
+
+/*
+    Thuộc tính trạng thái:
+        - true: sẽ hiển thị cho actor
+        - false: sẽ không hiển thị cho actor thấy
+ */
