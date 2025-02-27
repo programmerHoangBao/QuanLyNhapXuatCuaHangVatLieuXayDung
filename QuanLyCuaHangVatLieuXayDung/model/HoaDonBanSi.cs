@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace QuanLyCuaHangVatLieuXayDung.model
 {
-    internal class HoaDonXuat: HoaDon
+    internal class HoaDonBanSi: HoaDon
     {
         private DoiTac khachHang = new KhachHang();
         private int phuongThucThanhToan;
         private double giamChietKhau = 0;
 
-        public HoaDonXuat()
+        public HoaDonBanSi()
         {
         }
 
