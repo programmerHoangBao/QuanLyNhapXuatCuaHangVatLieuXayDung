@@ -77,7 +77,7 @@ CREATE TABLE ChiTietHoaDon(
 	MaHoaDon CHAR(10) NOT NULL,
 	VatLieu_index INT NOT NULL,
 	SoLuong FLOAT NOT NULL,
-	CONSTRAINT pk_ChiTietHoaDon PRIMARY KEY (MaHoaDon, MaVatLieu),
+	CONSTRAINT pk_ChiTietHoaDon PRIMARY KEY (MaHoaDon, VatLieu_index),
 	CONSTRAINT fk_DanhSachSanPham FOREIGN KEY (VatLieu_index) REFERENCES VatLieu(VatLieu_index),
 	CONSTRAINT fk_ThuocHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon)
 );
