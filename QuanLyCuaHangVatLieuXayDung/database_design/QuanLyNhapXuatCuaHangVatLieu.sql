@@ -16,6 +16,9 @@ LOG ON
 );
 GO
 
+USE QuanLyNhapXuatCuaHangVatLieu;
+GO
+
 CREATE TABLE DoiTac(
 	DoiTac_index INT PRIMARY KEY IDENTITY(1,1),
 	MaDoiTac CHAR(10) NOT NULL,
@@ -74,12 +77,12 @@ CREATE TABLE HoaDon(
 GO
 
 CREATE TABLE ChiTietHoaDon(
-	MaHoaDon CHAR(10) NOT NULL,
+	HoaDon_index INT NOT NULL,
 	VatLieu_index INT NOT NULL,
 	SoLuong FLOAT NOT NULL,
-	CONSTRAINT pk_ChiTietHoaDon PRIMARY KEY (MaHoaDon, VatLieu_index),
+	CONSTRAINT pk_ChiTietHoaDon PRIMARY KEY (HoaDon_index, VatLieu_index),
 	CONSTRAINT fk_DanhSachSanPham FOREIGN KEY (VatLieu_index) REFERENCES VatLieu(VatLieu_index),
-	CONSTRAINT fk_ThuocHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon)
+	CONSTRAINT fk_ThuocHoaDon FOREIGN KEY (HoaDon_index) REFERENCES HoaDon(HoaDon_index)
 );
 GO
 
@@ -114,6 +117,7 @@ CREATE TABLE ChiPhiPhatSinh(
 GO
 
 CREATE TABLE NhanVien(
+	NhanVien_index INT UNIQUE NOT NULL,
 	MaNhanVien CHAR(10) PRIMARY KEY,
 	Ten VARCHAR(100) NOT NULL,
 	SoDienThoai CHAR(10) NOT NULL,
@@ -125,9 +129,9 @@ CREATE TABLE NhanVien(
 GO
 
 CREATE TABLE BangChamCong(
-	MaNhanVien CHAR(10) NOT NULL,
+	NhanVien_index CHAR(10) NOT NULL,
 	NgayChamCong DATE NOT NULL,
-	CONSTRAINT pk_ChamCong PRIMARY KEY (MaNhanVien, NgayChamCong),
-	CONSTRAINT fk_ChamCong FOREIGN KEY (MaNhanVien) REFERENCES NhanVien(MaNhanVien)
+	CONSTRAINT pk_ChamCong PRIMARY KEY (NhanVien_index, NgayChamCong),
+	CONSTRAINT fk_ChamCong FOREIGN KEY (NhanVien_index) REFERENCES NhanVien(MaNhanVien)
 );
 GO
