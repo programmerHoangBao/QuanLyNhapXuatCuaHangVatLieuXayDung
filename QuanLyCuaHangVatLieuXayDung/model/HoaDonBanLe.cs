@@ -16,15 +16,5 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             return "Hóa đơn bán lẻ";
         }
-
-        public override double TongTien()
-        {
-            double tongTien = 0; 
-            foreach(var vatLieu in this.DsVatLieu)
-            {
-                tongTien += vatLieu.vatLieu.DonGiaXuat * vatLieu.soLuong;
-            }
-            return tongTien + this.GiamChietKhau;
-        }
     }
 }
