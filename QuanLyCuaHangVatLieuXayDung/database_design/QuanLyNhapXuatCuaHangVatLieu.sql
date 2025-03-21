@@ -28,7 +28,7 @@ CREATE TABLE DoiTac(
 	DiaChi VARCHAR(250) NOT NULL,
 	SoTaiKhoan CHAR(20),
 	TenTaiKhoan VARCHAR(100),
-	LoaiDoiTac VARCHAR(20) NOT NULL,
+	LoaiDoiTac VARCHAR(3) NOT NULL,
 	TrangThai BIT DEFAULT 1
 );
 GO
@@ -72,9 +72,21 @@ CREATE TABLE HoaDon(
 	GiamChietKhau DECIMAL(18,2),
 	PhuongThucThanhToan VARCHAR(50),
 	TongGiaTri DECIMAL(18,2),
+	LoaiHoaDon VARCHAR(4),
 	CONSTRAINT fk_GiaoDich FOREIGN KEY (DoiTac_index) REFERENCES DoiTac(DoiTac_index)
 );
 GO
+
+CREATE TABLE PhieuTraHang(
+	PhieuTraHang_index INT IDENTITY(1, 1) UNIQUE NOT NULL,
+	MaPhieuTraHang CHAR(10) PRIMARY KEY,
+	HoaDon_index INT,
+	ThoiGianTraHang DATETIME NOT NULL,
+	LyDoTraHang VARCHAR(200),
+	TongGiaTri DECIMAL(18,2),
+	LoaiTraHang VARCHAR(6),
+	CONSTRAINT fk_PhieuTraHang FOREIGN KEY (HoaDon_index) REFERENCES HoaDon(HoaDon_index)
+);
 
 CREATE TABLE ChiTietHoaDon(
 	HoaDon_index INT NOT NULL,
@@ -92,7 +104,7 @@ CREATE TABLE TienNo(
 	NgayNo DATE NOT NULL,
 	ThoiGianThanhToan INT NOT NULL,
 	SoTienNo DECIMAL(18,2) NOT NULL,
-	LoaiTienNo VARCHAR(50) NOT NULL,
+	LoaiTienNo VARCHAR(4) NOT NULL,
 	TrangThai BIT DEFAULT 1
 );
 GO
@@ -102,7 +114,8 @@ CREATE TABLE BienLaiTraNo(
 	MaBienLai CHAR(10) PRIMARY KEY,
 	NgayLap DATE NOT NULL,
 	SoTienTra DECIMAL(18,2) NOT NULL,
-	LoaiBienLai VARCHAR(50) NOT NULL
+	TienNo_index INT,
+	CONSTRAINT fk_TienNo FOREIGN KEY (TienNo_index) REFERENCES TienNo(TienNo_index)
 );
 GO
 

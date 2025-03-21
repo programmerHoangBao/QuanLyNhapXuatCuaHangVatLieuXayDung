@@ -24,7 +24,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
             {
                 tongTien += vatLieu.vatLieu.DonGiaXuat * vatLieu.soLuong;
             }
-            return tongTien;
+            return tongTien + this.GiamChietKhau;
         }
     }
 }

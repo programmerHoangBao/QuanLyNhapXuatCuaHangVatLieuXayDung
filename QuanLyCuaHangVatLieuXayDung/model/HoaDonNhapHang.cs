@@ -10,29 +10,17 @@ namespace QuanLyCuaHangVatLieuXayDung.model
     {
         private DoiTac nhaCungCap = new NhaCungCap();
         private int phuongThucThanhToan;
-        private double giamChietKhau = 0;
 
         public HoaDonNhapHang()
         {
         }
 
         public int PhuongThucThanhToan { get => phuongThucThanhToan; set => phuongThucThanhToan = value; }
-        public double GiamChietKhau { get => giamChietKhau; set => giamChietKhau = value; }
         internal DoiTac NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
 
         public override string LoaiHoaDon()
         {
             return "Hóa đơn nhập vật liệu";
-        }
-
-        public override double TongTien()
-        {
-            double tongTien = 0;
-            foreach (var vatLieu in this.DsVatLieu)
-            {
-                tongTien += vatLieu.vatLieu.DonGiaNhap * vatLieu.soLuong;
-            }
-            return tongTien + this.giamChietKhau;
         }
     }
 }
