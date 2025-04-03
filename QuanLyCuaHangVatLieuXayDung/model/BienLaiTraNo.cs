@@ -8,30 +8,24 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal class BienLaiTraNo
     {
-        private int index;
         private string maBienLai;
-        private DateTime NgayLap;
-        private double soTienTra;
-        private TienNo khoanNo = new TienNo();
-        private string loaiBienLai;
-
+        private DateTime thoiGianLap;
+        private double tienTra;
+        private PhieuGhiNo phieuGhiNo;
         public BienLaiTraNo()
         {
         }
+        public BienLaiTraNo(string maBienLai, DateTime thoiGianLap, double tienTra, PhieuGhiNo phieuGhiNo)
+        {
+            this.MaBienLai = maBienLai;
+            this.ThoiGianLap = thoiGianLap;
+            this.TienTra = tienTra;
+            this.PhieuGhiNo = phieuGhiNo;
+        }
 
         public string MaBienLai { get => maBienLai; set => maBienLai = value; }
-        public DateTime NgayLap1 { get => NgayLap; set => NgayLap = value; }
-        public double SoTienTra { get => soTienTra; set => soTienTra = value; }
-        /// <summary>
-        /// "BLTNCKH": Biên lai tra nợ của khách hàng, "BLTNCCH" Biên lai trả nợ của cửa hàng cho nhà cung cấp
-        public string LoaiBienLai { get => loaiBienLai; set => loaiBienLai = value; }
-        public int Index { get => index; set => index = value; }
-        internal TienNo KhoanNo { get => khoanNo; set => khoanNo = value; }
+        public DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
+        public double TienTra { get => tienTra; set => tienTra = value; }
+        internal PhieuGhiNo PhieuGhiNo { get => phieuGhiNo; set => phieuGhiNo = value; }
     }
 }
-
-/*
-    Loại biên lai: 
-    1. "BLTNCKH": Biên lai tra nợ của khách hàng
-    2. "BLTNCCH" Biên lai trả nợ của cửa hàng cho nhà cung cấp
- */

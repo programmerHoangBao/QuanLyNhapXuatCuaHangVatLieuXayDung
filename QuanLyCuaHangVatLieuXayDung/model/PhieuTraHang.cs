@@ -8,33 +8,30 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal abstract class PhieuTraHang
     {
-        private int index;
         private string maPhieu;
         private DateTime thoiGianLap;
-        private string lyDoTraHang;
-        private HoaDon hoaDon;
-        private List<(VatLieu vatLieu, double soLuong)> dsVatLieu = new List<(VatLieu vatLieu, double soLuong)>();
+        private string lyDo;
+        private double tongTien;
+        private List<(VatLieu vatLieu, float soLuong)> chiTiets;
 
         protected PhieuTraHang()
         {
         }
 
-        public int Index { get => index; set => index = value; }
-        public string MaPhieu { get => maPhieu; set => maPhieu = value; }
-        public DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
-        public string LyDoTraHang { get => lyDoTraHang; set => lyDoTraHang = value; }
-        internal HoaDon HoaDon { get => hoaDon; set => hoaDon = value; }
-        internal List<(VatLieu vatLieu, double soLuong)> DsVatLieu { get => dsVatLieu; set => dsVatLieu = value; }
-
-        public abstract string LoaiHoaDon();
-        public double TongTien()
+        protected PhieuTraHang(string maPhieu, DateTime thoiGianLap, string lyDo, 
+            double tongTien, List<(VatLieu vatLieu, float soLuong)> chiTiets)
         {
-            double tongTien = 0;
-            foreach (var vatLieu in this.DsVatLieu)
-            {
-                tongTien += vatLieu.vatLieu.DonGiaXuat * vatLieu.soLuong;
-            }
-            return tongTien + this.HoaDon.GiamChietKhau;
+            this.MaPhieu = maPhieu;
+            this.ThoiGianLap = thoiGianLap;
+            this.LyDo = lyDo;
+            this.TongTien = tongTien;
+            this.ChiTiets = chiTiets;
         }
+        protected string MaPhieu { get => maPhieu; set => maPhieu = value; }
+        protected DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
+        protected string LyDo { get => lyDo; set => lyDo = value; }
+        protected double TongTien { get => tongTien; set => tongTien = value; }
+        protected List<(VatLieu vatLieu, float soLuong)> ChiTiets { get => chiTiets; set => chiTiets = value; }
+        protected abstract string LoaiPhieu();
     }
 }

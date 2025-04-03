@@ -12,7 +12,11 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
         }
 
-        public override string LoaiDoiTac()
+        public NhaCungCap(string maDoiTac, string ten, string soDienThoai, string diaChi, string email, string nganHang, string soTaiKhoan, string qR) : base(maDoiTac, ten, soDienThoai, diaChi, email, nganHang, soTaiKhoan, qR)
+        {
+        }
+
+        protected override string loaiDoiTac()
         {
             return "Nhà cung cấp";
         }

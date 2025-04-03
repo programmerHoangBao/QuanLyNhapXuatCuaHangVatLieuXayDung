@@ -8,34 +8,45 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal class VatLieu
     {
-        private int index;
         private string maVatLieu;
-        private string tenVatLieu;
-        private double donGiaNhap;
-        private double donGiaXuat;
+        private string ten;
+        private double giaNhap;
+        private double giaXuat;
         private string donVi;
+        private DateTime ngayNhap;
         private string hinhAnhURL;
-        private DoiTac nhaCungCap = new NhaCungCap();
-        private bool trangThai;
+        private NhaCungCap nhaCungCap;
+        private List<string> hinhAnhs;
+        private List<(Kho, float)> tonKhos;
 
         public VatLieu()
         {
         }
 
+        public VatLieu(string maVatLieu, string ten, double giaNhap, double giaXuat, string donVi, 
+            DateTime ngayNhap, string hinhAnhURL, NhaCungCap nhaCungCap, List<string> hinhAnhs, List<(Kho, float)> tonKhos)
+        {
+            this.MaVatLieu = maVatLieu;
+            this.Ten = ten;
+            this.GiaNhap = giaNhap;
+            this.GiaXuat = giaXuat;
+            this.DonVi = donVi;
+            this.NgayNhap = ngayNhap;
+            this.HinhAnhURL = hinhAnhURL;
+            this.NhaCungCap = nhaCungCap;
+            this.HinhAnhs = hinhAnhs;
+            this.TonKhos = tonKhos;
+        }
+
         public string MaVatLieu { get => maVatLieu; set => maVatLieu = value; }
-        public string TenVatLieu { get => tenVatLieu; set => tenVatLieu = value; }
-        public double DonGiaNhap { get => donGiaNhap; set => donGiaNhap = value; }
-        public double DonGiaXuat { get => donGiaXuat; set => donGiaXuat = value; }
+        public string Ten { get => ten; set => ten = value; }
+        public double GiaNhap { get => giaNhap; set => giaNhap = value; }
+        public double GiaXuat { get => giaXuat; set => giaXuat = value; }
         public string DonVi { get => donVi; set => donVi = value; }
+        public DateTime NgayNhap { get => ngayNhap; set => ngayNhap = value; }
         public string HinhAnhURL { get => hinhAnhURL; set => hinhAnhURL = value; }
-        public int Index { get => index; set => index = value; }
-        public bool TrangThai { get => trangThai; set => trangThai = value; }
-        internal DoiTac NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
+        public List<string> HinhAnhs { get => hinhAnhs; set => hinhAnhs = value; }
+        internal NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
+        internal List<(Kho, float)> TonKhos { get => tonKhos; set => tonKhos = value; }
     }
 }
-
-/*
-    Thuộc tính trạng thái:
-        - true: sẽ hiển thị cho actor
-        - false: sẽ không hiển thị cho actor thấy
- */

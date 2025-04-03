@@ -1,1 +1,0 @@
-﻿Cung cấp lớp trung gian giữa cơ sở dữ liệu và ứng dụng
