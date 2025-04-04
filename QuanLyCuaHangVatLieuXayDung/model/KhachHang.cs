@@ -16,7 +16,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
         }
 
-        protected override string loaiDoiTac()
+        public override string loaiDoiTac()
         {
             return "Khách hàng";
         }
