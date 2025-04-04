@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace QuanLyCuaHangVatLieuXayDung.config
+namespace QuanLyCuaHangVatLieuXayDung.utilities
 {
     internal class MyDatabase
     {
