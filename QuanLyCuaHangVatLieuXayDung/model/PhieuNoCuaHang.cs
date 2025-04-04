@@ -22,7 +22,12 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         internal NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
         internal HoaDonNhap HoaDonNhap { get => hoaDonNhap; set => hoaDonNhap = value; }
 
-        protected override string LoaiPhieu()
+        public override byte loaiPhieu_toByte()
+        {
+            return 2;
+        }
+
+        public override string loaiPhieu_toString()
         {
             return "Phiếu ghi nợ của cửa hàng";
         }

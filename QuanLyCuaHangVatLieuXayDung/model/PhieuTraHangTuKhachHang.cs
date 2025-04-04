@@ -16,10 +16,16 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             this.HoaDonXuat = hoaDonXuat;
         }
-        protected override string LoaiPhieu()
+        public override string loaiPhieu_toString()
         {
             return "Phiếu trả hàng từ khách hàng";
         }
+
+        public override byte loaiPhieu_toByte()
+        {
+            return 1;
+        }
+
         internal HoaDonXuat HoaDonXuat { get => hoaDonXuat; set => hoaDonXuat = value; }
     }
 }

@@ -17,10 +17,16 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             this.nhaCungCap = nhaCungCap;
         }
-        protected override string LoaiHoaDon()
+        public override string loaiHoaDon_toString()
         {
             return "Hóa đơn nhập hàng";
         }
+
+        public override byte loaiHoaDon_toByte()
+        {
+            return 2;
+        }
+
         public NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
     }
 }

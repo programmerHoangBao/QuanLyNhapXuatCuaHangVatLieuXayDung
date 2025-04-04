@@ -17,7 +17,11 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             this.khachHang = khachHang;
         }
-        protected override string LoaiHoaDon()
+        public override byte loaiHoaDon_toByte()
+        {
+            return 1;
+        }
+        public override string loaiHoaDon_toString()
         {
             return "Hóa đơn xuất hàng";
         }
