@@ -1,6 +1,6 @@
 Đồ án cuối kì môn Phân Tích Và Thiết Kế Hệ Thống Thông Tin. <br>
 Giảng viên hướng dẫn: GSTS.Nguyễn Thành Sơn. <br>
-Nguồn Khảo sác: Cửa hàng vật liệu xây dựng Minh Kha - Địa chỉ: cầu số 8, ấp Phú Mỹ, Xã Phú Hội, Huyện An Phú, Tỉnh An Giang. <br>
+Nguồn Khảo sát: Cửa hàng vật liệu xây dựng Minh Kha - Địa chỉ: cầu số 8, ấp Phú Mỹ, Xã Phú Hội, Huyện An Phú, Tỉnh An Giang. <br>
 Thành viên nhóm:
   1. Nguyễn Hoàng Bảo - 22110284.<br>
   2. Nguyễn Trung Hiếu - 22110323.<br>
