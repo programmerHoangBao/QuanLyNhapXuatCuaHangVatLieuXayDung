@@ -113,7 +113,8 @@ CREATE TABLE TonKho(
 	CONSTRAINT FK_VatLieu FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
 		ON DELETE CASCADE,
 	CONSTRAINT FK_Kho FOREIGN KEY (MaKho) REFERENCES Kho(MaKho) 
-		ON DELETE SET NULL ON UPDATE CASCADE,
+		ON DELETE CASCADE 
+		ON UPDATE CASCADE,
 	CONSTRAINT CK_SoLuong CHECK (SoLuong >= 0)
 );
 GO
@@ -176,7 +177,7 @@ CREATE TABLE ChiTietHoaDon(
 	CONSTRAINT FK_ChiTietHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon) 
 		ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT FK_VatLieuGiaoDich FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+		ON DELETE SET NULL ON UPDATE NO ACTION,
 	CONSTRAINT CK_SoLuongGiaoDich CHECK (SoLuong >= 0)
 );
 
@@ -200,7 +201,7 @@ CREATE TABLE PhieuTraHang(
 	LoaiPhieu TINYINT DEFAULT 1 NOT NULL,
 	TongTien DECIMAL(18, 2) DEFAULT 0 NOT NULL,
 	CONSTRAINT FK_TraHangChoHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+		ON DELETE NO ACTION ON UPDATE CASCADE,
 	CONSTRAINT CK_LoaiPhieuTraHang CHECK (LoaiPhieu = 1 OR LoaiPhieu = 2)
 );
 GO
@@ -226,8 +227,7 @@ CREATE TABLE ChiTietTraHang(
 	NgayNhap DATE DEFAULT GETDATE() NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NhaCungCap CHAR(10),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	HinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
-	CONSTRAINT FK_MaPhieuTraHang FOREIGN KEY (MaPhieuTraHang) REFERENCES PhieuTraHang(MaPhieu)
-		ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_MaPhieuTraHang FOREIGN KEY (MaPhieuTraHang) REFERENCES PhieuTraHang(MaPhieu),
 	CONSTRAINT FK_VatLieuTraHang FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
 		ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -262,10 +262,9 @@ CREATE TABLE PhieuGhiNo (
 	DiaChi NVARCHAR(250) NOT NULL,		/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT FK_DoiTacNo FOREIGN KEY (MaDoiTac) REFERENCES DoiTac(MaDoiTac) 
 		ON DELETE SET NULL ON UPDATE CASCADE,
-	CONSTRAINT FK_NoTuHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT FK_NoTuHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon),
 	CONSTRAINT CK_TienNo CHECK (TienNo >= 0),
-	CONSTRAINT CK_NgayTra CHECK (NgayTra > CAST(ThoiGianLap AS DATE)),
+	CONSTRAINT CK_ThoiGianTra CHECK (ThoiGianTra > CAST(ThoiGianLap AS DATE)),
 	CONSTRAINT CK_LoaiPhieuNo CHECK (LoaiPhieu = 1 OR LoaiPhieu = 2)
 );
 GO
@@ -280,7 +279,7 @@ GO
 CREATE INDEX idx_phieughino_thoigianlap ON PhieuGhiNo(ThoiGianLap);
 GO
 /*Tạo INDEX cho thuộc tính NgayTra trong quan hệ PhieuGhiNo*/
-CREATE INDEX idx_phieughino_ngaytra ON PhieuGhiNo(NgayTra);
+CREATE INDEX idx_phieughino_thoigiantra ON PhieuGhiNo(ThoiGianTra);
 GO
 /*Tạo INDEX cho thuộc tính NgayTra trong quan hệ PhieuGhiNo*/
 CREATE INDEX idx_phieughino_loaiphieu ON PhieuGhiNo(LoaiPhieu);
@@ -369,7 +368,7 @@ CREATE TABLE BangChamCong(
 	LuongTrenNgay DECIMAL(18, 2) DEFAULT 250000 NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT PK_BangChamCong PRIMARY KEY (MaNhanVien, ThoiGianChamCong),
 	CONSTRAINT FK_NhanVienNaoChamCong FOREIGN KEY (MaNhanVien) REFERENCES NhanVien(MaNhanVien)
-		ON UPDATE CASCADE ON DELETE SET NULL
+		ON UPDATE CASCADE
 );
 GO
 
@@ -379,10 +378,3 @@ GO
 /*Tạo INDEX cho thuộc tính ThoiGianChamCong của quan hệ BangChamCong*/
 CREATE INDEX idx_bangchamcong_thoigianchamcong ON BangChamCong(ThoiGianChamCong);
 GO
-
-
-
-
-
-
-
