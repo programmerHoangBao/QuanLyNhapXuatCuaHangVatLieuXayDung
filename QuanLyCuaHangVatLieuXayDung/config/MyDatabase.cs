@@ -19,16 +19,7 @@ namespace QuanLyCuaHangVatLieuXayDung.config
 
         public MyDatabase()
         {
-            string projectDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-
-            string configPath = Path.Combine(projectDirectory, "QuanLyCuaHangVatLieuXayDung\\config");
-
-            var config = new ConfigurationBuilder()
-            .SetBasePath(configPath)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-            this.connectionString = config.GetConnectionString("DefaultConnection");
+            this.connectionString = @"Data Source=DESKTOP-QJ10S5N\BAO_SERVER;Initial Catalog=CuaHangXayDung;Integrated Security=True";
             this.connection = new SqlConnection(this.connectionString);
         }
 

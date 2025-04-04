@@ -8,18 +8,18 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal abstract class DoiTac
     {
-        private string maDoiTac;
-        private string ten;
-        private string soDienThoai;
-        private string diaChi;
-        private string email;
-        private string nganHang;
-        private string soTaiKhoan;
-        private string qR;
-        protected DoiTac()
+        protected string maDoiTac;
+        protected string ten;
+        protected string soDienThoai;
+        protected string diaChi;
+        protected string email;
+        protected string nganHang;
+        protected string soTaiKhoan;
+        protected string qR;
+        public DoiTac()
         {
         }
-        protected DoiTac(string maDoiTac, string ten, string soDienThoai, string diaChi, string email, string nganHang, string soTaiKhoan, string qR)
+        public DoiTac(string maDoiTac, string ten, string soDienThoai, string diaChi, string email, string nganHang, string soTaiKhoan, string qR)
         {
             this.maDoiTac = maDoiTac;
             this.ten = ten;
@@ -30,15 +30,15 @@ namespace QuanLyCuaHangVatLieuXayDung.model
             this.soTaiKhoan = soTaiKhoan;
             this.qR = qR;
         }
-        protected string MaDoiTac { get => maDoiTac; set => maDoiTac = value; }
-        protected string Ten { get => ten; set => ten = value; }
-        protected string SoDienThoai { get => soDienThoai; set => soDienThoai = value; }
-        protected string DiaChi { get => diaChi; set => diaChi = value; }
-        protected string Email { get => email; set => email = value; }
-        protected string NganHang { get => nganHang; set => nganHang = value; }
-        protected string SoTaiKhoan { get => soTaiKhoan; set => soTaiKhoan = value; }
-        protected string QR { get => qR; set => qR = value; }
+        public string MaDoiTac { get => maDoiTac; set => maDoiTac = value; }
+        public string Ten { get => ten; set => ten = value; }
+        public string SoDienThoai { get => soDienThoai; set => soDienThoai = value; }
+        public string DiaChi { get => diaChi; set => diaChi = value; }
+        public string Email { get => email; set => email = value; }
+        public string NganHang { get => nganHang; set => nganHang = value; }
+        public string SoTaiKhoan { get => soTaiKhoan; set => soTaiKhoan = value; }
+        public string QR { get => qR; set => qR = value; }
 
-        protected abstract string loaiDoiTac();
+        public abstract string loaiDoiTac();
     }
 }
