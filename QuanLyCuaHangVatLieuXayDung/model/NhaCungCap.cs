@@ -16,7 +16,12 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
         }
 
-        public override string loaiDoiTac()
+        public override byte loaiDoiTac_toByte()
+        {
+            return 2;
+        }
+
+        public override string loaiDoiTac_toString()
         {
             return "Nhà cung cấp";
         }

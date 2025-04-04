@@ -39,6 +39,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public string SoTaiKhoan { get => soTaiKhoan; set => soTaiKhoan = value; }
         public string QR { get => qR; set => qR = value; }
 
-        public abstract string loaiDoiTac();
+        public abstract byte loaiDoiTac_toByte();
+        public abstract string loaiDoiTac_toString();
     }
 }

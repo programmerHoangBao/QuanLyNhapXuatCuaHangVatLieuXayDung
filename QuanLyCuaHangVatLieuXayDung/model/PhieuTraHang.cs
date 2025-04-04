@@ -8,11 +8,11 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal abstract class PhieuTraHang
     {
-        private string maPhieu;
-        private DateTime thoiGianLap;
-        private string lyDo;
-        private double tongTien;
-        private List<(VatLieu vatLieu, float soLuong)> chiTiets;
+        protected string maPhieu;
+        protected DateTime thoiGianLap;
+        protected string lyDo;
+        protected double tongTien;
+        protected List<(VatLieu vatLieu, float soLuong)> chiTiets;
 
         protected PhieuTraHang()
         {
@@ -27,11 +27,13 @@ namespace QuanLyCuaHangVatLieuXayDung.model
             this.TongTien = tongTien;
             this.ChiTiets = chiTiets;
         }
-        protected string MaPhieu { get => maPhieu; set => maPhieu = value; }
-        protected DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
-        protected string LyDo { get => lyDo; set => lyDo = value; }
-        protected double TongTien { get => tongTien; set => tongTien = value; }
-        protected List<(VatLieu vatLieu, float soLuong)> ChiTiets { get => chiTiets; set => chiTiets = value; }
-        protected abstract string LoaiPhieu();
+        public string MaPhieu { get => maPhieu; set => maPhieu = value; }
+        public DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
+        public string LyDo { get => lyDo; set => lyDo = value; }
+        public double TongTien { get => tongTien; set => tongTien = value; }
+        public List<(VatLieu vatLieu, float soLuong)> ChiTiets { get => chiTiets; set => chiTiets = value; }
+
+        public abstract byte loaiPhieu_toByte();
+        public abstract string loaiPhieu_toString();
     }
 }

@@ -145,14 +145,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
                 cmd.Parameters.AddWithValue("@Email", doiTac.Email);
-                if (doiTac.loaiDoiTac().Equals("Khách hàng"))
-                {
-                    cmd.Parameters.AddWithValue("@LoaiDoiTac", 1);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@LoaiDoiTac", 2);
-                }
+                cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
                 cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
                 cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
                 cmd.Parameters.AddWithValue("@QR", doiTac.QR);
@@ -231,14 +224,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
                 cmd.Parameters.AddWithValue("@Email", doiTac.Email);
-                if (doiTac.loaiDoiTac().Equals("Khách hàng"))
-                {
-                    cmd.Parameters.AddWithValue("@LoaiDoiTac", 1);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@LoaiDoiTac", 2);
-                }
+                cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
                 cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
                 cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
                 cmd.Parameters.AddWithValue("@QR", doiTac.QR);

@@ -16,12 +16,19 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             this.HoaDonNhap = hoaDonNhap;
         }
-        protected override string LoaiPhieu()
+        public override string loaiPhieu_toString()
         {
             return "Phiếu trả hàng cho nhà cung cấp";
         }
+
+        public override byte loaiPhieu_toByte()
+        {
+            return 2;
+        }
+
         internal HoaDonNhap HoaDonNhap
         {
             get => hoaDonNhap; set => hoaDonNhap = value;
         }
+    }
 }

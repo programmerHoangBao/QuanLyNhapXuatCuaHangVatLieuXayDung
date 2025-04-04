@@ -22,7 +22,11 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         internal KhachHang KhachHang { get => khachHang; set => khachHang = value; }
         internal HoaDonXuat HoaDonXuat { get => hoaDonXuat; set => hoaDonXuat = value; }
 
-        protected override string LoaiPhieu()
+        public override byte loaiPhieu_toByte()
+        {
+            return 1;
+        }
+        public override string loaiPhieu_toString()
         {
             return "Phiếu ghi nợ của khách hàng";
         }
