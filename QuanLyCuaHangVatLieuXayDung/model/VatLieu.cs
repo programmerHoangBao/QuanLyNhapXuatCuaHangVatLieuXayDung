@@ -18,7 +18,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         private NhaCungCap nhaCungCap;
         private List<string> hinhAnhs;
         private List<(Kho, float)> tonKhos;
-
+        
         public VatLieu()
         {
         }
