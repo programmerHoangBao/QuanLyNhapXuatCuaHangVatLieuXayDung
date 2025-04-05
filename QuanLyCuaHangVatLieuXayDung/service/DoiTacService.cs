@@ -1,4 +1,4 @@
-﻿using QuanLyCuaHangVatLieuXayDung.config;
+﻿using QuanLyCuaHangVatLieuXayDung.utilities;
 using QuanLyCuaHangVatLieuXayDung.model;
 using QuanLyCuaHangVatLieuXayDung.service.impl;
 using System;
@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuanLyCuaHangVatLieuXayDung.config;
 
 namespace QuanLyCuaHangVatLieuXayDung.service
 {
@@ -24,7 +25,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 this.myDatabase.OpenConnection();
                 int result = cmd.ExecuteNonQuery();
                 this.myDatabase.CloseConnection();
-                return result > 0;
+                if (result > 0)
+                {
+                    new FileUntility().DeleteFile(doiTac.QR);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
@@ -152,7 +157,12 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 this.myDatabase.OpenConnection();
                 int result = cmd.ExecuteNonQuery();
                 this.myDatabase.CloseConnection();
-                return result > 0;
+                if (result > 0)
+                {
+                    string directory = new FormApp().DOITAC_DATA;
+                    new FileUntility().SaveImages(doiTac.QR, directory);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
@@ -231,7 +241,13 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 this.myDatabase.OpenConnection();
                 int result = cmd.ExecuteNonQuery();
                 this.myDatabase.CloseConnection();
-                return result > 0;
+                if (result > 0)
+                {
+                    string directory = new FormApp().DOITAC_DATA;
+                    new FileUntility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
+                    new FileUntility().SaveImages(doiTac.QR, directory);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
