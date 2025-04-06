@@ -30,11 +30,11 @@
         {
             this.tableLayoutPanelBody = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.labelName = new System.Windows.Forms.Label();
-            this.labelPrice = new System.Windows.Forms.Label();
-            this.labelQuantity = new System.Windows.Forms.Label();
-            this.btnTransaction = new System.Windows.Forms.Button();
             this.btnDetail = new System.Windows.Forms.Button();
+            this.btnTransaction = new System.Windows.Forms.Button();
+            this.labelQuantity = new System.Windows.Forms.Label();
+            this.labelPrice = new System.Windows.Forms.Label();
+            this.labelName = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBoxImage = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelBody.SuspendLayout();
@@ -71,38 +71,17 @@
             this.panel1.Size = new System.Drawing.Size(344, 194);
             this.panel1.TabIndex = 0;
             // 
-            // labelName
+            // btnDetail
             // 
-            this.labelName.AutoSize = true;
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelName.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelName.Location = new System.Drawing.Point(0, 0);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(118, 25);
-            this.labelName.TabIndex = 0;
-            this.labelName.Text = "Tên vât liệu";
-            // 
-            // labelPrice
-            // 
-            this.labelPrice.AutoSize = true;
-            this.labelPrice.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelPrice.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPrice.Location = new System.Drawing.Point(0, 25);
-            this.labelPrice.Name = "labelPrice";
-            this.labelPrice.Size = new System.Drawing.Size(44, 25);
-            this.labelPrice.TabIndex = 0;
-            this.labelPrice.Text = "Gía";
-            // 
-            // labelQuantity
-            // 
-            this.labelQuantity.AutoSize = true;
-            this.labelQuantity.Dock = System.Windows.Forms.DockStyle.Top;
-            this.labelQuantity.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelQuantity.Location = new System.Drawing.Point(0, 50);
-            this.labelQuantity.Name = "labelQuantity";
-            this.labelQuantity.Size = new System.Drawing.Size(91, 25);
-            this.labelQuantity.TabIndex = 0;
-            this.labelQuantity.Text = "Số lượng";
+            this.btnDetail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnDetail.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnDetail.Font = new System.Drawing.Font("Times New Roman", 13F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDetail.Location = new System.Drawing.Point(0, 110);
+            this.btnDetail.Name = "btnDetail";
+            this.btnDetail.Size = new System.Drawing.Size(344, 35);
+            this.btnDetail.TabIndex = 2;
+            this.btnDetail.Text = "Chi tiết";
+            this.btnDetail.UseVisualStyleBackColor = false;
             // 
             // btnTransaction
             // 
@@ -115,18 +94,40 @@
             this.btnTransaction.TabIndex = 1;
             this.btnTransaction.Text = "Giao dịch";
             this.btnTransaction.UseVisualStyleBackColor = false;
+            this.btnTransaction.Click += new System.EventHandler(this.btnTransaction_Click);
             // 
-            // btnDetail
+            // labelQuantity
             // 
-            this.btnDetail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.btnDetail.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnDetail.Font = new System.Drawing.Font("Times New Roman", 13F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDetail.Location = new System.Drawing.Point(0, 110);
-            this.btnDetail.Name = "btnDetail";
-            this.btnDetail.Size = new System.Drawing.Size(344, 35);
-            this.btnDetail.TabIndex = 2;
-            this.btnDetail.Text = "Chi tiết";
-            this.btnDetail.UseVisualStyleBackColor = false;
+            this.labelQuantity.AutoSize = true;
+            this.labelQuantity.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelQuantity.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelQuantity.Location = new System.Drawing.Point(0, 50);
+            this.labelQuantity.Name = "labelQuantity";
+            this.labelQuantity.Size = new System.Drawing.Size(91, 25);
+            this.labelQuantity.TabIndex = 0;
+            this.labelQuantity.Text = "Số lượng";
+            // 
+            // labelPrice
+            // 
+            this.labelPrice.AutoSize = true;
+            this.labelPrice.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelPrice.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPrice.Location = new System.Drawing.Point(0, 25);
+            this.labelPrice.Name = "labelPrice";
+            this.labelPrice.Size = new System.Drawing.Size(44, 25);
+            this.labelPrice.TabIndex = 0;
+            this.labelPrice.Text = "Gía";
+            // 
+            // labelName
+            // 
+            this.labelName.AutoSize = true;
+            this.labelName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelName.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelName.Location = new System.Drawing.Point(0, 0);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(118, 25);
+            this.labelName.TabIndex = 0;
+            this.labelName.Text = "Tên vât liệu";
             // 
             // panel2
             // 
@@ -157,6 +158,7 @@
             this.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "UserControlShowVatLieu";
             this.Size = new System.Drawing.Size(350, 400);
+            this.Load += new System.EventHandler(this.UserControlShowVatLieu_Load);
             this.tableLayoutPanelBody.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
