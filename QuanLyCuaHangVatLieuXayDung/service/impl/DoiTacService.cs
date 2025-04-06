@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCuaHangVatLieuXayDung.config;
 
-namespace QuanLyCuaHangVatLieuXayDung.service
+namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
     internal class DoiTacService : IDoiTacService
     {
@@ -176,7 +176,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
             string query = @"SELECT *
                                 FROM DoiTac
                                 WHERE MaDoiTac LIKE @key
-                                                OR Ten @key
+                                                OR Ten LIKE @key
                                                 OR SoDienThoai LIKE @key";
             List<DoiTac> doiTacs = new List<DoiTac>();
             try

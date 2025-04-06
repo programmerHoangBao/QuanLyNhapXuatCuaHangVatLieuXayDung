@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QuanLyCuaHangVatLieuXayDung.service
+namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
     internal class KhoService : IKhoService
     {
