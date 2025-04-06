@@ -66,6 +66,7 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.IO.Pipelines, Version=9.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Pipelines.9.0.3\lib\net462\System.IO.Pipelines.dll</HintPath>
     </Reference>
@@ -91,6 +92,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -103,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
-    <Compile Include="utilities\FileUntility.cs" />
+    <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="model\BangChamCong.cs" />
     <Compile Include="model\BienLaiTraNo.cs" />
@@ -126,17 +128,24 @@
     <Compile Include="model\VatLieu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="service\DoiTacService.cs" />
-    <Compile Include="service\impl\IDoiTacService.cs" />
-    <Compile Include="service\impl\IKhoService.cs" />
-    <Compile Include="service\impl\IVatLieuService.cs" />
-    <Compile Include="service\VatLieuService.cs" />
-    <Compile Include="service\KhoService.cs" />
+    <Compile Include="service\impl\DoiTacService.cs" />
+    <Compile Include="service\IDoiTacService.cs" />
+    <Compile Include="service\IKhoService.cs" />
+    <Compile Include="service\IVatLieuService.cs" />
+    <Compile Include="service\impl\VatLieuService.cs" />
+    <Compile Include="service\impl\KhoService.cs" />
+    <Compile Include="utilities\StringUtility.cs" />
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="views\Form_TrangChu.Designer.cs">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\UserControlShowVatLieu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\UserControlShowVatLieu.Designer.cs">
+      <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +158,9 @@
     </Compile>
     <EmbeddedResource Include="views\Form_TrangChu.resx">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\UserControlShowVatLieu.resx">
+      <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="config\config.json" />
     <None Include="packages.config" />
@@ -168,10 +180,12 @@
   <ItemGroup>
     <Content Include="config\description.txt" />
     <Content Include="database_design\CuaHangXayDung.sql" />
-    <Content Include="Microsoft.Extensions.Configuration.dll" />
     <Content Include="model\description.txt" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="template\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
