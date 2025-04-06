@@ -168,6 +168,7 @@
   <ItemGroup>
     <Content Include="config\description.txt" />
     <Content Include="database_design\CuaHangXayDung.sql" />
+    <Content Include="Microsoft.Extensions.Configuration.dll" />
     <Content Include="model\description.txt" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />

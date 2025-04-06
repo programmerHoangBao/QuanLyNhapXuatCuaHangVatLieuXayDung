@@ -18,10 +18,10 @@ namespace QuanLyCuaHangVatLieuXayDung.config
 
         public FormApp()
         {
+            string configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "config", "config.json");
             var config = new ConfigurationBuilder()
-                            .SetBasePath(Directory.GetCurrentDirectory()) // Thư mục chứa file config
-                            .AddJsonFile("config.json", optional: false, reloadOnChange: true)
-                            .Build();
+                .AddJsonFile(configFilePath, optional: false, reloadOnChange: true)
+                .Build();
 
             var folderPaths = config.GetSection("FolderPaths");
             this.CUAHANGXAYDUNG_DATA = folderPaths["CUAHANGXAYDUNG_DATA"];
