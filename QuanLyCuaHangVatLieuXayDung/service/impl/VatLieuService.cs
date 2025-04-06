@@ -16,7 +16,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
     internal class VatLieuService : IVatLieuService
     {
         private MyDatabase myDatabase = new MyDatabase();
-        private FileUntility fileUntility = new FileUntility();
+        private FileUtility fileUntility = new FileUtility();
         private IDoiTacService doiTacService = new DoiTacService();
         private IKhoService khoService = new KhoService();
         public bool deleteVatLieu(VatLieu vatLieu)

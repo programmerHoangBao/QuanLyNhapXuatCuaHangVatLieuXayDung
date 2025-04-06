@@ -105,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
-    <Compile Include="utilities\FileUntility.cs" />
+    <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="model\BangChamCong.cs" />
     <Compile Include="model\BienLaiTraNo.cs" />
@@ -134,6 +134,7 @@
     <Compile Include="service\IVatLieuService.cs" />
     <Compile Include="service\impl\VatLieuService.cs" />
     <Compile Include="service\impl\KhoService.cs" />
+    <Compile Include="utilities\StringUtility.cs" />
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
     </Compile>

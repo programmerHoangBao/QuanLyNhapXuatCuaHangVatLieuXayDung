@@ -22,6 +22,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void Form_TrangChu_Load(object sender, EventArgs e)
         {
+
         }
     }
 }
