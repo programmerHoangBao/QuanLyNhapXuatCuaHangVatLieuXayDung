@@ -1,4 +1,4 @@
-﻿using QuanLyCuaHangVatLieuXayDung.config;
+﻿using QuanLyCuaHangVatLieuXayDung.utilities;
 using QuanLyCuaHangVatLieuXayDung.model;
 using QuanLyCuaHangVatLieuXayDung.service.impl;
 using System;

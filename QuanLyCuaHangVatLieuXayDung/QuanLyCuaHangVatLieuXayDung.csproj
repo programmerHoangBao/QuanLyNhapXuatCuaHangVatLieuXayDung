@@ -102,7 +102,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="config\MyDatabase.cs" />
+    <Compile Include="config\FormApp.cs" />
+    <Compile Include="utilities\FileUntility.cs" />
+    <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="model\BangChamCong.cs" />
     <Compile Include="model\BienLaiTraNo.cs" />
     <Compile Include="model\ChiPhiPhatSinh.cs" />
@@ -127,6 +129,8 @@
     <Compile Include="service\DoiTacService.cs" />
     <Compile Include="service\impl\IDoiTacService.cs" />
     <Compile Include="service\impl\IKhoService.cs" />
+    <Compile Include="service\impl\IVatLieuService.cs" />
+    <Compile Include="service\VatLieuService.cs" />
     <Compile Include="service\KhoService.cs" />
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
@@ -146,6 +150,7 @@
     <EmbeddedResource Include="views\Form_TrangChu.resx">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="config\config.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -163,6 +168,7 @@
   <ItemGroup>
     <Content Include="config\description.txt" />
     <Content Include="database_design\CuaHangXayDung.sql" />
+    <Content Include="Microsoft.Extensions.Configuration.dll" />
     <Content Include="model\description.txt" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />
