@@ -12,9 +12,10 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public PhieuTraHangChoNhaCungCap()
         {
         }
-        public PhieuTraHangChoNhaCungCap(string maPhieu, DateTime ngayLap, NhanVien nhanVien, NhaCungCap nhaCungCap, HoaDonNhap hoaDonNhap) : base(maPhieu, ngayLap, nhanVien, nhaCungCap)
+        public PhieuTraHangChoNhaCungCap(string maPhieu, DateTime thoiGianLap, string lyDo,
+            double tongTien, List<(VatLieu vatLieu, float soLuong)> chiTiets, HoaDonNhap hoaDonNhap) : base(maPhieu, thoiGianLap, lyDo, tongTien, chiTiets)
         {
-            this.HoaDonNhap = hoaDonNhap;
+            this.hoaDonNhap = hoaDonNhap;
         }
         public override string loaiPhieu_toString()
         {
