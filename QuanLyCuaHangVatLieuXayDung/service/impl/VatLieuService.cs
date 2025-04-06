@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using QuanLyCuaHangVatLieuXayDung.config;
 using System.IO;
 
-namespace QuanLyCuaHangVatLieuXayDung.service
+namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
     internal class VatLieuService : IVatLieuService
     {
