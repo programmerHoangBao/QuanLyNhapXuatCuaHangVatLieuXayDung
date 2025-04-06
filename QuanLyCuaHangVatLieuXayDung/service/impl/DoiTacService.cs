@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCuaHangVatLieuXayDung.config;
 
-namespace QuanLyCuaHangVatLieuXayDung.service
+namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
     internal class DoiTacService : IDoiTacService
     {
@@ -27,7 +27,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 this.myDatabase.CloseConnection();
                 if (result > 0)
                 {
-                    new FileUntility().DeleteFile(doiTac.QR);
+                    new FileUtility().DeleteFile(doiTac.QR);
                     return true;
                 }
             }
@@ -160,7 +160,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 if (result > 0)
                 {
                     string directory = new FormApp().DOITAC_DATA;
-                    new FileUntility().SaveImages(doiTac.QR, directory);
+                    new FileUtility().SaveImages(doiTac.QR, directory);
                     return true;
                 }
             }
@@ -176,7 +176,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
             string query = @"SELECT *
                                 FROM DoiTac
                                 WHERE MaDoiTac LIKE @key
-                                                OR Ten @key
+                                                OR Ten LIKE @key
                                                 OR SoDienThoai LIKE @key";
             List<DoiTac> doiTacs = new List<DoiTac>();
             try
@@ -244,8 +244,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service
                 if (result > 0)
                 {
                     string directory = new FormApp().DOITAC_DATA;
-                    new FileUntility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
-                    new FileUntility().SaveImages(doiTac.QR, directory);
+                    new FileUtility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
+                    new FileUtility().SaveImages(doiTac.QR, directory);
                     return true;
                 }
             }
