@@ -21,7 +21,7 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         {
             this.connectionString = @"Data Source=DESKTOP-QJ10S5N\BAO_SERVER;Initial Catalog=CuaHangXayDung;Integrated Security=True";
             this.connection = new SqlConnection(this.connectionString);
-        }
+        }   
 
         public void OpenConnection()
         {
