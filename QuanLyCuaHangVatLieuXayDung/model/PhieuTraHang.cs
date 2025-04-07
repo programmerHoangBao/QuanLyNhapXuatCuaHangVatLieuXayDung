@@ -8,17 +8,17 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal abstract class PhieuTraHang
     {
-        protected string maPhieu;
-        protected DateTime thoiGianLap;
-        protected string lyDo;
-        protected double tongTien;
-        protected List<(VatLieu vatLieu, float soLuong)> chiTiets;
+        private string maPhieu;
+        private DateTime thoiGianLap;
+        private string lyDo;
+        private double tongTien;
+        private List<(VatLieu vatLieu, float soLuong)> chiTiets;
 
-        protected PhieuTraHang()
+        public PhieuTraHang()
         {
         }
 
-        protected PhieuTraHang(string maPhieu, DateTime thoiGianLap, string lyDo, 
+        public PhieuTraHang(string maPhieu, DateTime thoiGianLap, string lyDo, 
             double tongTien, List<(VatLieu vatLieu, float soLuong)> chiTiets)
         {
             this.MaPhieu = maPhieu;
