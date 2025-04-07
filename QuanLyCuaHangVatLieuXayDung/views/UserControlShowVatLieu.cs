@@ -19,6 +19,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         {
             InitializeComponent();
             this.VatLieu = null;
+            this.pictureBoxImage.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         internal VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }
@@ -48,31 +49,31 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 MessageBox.Show("Loại vật liệu không hợp lệ!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            this.labelId.Text = "Mã: " + this.VatLieu.MaVatLieu;
             this.labelName.Text = "Tên: " + this.VatLieu.Ten;
             float soLuong = 0;
             if (this.VatLieu.TonKhos != null)
             {
                 foreach (var item in this.VatLieu.TonKhos)
                 {
-                        soLuong += item.soLuong;
+                    soLuong += item.soLuong;
                 }
             }
             this.labelQuantity.Text = "Số lượng: " + soLuong.ToString() + " " + this.VatLieu.DonVi;
             if (loaiVatLieu == 1)
             {
-                this.labelPrice.Text = "Giá xuất: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaXuat) 
+                this.labelPrice.Text = "Giá xuất: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaXuat)
                     + "/" + this.VatLieu.DonVi;
             }
             else
             {
-                this.labelPrice.Text = "Giá nhập: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaNhap) 
+                this.labelPrice.Text = "Giá nhập: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaNhap)
                     + "/" + this.VatLieu.DonVi;
             }
-        }
-
-        private void btnTransaction_Click(object sender, EventArgs e)
-        {
-            //return this.VatLieu;
+            if (this.VatLieu.HinhAnhPaths != null && this.VatLieu.HinhAnhPaths.Count > 0)
+            {
+                this.pictureBoxImage.ImageLocation = this.VatLieu.HinhAnhPaths[0];
+            }
         }
     }
 }
