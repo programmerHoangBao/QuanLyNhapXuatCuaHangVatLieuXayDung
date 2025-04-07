@@ -4,5 +4,11 @@
     "VATLIEU_DATA": "C:\\CuaHangXayDung\\VatLieu",
     "DOITAC_DATA": "C:\\CuaHangXayDung\\DoiTac",
     "TAIKHOAN_DATA": "C:\\CuaHangXayDung\\TaiKhoan"
+  },
+  "DatabaseConfig": {
+    "DATA_SOURCE": "(localdb)\\MSSQLLocalDB",
+    "DATABASE": "CuaHangXayDung",
+    "USER_ID": "ChuCuaHang",
+    "PASSWORD": "ChuCuaHang123"
   }
 }

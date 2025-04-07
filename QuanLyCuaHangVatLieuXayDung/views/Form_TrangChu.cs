@@ -15,6 +15,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 {
     public partial class Form_TrangChu : Form
     {
+        private Form formChild;
         public Form_TrangChu()
         {
             InitializeComponent();
@@ -22,7 +23,37 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void Form_TrangChu_Load(object sender, EventArgs e)
         {
+            this.btnGiaoDich_Click(this.btnGiaoDich, EventArgs.Empty);
+        }
 
+        private void OpenFormChild(Form formChild)
+        {
+            this.panelBody.Controls.Clear();
+            this.formChild = new Form();
+            this.formChild = formChild;
+            this.formChild.TopLevel = false;
+            this.panelBody.Controls.Add(this.formChild);
+            this.formChild.Dock = DockStyle.Fill;
+            this.formChild.FormBorderStyle = FormBorderStyle.None;
+            this.formChild.Show();
+        }
+        private void SetCollorAllButton()
+        {
+            for (int i = 0; i < this.panelOptional.Controls.Count; i++)
+            {
+                var control = this.panelOptional.Controls[i];
+                if (control is Button)
+                {
+                    control.BackColor = Color.MediumSpringGreen;
+                }
+            }
+        }
+
+        private void btnGiaoDich_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnGiaoDich.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_GiaoDich());
         }
     }
 }

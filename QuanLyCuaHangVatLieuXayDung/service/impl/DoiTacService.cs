@@ -61,6 +61,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     khachHang.QR = reader["QR"].ToString();
                     khachHangs.Add(khachHang);
                 }
+                this.myDatabase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -98,6 +99,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     doiTac.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     doiTac.QR = reader["QR"].ToString();
                 }
+                this.myDatabase.CloseConnection();
             }
             catch (Exception ex)
             {
@@ -206,6 +208,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     doiTac.QR = reader["QR"].ToString();
                     doiTacs.Add(doiTac);
                 }
+                this.myDatabase.CloseConnection();
             }
             catch (Exception ex)
             {

@@ -15,6 +15,10 @@ namespace QuanLyCuaHangVatLieuXayDung.config
         public string VATLIEU_DATA { get; private set; }
         public string DOITAC_DATA { get; private set; }
         public string TAIKHOAN_DATA { get; private set; }
+        public string DATA_SOURCE { get; private set; }
+        public string DATABASE { get; private set; }
+        public string USER_ID { get; private set; }
+        public string PASSWORD { get; private set; }
 
         public FormApp()
         {
@@ -29,6 +33,11 @@ namespace QuanLyCuaHangVatLieuXayDung.config
             this.DOITAC_DATA = folderPaths["DOITAC_DATA"];
             this.TAIKHOAN_DATA = folderPaths["TAIKHOAN_DATA"];
 
+            var databaseConfig = config.GetSection("DatabaseConfig");
+            this.DATA_SOURCE = databaseConfig["DATA_SOURCE"];
+            this.DATABASE = databaseConfig["DATABASE"];
+            this.USER_ID = databaseConfig["USER_ID"];
+            this.PASSWORD = databaseConfig["PASSWORD"];
         }
         /// <summary>
         /// Phương thức SetUp tạo các thư mục cần thiết dựa trên các đường dẫn đã được định nghĩa.
@@ -36,10 +45,10 @@ namespace QuanLyCuaHangVatLieuXayDung.config
         /// </summary>
         /// <remarks>
         /// Các thư mục được tạo dựa trên danh sách đường dẫn sau:
-        /// - CUAHANGXAYDUNG_DATA
-        /// - VATLIEU_DATA
-        /// - DOITAC_DATA
-        /// - TAIKHOAN_DATA
+        /// - CUAHANGXAYDUNG_DATA: Thư mục chứa dữ liệu cửa hàng xây dựng.
+        /// - VATLIEU_DATA: Thư mục chứa dữ liệu vật liệu.
+        /// - DOITAC_DATA: Thư mục chứa dữ liệu đối tác.
+        /// - TAIKHOAN_DATA: Thư mục chứa dữ liệu tài khoản.
         /// Nếu thư mục đã tồn tại, phương thức sẽ ghi thông báo ra màn hình.
         /// </remarks>
         /// <exception cref="Exception">Bắt lỗi nếu xảy ra trong quá trình tạo thư mục.</exception>
@@ -67,6 +76,28 @@ namespace QuanLyCuaHangVatLieuXayDung.config
             {
                 Console.WriteLine($"Đã xảy ra lỗi khi tạo thư mục: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// Phương thức GetConnectionString tạo và trả về chuỗi kết nối (connection string) 
+        /// để kết nối với cơ sở dữ liệu SQL Server.
+        /// </summary>
+        /// <returns>
+        /// Chuỗi kết nối dạng:
+        /// "Data Source=<ServerName>;Initial Catalog=<DatabaseName>;User ID=<UserName>;Password=<Password>"
+        /// </returns>
+        /// <remarks>
+        /// Các thuộc tính cần thiết để tạo chuỗi kết nối:
+        /// - DATA_SOURCE: Tên máy chủ hoặc địa chỉ máy chủ SQL Server.
+        /// - DATABASE: Tên cơ sở dữ liệu.
+        /// - USER_ID: Tên người dùng để đăng nhập SQL Server.
+        /// - PASSWORD: Mật khẩu liên quan đến USER_ID.
+        /// Đảm bảo các thuộc tính được gán giá trị trước khi gọi hàm.
+        /// </remarks>
+
+        public string GetConnectionString()
+        {
+            return $"Data Source={this.DATA_SOURCE};Initial Catalog={this.DATABASE};User ID={this.USER_ID};Password={this.PASSWORD}";
         }
     }
 }
