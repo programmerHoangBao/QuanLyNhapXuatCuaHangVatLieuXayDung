@@ -110,6 +110,7 @@
     <Compile Include="service\impl\HoaDonService.cs" />
     <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
+    <Compile Include="utilities\StringUtility.cs" />
     <Compile Include="model\BangChamCong.cs" />
     <Compile Include="model\BienLaiTraNo.cs" />
     <Compile Include="model\ChiPhiPhatSinh.cs" />
