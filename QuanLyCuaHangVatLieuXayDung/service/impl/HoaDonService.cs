@@ -54,10 +54,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         };
                     }
                     // Lấy chi tiết hóa đơn
-                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
                     hoaDons.Add(hoaDon);
                 }
                 this.myDatabase.CloseConnection();
+                if (hoaDons.Count > 0)
+                {
+                    for (int i = 0; i < hoaDons.Count; i++) {
+                        hoaDons[i].ChiTiets = getChiTietHoaDon(hoaDons[i].MaHoaDon);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -105,9 +110,12 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                             NhaCungCap = new NhaCungCap { MaDoiTac = reader["MaDoiTac"]?.ToString() }
                         };
                     }
-                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
                 }
                 this.myDatabase.CloseConnection();
+                if (hoaDon != null)
+                {
+                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
+                }
             }
             catch (Exception ex)
             {
@@ -314,10 +322,16 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                             NhaCungCap = new NhaCungCap { MaDoiTac = reader["MaDoiTac"]?.ToString() }
                         };
                     }
-                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
                     hoaDons.Add(hoaDon);
                 }
                 this.myDatabase.CloseConnection();
+                if (hoaDons.Count > 0)
+                {
+                    for (int i = 0; i < hoaDons.Count; i++)
+                    {
+                        hoaDons[i].ChiTiets = getChiTietHoaDon(hoaDons[i].MaHoaDon);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -365,10 +379,16 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                             NhaCungCap = new NhaCungCap { MaDoiTac = reader["MaDoiTac"]?.ToString() }
                         };
                     }
-                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
                     hoaDons.Add(hoaDon);
                 }
                 this.myDatabase.CloseConnection();
+                if (hoaDons.Count > 0)
+                {
+                    for (int i = 0; i < hoaDons.Count; i++)
+                    {
+                        hoaDons[i].ChiTiets = getChiTietHoaDon(hoaDons[i].MaHoaDon);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -418,10 +438,16 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                             NhaCungCap = new NhaCungCap { MaDoiTac = reader["MaDoiTac"]?.ToString() }
                         };
                     }
-                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
                     hoaDons.Add(hoaDon);
                 }
                 this.myDatabase.CloseConnection();
+                if (hoaDons.Count > 0)
+                {
+                    for (int i = 0; i < hoaDons.Count; i++)
+                    {
+                        hoaDons[i].ChiTiets = getChiTietHoaDon(hoaDons[i].MaHoaDon);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -470,10 +496,16 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                             NhaCungCap = new NhaCungCap { MaDoiTac = reader["MaDoiTac"]?.ToString() }
                         };
                     }
-                    hoaDon.ChiTiets = getChiTietHoaDon(hoaDon.MaHoaDon);
                     hoaDons.Add(hoaDon);
                 }
                 this.myDatabase.CloseConnection();
+                if (hoaDons.Count > 0)
+                {
+                    for (int i = 0; i < hoaDons.Count; i++)
+                    {
+                        hoaDons[i].ChiTiets = getChiTietHoaDon(hoaDons[i].MaHoaDon);
+                    }
+                }
             }
             catch (Exception ex)
             {
