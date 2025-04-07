@@ -17,5 +17,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool updateTonKho(string maVatLieu, string maKho, float soLuong);
         bool deleteVatLieu(VatLieu vatLieu);
         List<VatLieu> searchByKey(string key);
+        float totalSoLuong(string maVatLieu);
     }
 }

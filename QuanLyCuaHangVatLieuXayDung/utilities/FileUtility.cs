@@ -14,6 +14,10 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         {
             List<string> imagePaths = new List<string>();
             string[] supportedExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+            if (!Directory.Exists(folderPath))
+            {
+                return imagePaths;
+            }
 
             foreach (string file in Directory.GetFiles(folderPath))
             {
