@@ -27,7 +27,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.CloseConnection();
                 if (result > 0)
                 {
-                    new FileUntility().DeleteFile(doiTac.QR);
+                    new FileUtility().DeleteFile(doiTac.QR);
                     return true;
                 }
             }
@@ -160,7 +160,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 if (result > 0)
                 {
                     string directory = new FormApp().DOITAC_DATA;
-                    new FileUntility().SaveImages(doiTac.QR, directory);
+                    new FileUtility().SaveImages(doiTac.QR, directory);
                     return true;
                 }
             }
@@ -244,8 +244,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 if (result > 0)
                 {
                     string directory = new FormApp().DOITAC_DATA;
-                    new FileUntility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
-                    new FileUntility().SaveImages(doiTac.QR, directory);
+                    new FileUtility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
+                    new FileUtility().SaveImages(doiTac.QR, directory);
                     return true;
                 }
             }

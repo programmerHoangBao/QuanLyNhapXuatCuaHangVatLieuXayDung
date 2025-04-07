@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace QuanLyCuaHangVatLieuXayDung.utilities
 {
-    internal class FileUntility
+    internal class FileUtility
     {
         public List<string> GetImagePathsFromFolder(string folderPath)
         {
