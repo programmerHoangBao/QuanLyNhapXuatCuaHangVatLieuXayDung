@@ -108,7 +108,7 @@
     <Compile Include="model\ChiTietHoaDon.cs" />
     <Compile Include="service\IHoaDonService.cs" />
     <Compile Include="service\impl\HoaDonService.cs" />
-    <Compile Include="utilities\FileUntility.cs" />
+    <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="model\BangChamCong.cs" />
     <Compile Include="model\BienLaiTraNo.cs" />
