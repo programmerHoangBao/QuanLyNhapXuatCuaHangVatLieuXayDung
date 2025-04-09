@@ -44,5 +44,17 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public string DirHinhAnh { get => dirHinhAnh; set => dirHinhAnh = value; }
         internal NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
         internal List<(Kho kho, float soLuong)> TonKhos { get => tonKhos; set => tonKhos = value; }
+        public float totalSoLuong()
+        {
+            float total = 0;
+            if (this.TonKhos.Count > 0)
+            {
+                foreach (float soLuong in this.TonKhos.Select(tk => tk.soLuong))
+                {
+                    total += soLuong;
+                }
+            }
+            return total;
+        }
     }
 }
