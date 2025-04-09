@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -116,6 +116,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
+    <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
+    <Compile Include="service\IChiPhiPhatSinhService.cs" />
+    <Compile Include="service\impl\TaiKhoanService.cs" />
+    <Compile Include="service\ITaiKhoanService.cs" />
     <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="model\BangChamCong.cs" />
@@ -195,6 +199,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="template\layout.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
