@@ -197,6 +197,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="template\layout.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -205,7 +206,6 @@
     <Content Include="config\description.txt" />
     <Content Include="database_design\CuaHangXayDung.sql" />
     <Content Include="database_design\User.sql" />
-    <Content Include="MetroFramework.txt" />
     <Content Include="model\description.txt" />
     <None Include="Resources\logo.png" />
     <Content Include="service\impl\description.txt" />

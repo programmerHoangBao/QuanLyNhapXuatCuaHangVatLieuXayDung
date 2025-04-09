@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QuanLyCuaHangVatLieuXayDung</name>
+    </assembly>
+    <members>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.config.FormApp.SetUp">
+            <summary>
+            Phương thức SetUp tạo các thư mục cần thiết dựa trên các đường dẫn đã được định nghĩa.
+            Nó kiểm tra xem thư mục đã tồn tại hay chưa và tạo mới nếu cần.
+            </summary>
+            <remarks>
+            Các thư mục được tạo dựa trên danh sách đường dẫn sau:
+            - CUAHANGXAYDUNG_DATA: Thư mục chứa dữ liệu cửa hàng xây dựng.
+            - VATLIEU_DATA: Thư mục chứa dữ liệu vật liệu.
+            - DOITAC_DATA: Thư mục chứa dữ liệu đối tác.
+            - TAIKHOAN_DATA: Thư mục chứa dữ liệu tài khoản.
+            Nếu thư mục đã tồn tại, phương thức sẽ ghi thông báo ra màn hình.
+            </remarks>
+            <exception cref="T:System.Exception">Bắt lỗi nếu xảy ra trong quá trình tạo thư mục.</exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:QuanLyCuaHangVatLieuXayDung.config.FormApp.GetConnectionString" -->
+        <member name="M:QuanLyCuaHangVatLieuXayDung.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_TrangChu.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TrangChu.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TrangChu.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_GiaoDich.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_GiaoDich.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_GiaoDich.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.UserControlShowVatLieu.ShowVatLieu(System.Byte)">
+            <summary>
+            Hiển thị thông tin về vật liệu lên giao diện người dùng.
+            </summary>
+            <param name="loaiVatLieu">
+            Loại vật liệu cần hiển thị: 
+            - 1: Hiển thị giá xuất.
+            - 2: Hiển thị giá nhập.
+            </param>
+            <remarks>
+            Hàm sẽ hiển thị thông tin gồm: 
+            - Tên vật liệu (VatLieu.Ten).
+            - Số lượng tồn kho (TonKhos, nếu có).
+            - Giá xuất hoặc giá nhập, tùy thuộc vào tham số loaiVatLieu.
+            </remarks>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.UserControlShowVatLieu.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.UserControlShowVatLieu.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.UserControlShowVatLieu.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.logo">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.vatLieu_NULL">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>
