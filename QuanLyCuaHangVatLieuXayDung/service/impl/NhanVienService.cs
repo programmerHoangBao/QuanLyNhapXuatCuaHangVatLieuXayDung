@@ -1,4 +1,4 @@
-﻿using QuanLyCuaHangVatLieuXayDung.model;
+using QuanLyCuaHangVatLieuXayDung.model;
 using QuanLyCuaHangVatLieuXayDung.utilities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
     {
         private MyDatabase myDatabase = new MyDatabase();
 
-        // Thêm nhân viên (có transaction)
         public bool insertnhanVien(NhanVien nv)
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -36,9 +35,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     command.Parameters.AddWithValue("@Email", nv.Email);
                     command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
 
-                    command.ExecuteNonQuery();
-                    transaction.Commit();
-                    return true;
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
                 }
                 catch
                 {
@@ -48,7 +55,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Cập nhật nhân viên (có transaction)
         public bool updatenhanVien(NhanVien nv)
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -70,9 +76,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     command.Parameters.AddWithValue("@Email", nv.Email);
                     command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
 
-                    command.ExecuteNonQuery();
-                    transaction.Commit();
-                    return true;
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
                 }
                 catch
                 {
@@ -82,7 +96,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Xóa nhân viên (có transaction)
         public bool deletenhanVien(string maNV)
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -95,9 +108,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     SqlCommand command = new SqlCommand("DELETE FROM NHAN_VIEN WHERE MaNV = @MaNV", conn, transaction);
                     command.Parameters.AddWithValue("@MaNV", maNV);
 
-                    command.ExecuteNonQuery();
-                    transaction.Commit();
-                    return true;
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
                 }
                 catch
                 {
@@ -107,7 +128,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Lấy danh sách nhân viên (không cần transaction)
         public DataTable getallNhanVien()
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -120,7 +140,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Chấm công (có transaction)
         public bool ChamCong(string maNV)
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -134,9 +153,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     command.Parameters.AddWithValue("@MaNV", maNV);
                     command.Parameters.AddWithValue("@ThoiGian", DateTime.Now);
 
-                    command.ExecuteNonQuery();
-                    transaction.Commit();
-                    return true;
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        transaction.Commit();
+                        return true;
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
                 }
                 catch
                 {
@@ -146,7 +173,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Tính tổng lương nhân viên
         public double TinhTongLuong(string maNV)
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -161,7 +187,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Tính lương theo tháng
         public double TinhLuongTheoThang(string maNV, int thang, int nam)
         {
             using (SqlConnection conn = myDatabase.Connection)
@@ -179,7 +204,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
         }
 
-        // Tính lương theo năm
         public double TinhLuongTheoNam(string maNV, int nam)
         {
             using (SqlConnection conn = myDatabase.Connection)
