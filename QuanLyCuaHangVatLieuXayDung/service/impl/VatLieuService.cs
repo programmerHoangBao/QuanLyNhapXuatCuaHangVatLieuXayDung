@@ -75,20 +75,24 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.OpenConnection();
                 SqlDataReader reader = cmd.ExecuteReader();
                 VatLieu vatLieu;
-                while (reader.Read()) 
+                while (reader.Read())
                 {
                     vatLieu = new VatLieu();
                     vatLieu.MaVatLieu = reader["MaVatLieu"].ToString();
-                    vatLieu.Ten = reader["TenVatLieu"].ToString();
+                    vatLieu.Ten = reader["ten"].ToString();
                     vatLieu.DonVi = reader["DonVi"].ToString();
                     vatLieu.GiaNhap = double.Parse(reader["GiaNhap"].ToString());
                     vatLieu.GiaXuat = double.Parse(reader["GiaXuat"].ToString());
                     vatLieu.NgayNhap = DateTime.Parse(reader["NgayNhap"].ToString());
                     vatLieu.DirHinhAnh = reader["HinhAnh"].ToString();
                     vatLieu.HinhAnhPaths = this.fileUntility.GetImagePathsFromFolder(vatLieu.DirHinhAnh); /*Lấy ra danh sách đường dẫn hình ảnh*/
-                    vatLieu.NhaCungCap = (NhaCungCap)this.doiTacService.findByMaDoiTac(reader["MaDoiTac"].ToString());
-                    vatLieu.TonKhos = this.getTonKho(vatLieu.MaVatLieu); /*Lấy ra danh sách kho và số lượng tồn kho*/
+                    vatLieu.NhaCungCap = (NhaCungCap)this.doiTacService.findByMaDoiTac(reader["NhaCungCap"].ToString());
                     vatLieus.Add(vatLieu);
+                }
+                this.myDatabase.CloseConnection();
+                for (int i = 0; i < vatLieus.Count; i++)
+                {
+                    vatLieus[i].TonKhos = this.getTonKho(vatLieus[i].MaVatLieu); /*Lấy ra danh sách kho và số lượng tồn kho*/
                 }
             }
             catch (Exception ex)
@@ -112,17 +116,20 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 {
                     vatLieu = new VatLieu();
                     vatLieu.MaVatLieu = reader["MaVatLieu"].ToString();
-                    vatLieu.Ten = reader["TenVatLieu"].ToString();
+                    vatLieu.Ten = reader["ten"].ToString();
                     vatLieu.DonVi = reader["DonVi"].ToString();
                     vatLieu.GiaNhap = double.Parse(reader["GiaNhap"].ToString());
                     vatLieu.GiaXuat = double.Parse(reader["GiaXuat"].ToString());
                     vatLieu.NgayNhap = DateTime.Parse(reader["NgayNhap"].ToString());
                     vatLieu.DirHinhAnh = reader["HinhAnh"].ToString();
                     vatLieu.HinhAnhPaths = this.fileUntility.GetImagePathsFromFolder(vatLieu.DirHinhAnh); /*Lấy ra danh sách đường dẫn hình ảnh*/
-                    vatLieu.NhaCungCap = (NhaCungCap)this.doiTacService.findByMaDoiTac(reader["MaDoiTac"].ToString());
-                    vatLieu.TonKhos = this.getTonKho(vatLieu.MaVatLieu); /*Lấy ra danh sách kho và số lượng tồn kho*/
+                    vatLieu.NhaCungCap = (NhaCungCap)this.doiTacService.findByMaDoiTac(reader["NhaCungCap"].ToString());
                 }
                 this.myDatabase.CloseConnection();
+                if (vatLieu != null)
+                {
+                    vatLieu.TonKhos = this.getTonKho(vatLieu.MaVatLieu); /*Lấy ra danh sách kho và số lượng tồn kho*/
+                }
             }
             catch (Exception ex)
             {
@@ -133,15 +140,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
         public bool insertVatLieu(VatLieu vatLieu)
         {
-            string query_VatLieu = @"INSERT INTO VatLieu (MaVatLieu, TenVatLieu, DonVi, GiaNhap, GiaXuat, NgayNhap, HinhAnh, MaDoiTac) 
-                            VALUES (@MaVatLieu, @TenVatLieu, @DonVi, @GiaNhap, @GiaXuat, @NgayNhap, @HinhAnh, @MaDoiTac)";
+            string query_VatLieu = @"INSERT INTO VatLieu (MaVatLieu, ten, DonVi, GiaNhap, GiaXuat, NgayNhap, HinhAnh, NhaCungCap) 
+                            VALUES (@MaVatLieu, @ten, @DonVi, @GiaNhap, @GiaXuat, @NgayNhap, @HinhAnh, @NhaCungCap)";
             string query_TonKho = @"INSERT INTO TonKho (MaVatLieu, MaKho, SoLuong) 
                             VALUES (@MaVatLieu, @MaKho, @SoLuong)";
             try
             {
                 SqlCommand cmd = new SqlCommand(query_VatLieu, this.myDatabase.Connection);
                 cmd.Parameters.AddWithValue("@MaVatLieu", vatLieu.MaVatLieu);
-                cmd.Parameters.AddWithValue("@TenVatLieu", vatLieu.Ten);
+                cmd.Parameters.AddWithValue("@ten", vatLieu.Ten);
                 cmd.Parameters.AddWithValue("@DonVi", vatLieu.DonVi);
                 cmd.Parameters.AddWithValue("@GiaNhap", vatLieu.GiaNhap);
                 cmd.Parameters.AddWithValue("@GiaXuat", vatLieu.GiaXuat);
@@ -152,18 +159,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     this.fileUntility.SaveImages(hinhAnhPath, vatLieu.DirHinhAnh); /*Lưu hình ảnh vào thư mục*/
                 }
                 cmd.Parameters.AddWithValue("@HinhAnh", vatLieu.DirHinhAnh);
-                cmd.Parameters.AddWithValue("@MaDoiTac", vatLieu.NhaCungCap.MaDoiTac);
+                cmd.Parameters.AddWithValue("@NhaCungCap", vatLieu.NhaCungCap.MaDoiTac);
                 this.myDatabase.OpenConnection();
                 int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
                 if (result > 0)
                 {
-                    foreach (var kho in vatLieu.TonKhos)
+                    foreach (var tonKho in vatLieu.TonKhos)
                     {
                         SqlCommand cmdTonKho = new SqlCommand(query_TonKho, this.myDatabase.Connection);
                         cmdTonKho.Parameters.AddWithValue("@MaVatLieu", vatLieu.MaVatLieu);
-                        cmdTonKho.Parameters.AddWithValue("@MaKho", kho.kho.MaKho);
-                        cmdTonKho.Parameters.AddWithValue("@SoLuong", kho.soLuong);
+                        cmdTonKho.Parameters.AddWithValue("@MaKho", tonKho.kho.MaKho);
+                        cmdTonKho.Parameters.AddWithValue("@SoLuong", tonKho.soLuong);
                         result = cmdTonKho.ExecuteNonQuery();
                     }
                     this.myDatabase.CloseConnection();
@@ -179,7 +185,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
         public List<VatLieu> searchByKey(string key)
         {
-            string query = "SELECT * FROM VatLieu WHERE MaVatLieu LIKE @key OR TenVatLieu LIKE @key";
+            string query = "SELECT * FROM VatLieu WHERE MaVatLieu LIKE @key OR ten LIKE @key";
             List<VatLieu> vatLieus = new List<VatLieu>();
             try
             {
@@ -192,18 +198,24 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 {
                     vatLieu = new VatLieu();
                     vatLieu.MaVatLieu = reader["MaVatLieu"].ToString();
-                    vatLieu.Ten = reader["TenVatLieu"].ToString();
+                    vatLieu.Ten = reader["ten"].ToString();
                     vatLieu.DonVi = reader["DonVi"].ToString();
                     vatLieu.GiaNhap = double.Parse(reader["GiaNhap"].ToString());
                     vatLieu.GiaXuat = double.Parse(reader["GiaXuat"].ToString());
                     vatLieu.NgayNhap = DateTime.Parse(reader["NgayNhap"].ToString());
                     vatLieu.DirHinhAnh = reader["HinhAnh"].ToString();
                     vatLieu.HinhAnhPaths = this.fileUntility.GetImagePathsFromFolder(vatLieu.DirHinhAnh); /*Lấy ra danh sách đường dẫn hình ảnh*/
-                    vatLieu.NhaCungCap = (NhaCungCap)this.doiTacService.findByMaDoiTac(reader["MaDoiTac"].ToString());
-                    vatLieu.TonKhos = this.getTonKho(vatLieu.MaVatLieu); /*Lấy ra danh sách kho và số lượng tồn kho*/
+                    vatLieu.NhaCungCap = (NhaCungCap)this.doiTacService.findByMaDoiTac(reader["NhaCungCap"].ToString());
                     vatLieus.Add(vatLieu);
                 }
                 this.myDatabase.CloseConnection();
+                if (vatLieus.Count > 0)
+                {
+                    for (int i = 0; i < vatLieus.Count; i++)
+                    {
+                        vatLieus[i].TonKhos = this.getTonKho(vatLieus[i].MaVatLieu); /*Lấy ra danh sách kho và số lượng tồn kho*/
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -214,17 +226,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
         public bool updateVatLieu(VatLieu vatLieu)
         {
-            string query = @"UPDATE VatLieu SET TenVatLieu=@TenVatLieu, DonVi=@DonVi, GiaNhap=@GiaNhap, GiaXuat=@GiaXuat, NgayNhap=@NgayNhap, MaDoiTac=@MaDoiTac WHERE MaVatLieu=@MaVatLieu";
+            string query = @"UPDATE VatLieu SET ten=@ten, DonVi=@DonVi, GiaNhap=@GiaNhap, GiaXuat=@GiaXuat, NgayNhap=@NgayNhap, NhaCungCap=@NhaCungCap WHERE MaVatLieu=@MaVatLieu";
             try
             {
                 SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
                 cmd.Parameters.AddWithValue("@MaVatLieu", vatLieu.MaVatLieu);
-                cmd.Parameters.AddWithValue("@TenVatLieu", vatLieu.Ten);
+                cmd.Parameters.AddWithValue("@ten", vatLieu.Ten);
                 cmd.Parameters.AddWithValue("@DonVi", vatLieu.DonVi);
                 cmd.Parameters.AddWithValue("@GiaNhap", vatLieu.GiaNhap);   
                 cmd.Parameters.AddWithValue("@GiaXuat", vatLieu.GiaXuat);
                 cmd.Parameters.AddWithValue("@NgayNhap", vatLieu.NgayNhap);
-                cmd.Parameters.AddWithValue("@MaDoiTac", vatLieu.NhaCungCap.MaDoiTac);
+                cmd.Parameters.AddWithValue("@NhaCungCap", vatLieu.NhaCungCap.MaDoiTac);
                 this.myDatabase.OpenConnection();
                 int result = cmd.ExecuteNonQuery();
                 this.myDatabase.CloseConnection();
@@ -263,6 +275,29 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
+        }
+
+        public float totalSoLuong(string maVatLieu)
+        {
+            string query = "SELECT SUM(SoLuong) FROM TonKho WHERE MaVatLieu=@MaVatLieu";
+            float total = 0;
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@MaVatLieu", maVatLieu);
+                this.myDatabase.OpenConnection();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    total = float.Parse(reader[0].ToString());
+                }
+                this.myDatabase.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return total;
         }
     }
 }

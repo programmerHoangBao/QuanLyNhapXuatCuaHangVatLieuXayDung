@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -35,31 +35,40 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.3\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.3\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.9.0.3\lib\net462\Microsoft.Extensions.Configuration.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.Configuration.9.0.3\lib\net462\Microsoft.Extensions.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.9.0.3\lib\net462\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.Configuration.Abstractions.9.0.3\lib\net462\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.9.0.3\lib\net462\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.Configuration.FileExtensions.9.0.3\lib\net462\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.Json, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.9.0.3\lib\net462\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.Configuration.Json.9.0.3\lib\net462\Microsoft.Extensions.Configuration.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.9.0.3\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.FileProviders.Abstractions.9.0.3\lib\net462\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.9.0.3\lib\net462\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.FileProviders.Physical.9.0.3\lib\net462\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.9.0.3\lib\net462\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.FileSystemGlobbing.9.0.3\lib\net462\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.9.0.3\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+      <HintPath>
+        ..\packages\Microsoft.Extensions.Primitives.9.0.3\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -78,7 +87,8 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>
+        ..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=9.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.9.0.3\lib\net462\System.Text.Encodings.Web.dll</HintPath>
@@ -87,7 +97,8 @@
       <HintPath>..\packages\System.Text.Json.9.0.3\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>
+        ..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
@@ -105,9 +116,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
-    <Compile Include="model\ChiTietHoaDon.cs" />
     <Compile Include="service\IHoaDonService.cs" />
-    <Compile Include="service\impl\HoaDonService.cs" />
+    <Compile Include="service\impl\HoaDonService.cs" />    <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
+    <Compile Include="service\IChiPhiPhatSinhService.cs" />
+    <Compile Include="service\impl\TaiKhoanService.cs" />
+    <Compile Include="service\ITaiKhoanService.cs" />
     <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="utilities\StringUtility.cs" />
@@ -138,11 +151,23 @@
     <Compile Include="service\IVatLieuService.cs" />
     <Compile Include="service\impl\VatLieuService.cs" />
     <Compile Include="service\impl\KhoService.cs" />
+    <Compile Include="views\Form_ChonSoLuongVatLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_ChonSoLuongVatLieu.Designer.cs">
+      <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="views\Form_TrangChu.Designer.cs">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_GiaoDich.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_GiaoDich.Designer.cs">
+      <DependentUpon>Form_GiaoDich.cs</DependentUpon>
     </Compile>
     <Compile Include="views\UserControlShowVatLieu.cs">
       <SubType>UserControl</SubType>
@@ -158,14 +183,22 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="views\Form_ChonSoLuongVatLieu.resx">
+      <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TrangChu.resx">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_GiaoDich.resx">
+      <DependentUpon>Form_GiaoDich.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\UserControlShowVatLieu.resx">
       <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="config\config.json" />
+    <None Include="template\layout.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -183,12 +216,14 @@
   <ItemGroup>
     <Content Include="config\description.txt" />
     <Content Include="database_design\CuaHangXayDung.sql" />
+    <Content Include="database_design\User.sql" />
     <Content Include="model\description.txt" />
+    <None Include="Resources\logo.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\minus.png" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="template\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

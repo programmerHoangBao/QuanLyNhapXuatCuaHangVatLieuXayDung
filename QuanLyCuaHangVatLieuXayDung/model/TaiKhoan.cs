@@ -17,7 +17,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         private string email;
         private string nganHang;
         private string soTaiKhoan;
-        private string qR;
+        private string qR; // đường dẫn đến file hình ảnh
 
         public TaiKhoan()
         {
