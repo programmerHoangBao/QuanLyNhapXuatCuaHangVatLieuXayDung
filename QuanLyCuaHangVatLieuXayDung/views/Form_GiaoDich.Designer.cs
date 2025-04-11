@@ -39,15 +39,22 @@
             this.radioButtonXuatHang = new System.Windows.Forms.RadioButton();
             this.panelHoaDon = new System.Windows.Forms.Panel();
             this.panelXuatHoaDon = new System.Windows.Forms.Panel();
+            this.panelButtonXuatHoaDon = new System.Windows.Forms.Panel();
             this.btnXuatHoaDon = new System.Windows.Forms.Button();
-            this.labelTongHoaDon = new System.Windows.Forms.Label();
-            this.labelNoCu = new System.Windows.Forms.Label();
-            this.labelPhuongThucThanhToan = new System.Windows.Forms.Label();
+            this.panelPhuongThucThanhToan = new System.Windows.Forms.Panel();
+            this.panelThongTinThanhToan = new System.Windows.Forms.Panel();
             this.comboBoxPhuongThucThanhToan = new System.Windows.Forms.ComboBox();
-            this.labelSoTienThanhToan = new System.Windows.Forms.Label();
-            this.txtTienGiam = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelPhuongThucThanhToan = new System.Windows.Forms.Label();
             this.labelTienGiam = new System.Windows.Forms.Label();
+            this.labelNoCu = new System.Windows.Forms.Label();
+            this.txtTienThanhToan = new System.Windows.Forms.TextBox();
+            this.labelSoTienThanhToan = new System.Windows.Forms.Label();
+            this.labelTienThanhToan = new System.Windows.Forms.Label();
+            this.labelTongHoaDon = new System.Windows.Forms.Label();
+            this.txtTienGiam = new System.Windows.Forms.TextBox();
+            this.panelButtonCreateAndAddVatLieu = new System.Windows.Forms.Panel();
+            this.btnThemVatLieu = new System.Windows.Forms.Button();
+            this.btnTaoVatLieuMoi = new System.Windows.Forms.Button();
             this.panelVatLieu = new System.Windows.Forms.Panel();
             this.panelShowVatLieu = new System.Windows.Forms.Panel();
             this.dataGridViewShowVatLieu = new System.Windows.Forms.DataGridView();
@@ -58,8 +65,6 @@
             this.DonVi = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TongTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnThemVatLieu = new System.Windows.Forms.Button();
-            this.btnTaoVatLieuMoi = new System.Windows.Forms.Button();
             this.panelDoiTac = new System.Windows.Forms.Panel();
             this.panelButtonDoiTac = new System.Windows.Forms.Panel();
             this.btnChonDoiTac = new System.Windows.Forms.Button();
@@ -73,16 +78,19 @@
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.panelIdHoaDon = new System.Windows.Forms.Panel();
             this.labelDate = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtMaHoaDon = new System.Windows.Forms.TextBox();
             this.labelMaHoaDon = new System.Windows.Forms.Label();
             this.labelTitle = new System.Windows.Forms.Label();
             this.flowLayoutPanelShowVatLieu = new System.Windows.Forms.FlowLayoutPanel();
-            this.labelTienThanhToan = new System.Windows.Forms.Label();
             this.panelOptional.SuspendLayout();
             this.panelFunctionSearch.SuspendLayout();
             this.panelCheckBox.SuspendLayout();
             this.panelHoaDon.SuspendLayout();
             this.panelXuatHoaDon.SuspendLayout();
+            this.panelButtonXuatHoaDon.SuspendLayout();
+            this.panelPhuongThucThanhToan.SuspendLayout();
+            this.panelThongTinThanhToan.SuspendLayout();
+            this.panelButtonCreateAndAddVatLieu.SuspendLayout();
             this.panelVatLieu.SuspendLayout();
             this.panelShowVatLieu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewShowVatLieu)).BeginInit();
@@ -101,7 +109,7 @@
             this.panelOptional.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelOptional.Location = new System.Drawing.Point(0, 0);
             this.panelOptional.Name = "panelOptional";
-            this.panelOptional.Size = new System.Drawing.Size(1556, 100);
+            this.panelOptional.Size = new System.Drawing.Size(1326, 100);
             this.panelOptional.TabIndex = 0;
             // 
             // panelFunctionSearch
@@ -114,16 +122,16 @@
             this.panelFunctionSearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelFunctionSearch.Location = new System.Drawing.Point(500, 0);
             this.panelFunctionSearch.Name = "panelFunctionSearch";
-            this.panelFunctionSearch.Size = new System.Drawing.Size(1054, 98);
+            this.panelFunctionSearch.Size = new System.Drawing.Size(824, 98);
             this.panelFunctionSearch.TabIndex = 1;
             // 
             // btnAnHoaDon
             // 
             this.btnAnHoaDon.BackColor = System.Drawing.Color.DarkOrange;
             this.btnAnHoaDon.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnHoaDon.Location = new System.Drawing.Point(836, 28);
+            this.btnAnHoaDon.Location = new System.Drawing.Point(651, 19);
             this.btnAnHoaDon.Name = "btnAnHoaDon";
-            this.btnAnHoaDon.Size = new System.Drawing.Size(180, 40);
+            this.btnAnHoaDon.Size = new System.Drawing.Size(157, 45);
             this.btnAnHoaDon.TabIndex = 3;
             this.btnAnHoaDon.Text = "Ẩn hóa đơn";
             this.btnAnHoaDon.UseVisualStyleBackColor = false;
@@ -133,9 +141,9 @@
             // 
             this.btnTaoHoaDon.BackColor = System.Drawing.Color.Orange;
             this.btnTaoHoaDon.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTaoHoaDon.Location = new System.Drawing.Point(589, 21);
+            this.btnTaoHoaDon.Location = new System.Drawing.Point(472, 18);
             this.btnTaoHoaDon.Name = "btnTaoHoaDon";
-            this.btnTaoHoaDon.Size = new System.Drawing.Size(201, 47);
+            this.btnTaoHoaDon.Size = new System.Drawing.Size(173, 45);
             this.btnTaoHoaDon.TabIndex = 2;
             this.btnTaoHoaDon.Text = "Tạo hóa đơn";
             this.btnTaoHoaDon.UseVisualStyleBackColor = false;
@@ -145,7 +153,7 @@
             // 
             this.btnTimKiem.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnTimKiem.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTimKiem.Location = new System.Drawing.Point(416, 21);
+            this.btnTimKiem.Location = new System.Drawing.Point(314, 18);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(135, 47);
             this.btnTimKiem.TabIndex = 2;
@@ -155,7 +163,7 @@
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(110, 28);
+            this.txtSearch.Location = new System.Drawing.Point(8, 25);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(300, 40);
             this.txtSearch.TabIndex = 1;
@@ -208,69 +216,68 @@
             this.panelHoaDon.Controls.Add(this.labelTitle);
             this.panelHoaDon.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelHoaDon.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelHoaDon.Location = new System.Drawing.Point(501, 100);
+            this.panelHoaDon.Location = new System.Drawing.Point(506, 100);
             this.panelHoaDon.Name = "panelHoaDon";
-            this.panelHoaDon.Size = new System.Drawing.Size(1055, 988);
+            this.panelHoaDon.Size = new System.Drawing.Size(820, 888);
             this.panelHoaDon.TabIndex = 1;
             // 
             // panelXuatHoaDon
             // 
-            this.panelXuatHoaDon.Controls.Add(this.btnTaoVatLieuMoi);
-            this.panelXuatHoaDon.Controls.Add(this.btnThemVatLieu);
-            this.panelXuatHoaDon.Controls.Add(this.labelTienThanhToan);
-            this.panelXuatHoaDon.Controls.Add(this.btnXuatHoaDon);
-            this.panelXuatHoaDon.Controls.Add(this.labelTongHoaDon);
-            this.panelXuatHoaDon.Controls.Add(this.labelNoCu);
-            this.panelXuatHoaDon.Controls.Add(this.labelPhuongThucThanhToan);
-            this.panelXuatHoaDon.Controls.Add(this.comboBoxPhuongThucThanhToan);
-            this.panelXuatHoaDon.Controls.Add(this.labelSoTienThanhToan);
-            this.panelXuatHoaDon.Controls.Add(this.txtTienGiam);
-            this.panelXuatHoaDon.Controls.Add(this.textBox1);
-            this.panelXuatHoaDon.Controls.Add(this.labelTienGiam);
+            this.panelXuatHoaDon.Controls.Add(this.panelButtonXuatHoaDon);
+            this.panelXuatHoaDon.Controls.Add(this.panelPhuongThucThanhToan);
             this.panelXuatHoaDon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelXuatHoaDon.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelXuatHoaDon.Location = new System.Drawing.Point(0, 599);
+            this.panelXuatHoaDon.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelXuatHoaDon.Location = new System.Drawing.Point(0, 528);
             this.panelXuatHoaDon.Name = "panelXuatHoaDon";
-            this.panelXuatHoaDon.Size = new System.Drawing.Size(1053, 387);
+            this.panelXuatHoaDon.Size = new System.Drawing.Size(818, 358);
             this.panelXuatHoaDon.TabIndex = 4;
+            // 
+            // panelButtonXuatHoaDon
+            // 
+            this.panelButtonXuatHoaDon.Controls.Add(this.btnXuatHoaDon);
+            this.panelButtonXuatHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelButtonXuatHoaDon.Location = new System.Drawing.Point(0, 275);
+            this.panelButtonXuatHoaDon.Name = "panelButtonXuatHoaDon";
+            this.panelButtonXuatHoaDon.Size = new System.Drawing.Size(818, 127);
+            this.panelButtonXuatHoaDon.TabIndex = 9;
             // 
             // btnXuatHoaDon
             // 
             this.btnXuatHoaDon.BackColor = System.Drawing.Color.Orange;
-            this.btnXuatHoaDon.Location = new System.Drawing.Point(2, 307);
+            this.btnXuatHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnXuatHoaDon.Location = new System.Drawing.Point(0, 0);
             this.btnXuatHoaDon.Name = "btnXuatHoaDon";
-            this.btnXuatHoaDon.Size = new System.Drawing.Size(1051, 55);
+            this.btnXuatHoaDon.Size = new System.Drawing.Size(818, 55);
             this.btnXuatHoaDon.TabIndex = 6;
             this.btnXuatHoaDon.Text = "Xuất hóa đơn";
             this.btnXuatHoaDon.UseVisualStyleBackColor = false;
             // 
-            // labelTongHoaDon
+            // panelPhuongThucThanhToan
             // 
-            this.labelTongHoaDon.AutoSize = true;
-            this.labelTongHoaDon.Location = new System.Drawing.Point(9, 200);
-            this.labelTongHoaDon.Name = "labelTongHoaDon";
-            this.labelTongHoaDon.Size = new System.Drawing.Size(169, 33);
-            this.labelTongHoaDon.TabIndex = 7;
-            this.labelTongHoaDon.Text = "Tổng hóa đơn";
+            this.panelPhuongThucThanhToan.Controls.Add(this.panelThongTinThanhToan);
+            this.panelPhuongThucThanhToan.Controls.Add(this.panelButtonCreateAndAddVatLieu);
+            this.panelPhuongThucThanhToan.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelPhuongThucThanhToan.Location = new System.Drawing.Point(0, 0);
+            this.panelPhuongThucThanhToan.Name = "panelPhuongThucThanhToan";
+            this.panelPhuongThucThanhToan.Size = new System.Drawing.Size(818, 275);
+            this.panelPhuongThucThanhToan.TabIndex = 10;
             // 
-            // labelNoCu
+            // panelThongTinThanhToan
             // 
-            this.labelNoCu.AutoSize = true;
-            this.labelNoCu.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNoCu.Location = new System.Drawing.Point(9, 146);
-            this.labelNoCu.Name = "labelNoCu";
-            this.labelNoCu.Size = new System.Drawing.Size(98, 33);
-            this.labelNoCu.TabIndex = 7;
-            this.labelNoCu.Text = "Nợ cũ: ";
-            // 
-            // labelPhuongThucThanhToan
-            // 
-            this.labelPhuongThucThanhToan.AutoSize = true;
-            this.labelPhuongThucThanhToan.Location = new System.Drawing.Point(5, 10);
-            this.labelPhuongThucThanhToan.Name = "labelPhuongThucThanhToan";
-            this.labelPhuongThucThanhToan.Size = new System.Drawing.Size(290, 33);
-            this.labelPhuongThucThanhToan.TabIndex = 0;
-            this.labelPhuongThucThanhToan.Text = "Thương thức thanh toán:";
+            this.panelThongTinThanhToan.Controls.Add(this.comboBoxPhuongThucThanhToan);
+            this.panelThongTinThanhToan.Controls.Add(this.labelPhuongThucThanhToan);
+            this.panelThongTinThanhToan.Controls.Add(this.labelTienGiam);
+            this.panelThongTinThanhToan.Controls.Add(this.labelNoCu);
+            this.panelThongTinThanhToan.Controls.Add(this.txtTienThanhToan);
+            this.panelThongTinThanhToan.Controls.Add(this.labelSoTienThanhToan);
+            this.panelThongTinThanhToan.Controls.Add(this.labelTienThanhToan);
+            this.panelThongTinThanhToan.Controls.Add(this.labelTongHoaDon);
+            this.panelThongTinThanhToan.Controls.Add(this.txtTienGiam);
+            this.panelThongTinThanhToan.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelThongTinThanhToan.Location = new System.Drawing.Point(0, 0);
+            this.panelThongTinThanhToan.Name = "panelThongTinThanhToan";
+            this.panelThongTinThanhToan.Size = new System.Drawing.Size(597, 275);
+            this.panelThongTinThanhToan.TabIndex = 1;
             // 
             // comboBoxPhuongThucThanhToan
             // 
@@ -279,51 +286,122 @@
             "Trả một lần",
             "Trả trước",
             "Ghi nợ"});
-            this.comboBoxPhuongThucThanhToan.Location = new System.Drawing.Point(301, 10);
+            this.comboBoxPhuongThucThanhToan.Location = new System.Drawing.Point(324, 15);
             this.comboBoxPhuongThucThanhToan.Name = "comboBoxPhuongThucThanhToan";
-            this.comboBoxPhuongThucThanhToan.Size = new System.Drawing.Size(200, 41);
+            this.comboBoxPhuongThucThanhToan.Size = new System.Drawing.Size(200, 37);
             this.comboBoxPhuongThucThanhToan.TabIndex = 1;
             // 
-            // labelSoTienThanhToan
+            // labelPhuongThucThanhToan
             // 
-            this.labelSoTienThanhToan.AutoSize = true;
-            this.labelSoTienThanhToan.Location = new System.Drawing.Point(6, 54);
-            this.labelSoTienThanhToan.Name = "labelSoTienThanhToan";
-            this.labelSoTienThanhToan.Size = new System.Drawing.Size(226, 33);
-            this.labelSoTienThanhToan.TabIndex = 2;
-            this.labelSoTienThanhToan.Text = "Số tiền thanh toán:";
-            // 
-            // txtTienGiam
-            // 
-            this.txtTienGiam.Location = new System.Drawing.Point(301, 103);
-            this.txtTienGiam.Name = "txtTienGiam";
-            this.txtTienGiam.Size = new System.Drawing.Size(200, 40);
-            this.txtTienGiam.TabIndex = 5;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(301, 57);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 40);
-            this.textBox1.TabIndex = 3;
+            this.labelPhuongThucThanhToan.AutoSize = true;
+            this.labelPhuongThucThanhToan.Location = new System.Drawing.Point(28, 15);
+            this.labelPhuongThucThanhToan.Name = "labelPhuongThucThanhToan";
+            this.labelPhuongThucThanhToan.Size = new System.Drawing.Size(271, 29);
+            this.labelPhuongThucThanhToan.TabIndex = 0;
+            this.labelPhuongThucThanhToan.Text = "Thương thức thanh toán:";
             // 
             // labelTienGiam
             // 
             this.labelTienGiam.AutoSize = true;
-            this.labelTienGiam.Location = new System.Drawing.Point(9, 98);
+            this.labelTienGiam.Location = new System.Drawing.Point(32, 103);
             this.labelTienGiam.Name = "labelTienGiam";
-            this.labelTienGiam.Size = new System.Drawing.Size(132, 33);
+            this.labelTienGiam.Size = new System.Drawing.Size(122, 29);
             this.labelTienGiam.TabIndex = 4;
             this.labelTienGiam.Text = "Tiền giảm:";
             // 
+            // labelNoCu
+            // 
+            this.labelNoCu.AutoSize = true;
+            this.labelNoCu.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNoCu.Location = new System.Drawing.Point(32, 151);
+            this.labelNoCu.Name = "labelNoCu";
+            this.labelNoCu.Size = new System.Drawing.Size(92, 29);
+            this.labelNoCu.TabIndex = 7;
+            this.labelNoCu.Text = "Nợ cũ: ";
+            // 
+            // txtTienThanhToan
+            // 
+            this.txtTienThanhToan.Location = new System.Drawing.Point(324, 62);
+            this.txtTienThanhToan.Name = "txtTienThanhToan";
+            this.txtTienThanhToan.Size = new System.Drawing.Size(200, 37);
+            this.txtTienThanhToan.TabIndex = 3;
+            // 
+            // labelSoTienThanhToan
+            // 
+            this.labelSoTienThanhToan.AutoSize = true;
+            this.labelSoTienThanhToan.Location = new System.Drawing.Point(29, 59);
+            this.labelSoTienThanhToan.Name = "labelSoTienThanhToan";
+            this.labelSoTienThanhToan.Size = new System.Drawing.Size(208, 29);
+            this.labelSoTienThanhToan.TabIndex = 2;
+            this.labelSoTienThanhToan.Text = "Số tiền thanh toán:";
+            // 
+            // labelTienThanhToan
+            // 
+            this.labelTienThanhToan.AutoSize = true;
+            this.labelTienThanhToan.Location = new System.Drawing.Point(26, 236);
+            this.labelTienThanhToan.Name = "labelTienThanhToan";
+            this.labelTienThanhToan.Size = new System.Drawing.Size(176, 29);
+            this.labelTienThanhToan.TabIndex = 8;
+            this.labelTienThanhToan.Text = "Tiền thanh toán";
+            // 
+            // labelTongHoaDon
+            // 
+            this.labelTongHoaDon.AutoSize = true;
+            this.labelTongHoaDon.Location = new System.Drawing.Point(29, 195);
+            this.labelTongHoaDon.Name = "labelTongHoaDon";
+            this.labelTongHoaDon.Size = new System.Drawing.Size(159, 29);
+            this.labelTongHoaDon.TabIndex = 7;
+            this.labelTongHoaDon.Text = "Tổng hóa đơn";
+            // 
+            // txtTienGiam
+            // 
+            this.txtTienGiam.Location = new System.Drawing.Point(324, 108);
+            this.txtTienGiam.Name = "txtTienGiam";
+            this.txtTienGiam.Size = new System.Drawing.Size(200, 37);
+            this.txtTienGiam.TabIndex = 5;
+            // 
+            // panelButtonCreateAndAddVatLieu
+            // 
+            this.panelButtonCreateAndAddVatLieu.Controls.Add(this.btnThemVatLieu);
+            this.panelButtonCreateAndAddVatLieu.Controls.Add(this.btnTaoVatLieuMoi);
+            this.panelButtonCreateAndAddVatLieu.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelButtonCreateAndAddVatLieu.Location = new System.Drawing.Point(597, 0);
+            this.panelButtonCreateAndAddVatLieu.Name = "panelButtonCreateAndAddVatLieu";
+            this.panelButtonCreateAndAddVatLieu.Size = new System.Drawing.Size(221, 275);
+            this.panelButtonCreateAndAddVatLieu.TabIndex = 0;
+            // 
+            // btnThemVatLieu
+            // 
+            this.btnThemVatLieu.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnThemVatLieu.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThemVatLieu.Location = new System.Drawing.Point(12, 6);
+            this.btnThemVatLieu.Name = "btnThemVatLieu";
+            this.btnThemVatLieu.Size = new System.Drawing.Size(206, 70);
+            this.btnThemVatLieu.TabIndex = 0;
+            this.btnThemVatLieu.Text = "Thêm vật liệu";
+            this.btnThemVatLieu.UseVisualStyleBackColor = false;
+            // 
+            // btnTaoVatLieuMoi
+            // 
+            this.btnTaoVatLieuMoi.BackColor = System.Drawing.Color.YellowGreen;
+            this.btnTaoVatLieuMoi.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTaoVatLieuMoi.Location = new System.Drawing.Point(12, 87);
+            this.btnTaoVatLieuMoi.Name = "btnTaoVatLieuMoi";
+            this.btnTaoVatLieuMoi.Size = new System.Drawing.Size(206, 70);
+            this.btnTaoVatLieuMoi.TabIndex = 0;
+            this.btnTaoVatLieuMoi.Text = "Tạo vât liệu mới";
+            this.btnTaoVatLieuMoi.UseVisualStyleBackColor = false;
+            // 
             // panelVatLieu
             // 
+            this.panelVatLieu.AutoScroll = true;
             this.panelVatLieu.Controls.Add(this.panelShowVatLieu);
             this.panelVatLieu.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelVatLieu.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelVatLieu.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelVatLieu.Location = new System.Drawing.Point(0, 328);
+            this.panelVatLieu.MaximumSize = new System.Drawing.Size(818, 300);
             this.panelVatLieu.Name = "panelVatLieu";
-            this.panelVatLieu.Size = new System.Drawing.Size(1053, 271);
+            this.panelVatLieu.Size = new System.Drawing.Size(818, 200);
             this.panelVatLieu.TabIndex = 3;
             // 
             // panelShowVatLieu
@@ -333,7 +411,7 @@
             this.panelShowVatLieu.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelShowVatLieu.Location = new System.Drawing.Point(0, 0);
             this.panelShowVatLieu.Name = "panelShowVatLieu";
-            this.panelShowVatLieu.Size = new System.Drawing.Size(1053, 271);
+            this.panelShowVatLieu.Size = new System.Drawing.Size(818, 200);
             this.panelShowVatLieu.TabIndex = 1;
             // 
             // dataGridViewShowVatLieu
@@ -354,8 +432,10 @@
             this.dataGridViewShowVatLieu.RowHeadersVisible = false;
             this.dataGridViewShowVatLieu.RowHeadersWidth = 62;
             this.dataGridViewShowVatLieu.RowTemplate.Height = 28;
-            this.dataGridViewShowVatLieu.Size = new System.Drawing.Size(1053, 271);
+            this.dataGridViewShowVatLieu.Size = new System.Drawing.Size(818, 200);
             this.dataGridViewShowVatLieu.TabIndex = 1;
+            this.dataGridViewShowVatLieu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewShowVatLieu_CellContentClick);
+            this.dataGridViewShowVatLieu.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewShowVatLieu_RowsAdded);
             // 
             // stt
             // 
@@ -399,36 +479,15 @@
             this.TongTien.MinimumWidth = 8;
             this.TongTien.Name = "TongTien";
             // 
-            // btnThemVatLieu
-            // 
-            this.btnThemVatLieu.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnThemVatLieu.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemVatLieu.Location = new System.Drawing.Point(589, 6);
-            this.btnThemVatLieu.Name = "btnThemVatLieu";
-            this.btnThemVatLieu.Size = new System.Drawing.Size(218, 70);
-            this.btnThemVatLieu.TabIndex = 0;
-            this.btnThemVatLieu.Text = "Thêm vật liệu";
-            this.btnThemVatLieu.UseVisualStyleBackColor = false;
-            // 
-            // btnTaoVatLieuMoi
-            // 
-            this.btnTaoVatLieuMoi.BackColor = System.Drawing.Color.YellowGreen;
-            this.btnTaoVatLieuMoi.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTaoVatLieuMoi.Location = new System.Drawing.Point(830, 3);
-            this.btnTaoVatLieuMoi.Name = "btnTaoVatLieuMoi";
-            this.btnTaoVatLieuMoi.Size = new System.Drawing.Size(212, 70);
-            this.btnTaoVatLieuMoi.TabIndex = 0;
-            this.btnTaoVatLieuMoi.Text = "Tạo vât liệu mới";
-            this.btnTaoVatLieuMoi.UseVisualStyleBackColor = false;
-            // 
             // panelDoiTac
             // 
             this.panelDoiTac.Controls.Add(this.panelButtonDoiTac);
             this.panelDoiTac.Controls.Add(this.panelInputDoiTac);
             this.panelDoiTac.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelDoiTac.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelDoiTac.Location = new System.Drawing.Point(0, 96);
             this.panelDoiTac.Name = "panelDoiTac";
-            this.panelDoiTac.Size = new System.Drawing.Size(1053, 232);
+            this.panelDoiTac.Size = new System.Drawing.Size(818, 232);
             this.panelDoiTac.TabIndex = 2;
             // 
             // panelButtonDoiTac
@@ -437,16 +496,16 @@
             this.panelButtonDoiTac.Controls.Add(this.btnTaoMoiDoiTac);
             this.panelButtonDoiTac.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelButtonDoiTac.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelButtonDoiTac.Location = new System.Drawing.Point(806, 0);
+            this.panelButtonDoiTac.Location = new System.Drawing.Point(597, 0);
             this.panelButtonDoiTac.Name = "panelButtonDoiTac";
-            this.panelButtonDoiTac.Size = new System.Drawing.Size(247, 232);
+            this.panelButtonDoiTac.Size = new System.Drawing.Size(221, 232);
             this.panelButtonDoiTac.TabIndex = 1;
             // 
             // btnChonDoiTac
             // 
             this.btnChonDoiTac.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnChonDoiTac.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChonDoiTac.Location = new System.Drawing.Point(24, 13);
+            this.btnChonDoiTac.Location = new System.Drawing.Point(12, 13);
             this.btnChonDoiTac.Name = "btnChonDoiTac";
             this.btnChonDoiTac.Size = new System.Drawing.Size(206, 70);
             this.btnChonDoiTac.TabIndex = 0;
@@ -457,7 +516,7 @@
             // 
             this.btnTaoMoiDoiTac.BackColor = System.Drawing.Color.YellowGreen;
             this.btnTaoMoiDoiTac.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTaoMoiDoiTac.Location = new System.Drawing.Point(24, 89);
+            this.btnTaoMoiDoiTac.Location = new System.Drawing.Point(12, 93);
             this.btnTaoMoiDoiTac.Name = "btnTaoMoiDoiTac";
             this.btnTaoMoiDoiTac.Size = new System.Drawing.Size(206, 70);
             this.btnTaoMoiDoiTac.TabIndex = 0;
@@ -473,10 +532,10 @@
             this.panelInputDoiTac.Controls.Add(this.labelDiaChi);
             this.panelInputDoiTac.Controls.Add(this.txtAddress);
             this.panelInputDoiTac.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelInputDoiTac.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelInputDoiTac.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelInputDoiTac.Location = new System.Drawing.Point(0, 0);
             this.panelInputDoiTac.Name = "panelInputDoiTac";
-            this.panelInputDoiTac.Size = new System.Drawing.Size(806, 232);
+            this.panelInputDoiTac.Size = new System.Drawing.Size(597, 232);
             this.panelInputDoiTac.TabIndex = 0;
             // 
             // labelNameDoiTac
@@ -484,7 +543,7 @@
             this.labelNameDoiTac.AutoSize = true;
             this.labelNameDoiTac.Location = new System.Drawing.Point(17, 16);
             this.labelNameDoiTac.Name = "labelNameDoiTac";
-            this.labelNameDoiTac.Size = new System.Drawing.Size(147, 33);
+            this.labelNameDoiTac.Size = new System.Drawing.Size(137, 29);
             this.labelNameDoiTac.TabIndex = 0;
             this.labelNameDoiTac.Text = "Tên đối tác:";
             // 
@@ -492,7 +551,7 @@
             // 
             this.txtNameDoiTac.Location = new System.Drawing.Point(179, 13);
             this.txtNameDoiTac.Name = "txtNameDoiTac";
-            this.txtNameDoiTac.Size = new System.Drawing.Size(405, 40);
+            this.txtNameDoiTac.Size = new System.Drawing.Size(405, 37);
             this.txtNameDoiTac.TabIndex = 1;
             // 
             // labelSDT
@@ -500,7 +559,7 @@
             this.labelSDT.AutoSize = true;
             this.labelSDT.Location = new System.Drawing.Point(18, 62);
             this.labelSDT.Name = "labelSDT";
-            this.labelSDT.Size = new System.Drawing.Size(74, 33);
+            this.labelSDT.Size = new System.Drawing.Size(67, 29);
             this.labelSDT.TabIndex = 0;
             this.labelSDT.Text = "SĐT:";
             // 
@@ -508,7 +567,7 @@
             // 
             this.txtSDT.Location = new System.Drawing.Point(179, 62);
             this.txtSDT.Name = "txtSDT";
-            this.txtSDT.Size = new System.Drawing.Size(405, 40);
+            this.txtSDT.Size = new System.Drawing.Size(405, 37);
             this.txtSDT.TabIndex = 1;
             // 
             // labelDiaChi
@@ -516,7 +575,7 @@
             this.labelDiaChi.AutoSize = true;
             this.labelDiaChi.Location = new System.Drawing.Point(17, 110);
             this.labelDiaChi.Name = "labelDiaChi";
-            this.labelDiaChi.Size = new System.Drawing.Size(104, 33);
+            this.labelDiaChi.Size = new System.Drawing.Size(94, 29);
             this.labelDiaChi.TabIndex = 0;
             this.labelDiaChi.Text = "Địa chỉ:";
             // 
@@ -531,37 +590,37 @@
             // panelIdHoaDon
             // 
             this.panelIdHoaDon.Controls.Add(this.labelDate);
-            this.panelIdHoaDon.Controls.Add(this.textBox2);
+            this.panelIdHoaDon.Controls.Add(this.txtMaHoaDon);
             this.panelIdHoaDon.Controls.Add(this.labelMaHoaDon);
             this.panelIdHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelIdHoaDon.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelIdHoaDon.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelIdHoaDon.Location = new System.Drawing.Point(0, 36);
             this.panelIdHoaDon.Name = "panelIdHoaDon";
-            this.panelIdHoaDon.Size = new System.Drawing.Size(1053, 60);
+            this.panelIdHoaDon.Size = new System.Drawing.Size(818, 60);
             this.panelIdHoaDon.TabIndex = 1;
             // 
             // labelDate
             // 
             this.labelDate.AutoSize = true;
-            this.labelDate.Location = new System.Drawing.Point(550, 13);
+            this.labelDate.Location = new System.Drawing.Point(592, 18);
             this.labelDate.Name = "labelDate";
-            this.labelDate.Size = new System.Drawing.Size(67, 33);
+            this.labelDate.Size = new System.Drawing.Size(63, 29);
             this.labelDate.TabIndex = 2;
             this.labelDate.Text = "Date";
             // 
-            // textBox2
+            // txtMaHoaDon
             // 
-            this.textBox2.Location = new System.Drawing.Point(179, 10);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(300, 40);
-            this.textBox2.TabIndex = 1;
+            this.txtMaHoaDon.Location = new System.Drawing.Point(179, 10);
+            this.txtMaHoaDon.Name = "txtMaHoaDon";
+            this.txtMaHoaDon.Size = new System.Drawing.Size(300, 37);
+            this.txtMaHoaDon.TabIndex = 1;
             // 
             // labelMaHoaDon
             // 
             this.labelMaHoaDon.AutoSize = true;
             this.labelMaHoaDon.Location = new System.Drawing.Point(16, 13);
             this.labelMaHoaDon.Name = "labelMaHoaDon";
-            this.labelMaHoaDon.Size = new System.Drawing.Size(157, 33);
+            this.labelMaHoaDon.Size = new System.Drawing.Size(146, 29);
             this.labelMaHoaDon.TabIndex = 0;
             this.labelMaHoaDon.Text = "Mã hóa đơn:";
             // 
@@ -572,7 +631,7 @@
             this.labelTitle.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.Location = new System.Drawing.Point(0, 0);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(1053, 36);
+            this.labelTitle.Size = new System.Drawing.Size(818, 36);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "Title Hoa Don";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -584,23 +643,14 @@
             this.flowLayoutPanelShowVatLieu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.flowLayoutPanelShowVatLieu.Location = new System.Drawing.Point(0, 100);
             this.flowLayoutPanelShowVatLieu.Name = "flowLayoutPanelShowVatLieu";
-            this.flowLayoutPanelShowVatLieu.Size = new System.Drawing.Size(501, 988);
+            this.flowLayoutPanelShowVatLieu.Size = new System.Drawing.Size(506, 888);
             this.flowLayoutPanelShowVatLieu.TabIndex = 2;
-            // 
-            // labelTienThanhToan
-            // 
-            this.labelTienThanhToan.AutoSize = true;
-            this.labelTienThanhToan.Location = new System.Drawing.Point(9, 252);
-            this.labelTienThanhToan.Name = "labelTienThanhToan";
-            this.labelTienThanhToan.Size = new System.Drawing.Size(188, 33);
-            this.labelTienThanhToan.TabIndex = 8;
-            this.labelTienThanhToan.Text = "Tiền thanh toán";
             // 
             // Form_GiaoDich
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1556, 1088);
+            this.ClientSize = new System.Drawing.Size(1326, 988);
             this.Controls.Add(this.flowLayoutPanelShowVatLieu);
             this.Controls.Add(this.panelHoaDon);
             this.Controls.Add(this.panelOptional);
@@ -614,7 +664,11 @@
             this.panelCheckBox.PerformLayout();
             this.panelHoaDon.ResumeLayout(false);
             this.panelXuatHoaDon.ResumeLayout(false);
-            this.panelXuatHoaDon.PerformLayout();
+            this.panelButtonXuatHoaDon.ResumeLayout(false);
+            this.panelPhuongThucThanhToan.ResumeLayout(false);
+            this.panelThongTinThanhToan.ResumeLayout(false);
+            this.panelThongTinThanhToan.PerformLayout();
+            this.panelButtonCreateAndAddVatLieu.ResumeLayout(false);
             this.panelVatLieu.ResumeLayout(false);
             this.panelShowVatLieu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewShowVatLieu)).EndInit();
@@ -664,7 +718,7 @@
         private System.Windows.Forms.Label labelSoTienThanhToan;
         private System.Windows.Forms.TextBox txtTienGiam;
         private System.Windows.Forms.Label labelTienGiam;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTienThanhToan;
         private System.Windows.Forms.Button btnXuatHoaDon;
         private System.Windows.Forms.Label labelNoCu;
         private System.Windows.Forms.Label labelTongHoaDon;
@@ -676,9 +730,13 @@
         private System.Windows.Forms.Panel panelIdHoaDon;
         private System.Windows.Forms.Panel panelShowVatLieu;
         private System.Windows.Forms.Label labelDate;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtMaHoaDon;
         private System.Windows.Forms.Label labelMaHoaDon;
         private System.Windows.Forms.Button btnAnHoaDon;
         private System.Windows.Forms.Label labelTienThanhToan;
+        private System.Windows.Forms.Panel panelButtonXuatHoaDon;
+        private System.Windows.Forms.Panel panelButtonCreateAndAddVatLieu;
+        private System.Windows.Forms.Panel panelPhuongThucThanhToan;
+        private System.Windows.Forms.Panel panelThongTinThanhToan;
     }
 }

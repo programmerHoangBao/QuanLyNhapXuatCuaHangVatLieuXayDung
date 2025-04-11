@@ -68,7 +68,7 @@
             this.panelOptional.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelOptional.Location = new System.Drawing.Point(0, 0);
             this.panelOptional.Name = "panelOptional";
-            this.panelOptional.Size = new System.Drawing.Size(230, 1144);
+            this.panelOptional.Size = new System.Drawing.Size(230, 1044);
             this.panelOptional.TabIndex = 0;
             // 
             // btnDangXuat
@@ -235,14 +235,14 @@
             this.panelBody.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelBody.Location = new System.Drawing.Point(230, 0);
             this.panelBody.Name = "panelBody";
-            this.panelBody.Size = new System.Drawing.Size(1548, 1144);
+            this.panelBody.Size = new System.Drawing.Size(1348, 1044);
             this.panelBody.TabIndex = 1;
             // 
             // Form_TrangChu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1778, 1144);
+            this.ClientSize = new System.Drawing.Size(1578, 1044);
             this.Controls.Add(this.panelBody);
             this.Controls.Add(this.panelOptional);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
