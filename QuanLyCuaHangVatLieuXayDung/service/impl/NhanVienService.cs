@@ -1,4 +1,4 @@
-﻿using QuanLyCuaHangVatLieuXayDung.model;
+using QuanLyCuaHangVatLieuXayDung.model;
 using QuanLyCuaHangVatLieuXayDung.utilities;
 using System;
 using System.Collections.Generic;
