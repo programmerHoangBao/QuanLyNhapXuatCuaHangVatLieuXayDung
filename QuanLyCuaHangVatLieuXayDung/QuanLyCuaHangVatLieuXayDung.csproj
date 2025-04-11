@@ -119,9 +119,9 @@
     <Compile Include="service\IChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\TaiKhoanService.cs" />
-    <Compile Include="service\INhanVienService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="service\impl\PhieuTraHangService.cs" />
+    <Compile Include="service\INhanVienService.cs" />
     <Compile Include="service\IPhieuTraHangService.cs" />
     <Compile Include="service\ITaiKhoanService.cs" />
     <Compile Include="utilities\FileUtility.cs" />
@@ -151,8 +151,11 @@
     <Compile Include="service\IDoiTacService.cs" />
     <Compile Include="service\IKhoService.cs" />
     <Compile Include="service\IVatLieuService.cs" />
+    <Compile Include="service\IPhieuTraHangService.cs" />
     <Compile Include="service\impl\VatLieuService.cs" />
     <Compile Include="service\impl\KhoService.cs" />
+    <Compile Include="service\impl\PhieuTraHangService.cs" />
+    <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="utilities\StringUtility.cs" />
     <Compile Include="views\Form_ChonSoLuongVatLieu.cs">
       <SubType>Form</SubType>

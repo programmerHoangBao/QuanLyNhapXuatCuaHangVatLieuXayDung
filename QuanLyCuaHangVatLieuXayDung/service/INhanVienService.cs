@@ -1,4 +1,5 @@
-﻿using QuanLyCuaHangVatLieuXayDung.model;
+﻿
+using QuanLyCuaHangVatLieuXayDung.model;
 using System.Data;
 
 namespace QuanLyCuaHangVatLieuXayDung.service
