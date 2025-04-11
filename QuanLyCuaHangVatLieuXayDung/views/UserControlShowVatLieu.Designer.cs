@@ -78,7 +78,7 @@
             this.btnDetail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnDetail.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnDetail.Font = new System.Drawing.Font("Times New Roman", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDetail.Location = new System.Drawing.Point(0, 138);
+            this.btnDetail.Location = new System.Drawing.Point(0, 118);
             this.btnDetail.Name = "btnDetail";
             this.btnDetail.Size = new System.Drawing.Size(294, 30);
             this.btnDetail.TabIndex = 4;
@@ -90,7 +90,7 @@
             this.btnTransaction.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnTransaction.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnTransaction.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTransaction.Location = new System.Drawing.Point(0, 108);
+            this.btnTransaction.Location = new System.Drawing.Point(0, 88);
             this.btnTransaction.Name = "btnTransaction";
             this.btnTransaction.Size = new System.Drawing.Size(294, 30);
             this.btnTransaction.TabIndex = 3;
@@ -102,9 +102,9 @@
             this.labelQuantity.AutoSize = true;
             this.labelQuantity.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelQuantity.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelQuantity.Location = new System.Drawing.Point(0, 81);
+            this.labelQuantity.Location = new System.Drawing.Point(0, 66);
             this.labelQuantity.Name = "labelQuantity";
-            this.labelQuantity.Size = new System.Drawing.Size(103, 27);
+            this.labelQuantity.Size = new System.Drawing.Size(88, 22);
             this.labelQuantity.TabIndex = 2;
             this.labelQuantity.Text = "Số lượng:";
             // 
@@ -113,9 +113,9 @@
             this.labelPrice.AutoSize = true;
             this.labelPrice.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelPrice.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPrice.Location = new System.Drawing.Point(0, 54);
+            this.labelPrice.Location = new System.Drawing.Point(0, 44);
             this.labelPrice.Name = "labelPrice";
-            this.labelPrice.Size = new System.Drawing.Size(52, 27);
+            this.labelPrice.Size = new System.Drawing.Size(45, 22);
             this.labelPrice.TabIndex = 2;
             this.labelPrice.Text = "Gía:";
             // 
@@ -124,9 +124,9 @@
             this.labelName.AutoSize = true;
             this.labelName.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelName.Location = new System.Drawing.Point(0, 27);
+            this.labelName.Location = new System.Drawing.Point(0, 22);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(55, 27);
+            this.labelName.Size = new System.Drawing.Size(46, 22);
             this.labelName.TabIndex = 1;
             this.labelName.Text = "Tên:";
             // 
@@ -137,7 +137,7 @@
             this.labelId.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelId.Location = new System.Drawing.Point(0, 0);
             this.labelId.Name = "labelId";
-            this.labelId.Size = new System.Drawing.Size(50, 27);
+            this.labelId.Size = new System.Drawing.Size(42, 22);
             this.labelId.TabIndex = 0;
             this.labelId.Text = "Mã:";
             // 
@@ -164,7 +164,7 @@
             // 
             // UserControlShowVatLieu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.Controls.Add(this.tableLayoutPanelBody);
