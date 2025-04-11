@@ -33,6 +33,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         private void ShowVatLieus()
         {
+            
             this.flowLayoutPanelShowVatLieu.Controls.Clear();
             List<VatLieu> vatLieus = this.vatLieuService.findAll();
             UserControlShowVatLieu userControl = null;
@@ -54,6 +55,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
                 }
             }
+            
         }
 
         private void radioButtonXuatHang_CheckedChanged(object sender, EventArgs e)
