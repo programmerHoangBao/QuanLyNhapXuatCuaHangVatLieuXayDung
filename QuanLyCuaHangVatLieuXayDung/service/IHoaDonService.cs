@@ -13,11 +13,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
 
         HoaDon findByMaHoaDon(string maHoaDon);
 
-        List<(VatLieu vatLieu, float soLuong)> getChiTietHoaDon(string maHoaDon);
-
         bool insertHoaDon(HoaDon hoaDon);
-
-        bool updateHoaDon(HoaDon hoaDon);
 
         bool deleteHoaDon(string maHoaDon);
 

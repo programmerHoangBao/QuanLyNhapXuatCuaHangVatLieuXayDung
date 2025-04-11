@@ -68,9 +68,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 MessageBox.Show("Giá trị không hợp lệ! Vui lòng nhập số thực.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.txtSoLuong.Focus();
             }
-            else if (this.loaiHoaDon == 1 && this.vatLieu.totalSoLuong() < float.Parse(this.txtSoLuong.Text))
+            else if (this.loaiHoaDon == 1 && this.vatLieu.SoLuong < float.Parse(this.txtSoLuong.Text))
             {
-                this.txtSoLuong.Text = this.vatLieu.totalSoLuong().ToString();
+                this.txtSoLuong.Text = this.vatLieu.SoLuong.ToString();
             }
             else if (this.txtSoLuong.Text == "")
             {
@@ -81,9 +81,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         {
             float soLuong = this.GetSoLuong();
             soLuong++;
-            if (soLuong > this.VatLieu.totalSoLuong() && this.LoaiHoaDon == 1)
+            if (soLuong > this.VatLieu.SoLuong && this.LoaiHoaDon == 1)
             {
-                soLuong = this.vatLieu.totalSoLuong();
+                soLuong = this.vatLieu.SoLuong;
             }
             this.txtSoLuong.Text = soLuong.ToString();
         }
