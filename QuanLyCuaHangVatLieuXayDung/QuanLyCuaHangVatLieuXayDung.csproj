@@ -116,8 +116,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
+    <Compile Include="service\IChiPhiPhatSinhService.cs" />
+    <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
+    <Compile Include="service\impl\TaiKhoanService.cs" />
+    <Compile Include="service\INhanVienService.cs" />
+    <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\IPhieuTraHangService.cs" />
+    <Compile Include="service\ITaiKhoanService.cs" />
     <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
     <Compile Include="model\BangChamCong.cs" />
