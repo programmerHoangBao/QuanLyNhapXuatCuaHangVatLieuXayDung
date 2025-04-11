@@ -10,13 +10,13 @@ namespace QuanLyCuaHangVatLieuXayDung.service
     internal interface IVatLieuService
     {
         List<VatLieu> findAll();
+        List<VatLieu> findVatLieuByNhaCungCap(string maNhaCungCap);
+        List<VatLieu> findAllSortedByClosestDate();
         VatLieu findByMaVatLieu(string maVatLieu);
-        List<(Kho kho, float soLuong)> getTonKho(string maVatLieu);
+
         bool insertVatLieu(VatLieu vatLieu);
         bool updateVatLieu(VatLieu vatLieu);
-        bool updateTonKho(string maVatLieu, string maKho, float soLuong);
         bool deleteVatLieu(VatLieu vatLieu);
         List<VatLieu> searchByKey(string key);
-        float totalSoLuong(string maVatLieu);
     }
 }

@@ -67,20 +67,6 @@ GO
 CREATE INDEX idx_doitac_loaidoitac ON DoiTac(LoaiDoiTac)
 GO
 
-CREATE TABLE Kho(
-	MaKho CHAR(10) PRIMARY KEY,
-	Ten NVARCHAR(10) UNIQUE NOT NULL,
-	DiaChi NVARCHAR(250) NOT NULL
-);
-GO
-
-/*Tạo INDEX cho thuộc tính Ten của quan hệ Kho*/
-CREATE INDEX idx_kho_ten ON Kho(Ten)
-GO
-/*Tạo INDEX cho thuộc tính DiaChi của quan hệ Kho*/
-CREATE INDEX idx_kho_diachi ON Kho(DiaChi);
-GO
-
 CREATE TABLE VatLieu(
 	MaVatLieu CHAR(10) PRIMARY KEY,
 	Ten NVARCHAR(100) NOT NULL,
@@ -89,7 +75,8 @@ CREATE TABLE VatLieu(
 	DonVi NVARCHAR(15) NOT NULL,
 	NgayNhap DATE DEFAULT GETDATE() NOT NULL,
 	NhaCungCap CHAR(10),
-	HinhAnh NVARCHAR(250), /*Lưu đường dẫn folder chứa danh sách hình ảnh*/
+	SoLuong FLOAT DEFAULT 0 NOT NULL,
+	DirHinhAnh NVARCHAR(250), /*Lưu đường dẫn folder chứa danh sách hình ảnh*/
 	CONSTRAINT FK_NguonGocVatLieu 
 		FOREIGN KEY (NhaCungCap) REFERENCES DoiTac(MaDoiTac)
 		ON UPDATE CASCADE 
@@ -105,19 +92,8 @@ GO
 CREATE INDEX idx_vatlieu_nhacungcap ON VatLieu(NhaCungCap);
 GO
 
-CREATE TABLE TonKho(
-	MaVatLieu CHAR(10) NOT NULL,
-	MaKho CHAR(10) NOT NULL,
-	SoLuong FLOAT DEFAULT 0 NOT NULL,
-	CONSTRAINT PK_TonKho PRIMARY KEY (MaVatLieu, MaKho),
-	CONSTRAINT FK_VatLieu FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE,
-	CONSTRAINT FK_Kho FOREIGN KEY (MaKho) REFERENCES Kho(MaKho) 
-		ON DELETE CASCADE 
-		ON UPDATE CASCADE,
-	CONSTRAINT CK_SoLuong CHECK (SoLuong >= 0)
-);
+/*Tạo INDEX cho thuộc tính NgayNhap trong quan hệ VatLieu*/
+CREATE INDEX idx_vatlieu_ngaynhap ON VatLieu(NgayNhap);
 GO
 
 /*
@@ -139,15 +115,14 @@ CREATE TABLE HoaDon(
 	TienGiam DECIMAL(18, 2) DEFAULT 0 NOT NULL,
 	PhuongThucThanhToan TINYINT DEFAULT 1 NOT NULL,
 	LoaiHoaDon TINYINT DEFAULT 1 NOT NULL,
-	TongTien DECIMAL(18, 2) DEFAULT 0 NOT NULL,
+	TienThanhToan DECIMAL(18, 2) DEFAULT 0 NOT NULL,
 	CONSTRAINT FK_GiaoDichVoiDoiTac FOREIGN KEY (MaDoiTac) REFERENCES DoiTac(MaDoiTac)
-		ON UPDATE CASCADE
 		ON DELETE SET NULL,
 	CONSTRAINT CK_PhuongThucThanhToan_HoaDon CHECK (PhuongThucThanhToan = 1 
 													OR PhuongThucThanhToan = 2
 													OR PhuongThucThanhToan = 3),
 	CONSTRAINT CK_PhanLoai_HoaDon CHECK (LoaiHoaDon = 1 OR LoaiHoaDon = 2),
-	CONSTRAINT CK_GiaTri_HoaDon CHECK (TienGiam >= 0 AND TongTien >= 0),
+	CONSTRAINT CK_GiaTri_HoaDon CHECK (TienGiam >= 0 AND TienThanhToan >= 0),
 );
 GO
 
@@ -174,9 +149,9 @@ CREATE TABLE ChiTietHoaDon(
 	DonVi NVARCHAR(15) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NgayNhap DATE DEFAULT GETDATE() NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NhaCungCap CHAR(10),	/*đảm bảo tính toàn vẹn dữ liệu*/
-	HinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
+	DirHinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT FK_ChiTietHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon) 
-		ON DELETE CASCADE ON UPDATE CASCADE,
+		ON DELETE CASCADE,
 	CONSTRAINT FK_VatLieuGiaoDich FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
 		ON DELETE SET NULL,
 	CONSTRAINT CK_SoLuongGiaoDich CHECK (SoLuong >= 0)
@@ -226,10 +201,11 @@ CREATE TABLE ChiTietTraHang(
 	DonVi NVARCHAR(15) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NgayNhap DATE DEFAULT GETDATE() NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NhaCungCap CHAR(10),	/*đảm bảo tính toàn vẹn dữ liệu*/
-	HinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
-	CONSTRAINT FK_MaPhieuTraHang FOREIGN KEY (MaPhieuTraHang) REFERENCES PhieuTraHang(MaPhieu),
+	DirHinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
+	CONSTRAINT FK_MaPhieuTraHang FOREIGN KEY (MaPhieuTraHang) REFERENCES PhieuTraHang(MaPhieu) 
+		ON DELETE CASCADE,
 	CONSTRAINT FK_VatLieuTraHang FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
-		ON DELETE SET NULL ON UPDATE CASCADE
+		ON DELETE SET NULL
 );
 GO
 
@@ -261,8 +237,9 @@ CREATE TABLE PhieuGhiNo (
 	SoDienThoai CHAR(10) NOT NULL,		/*đảm bảo tính toàn vẹn dữ liệu*/
 	DiaChi NVARCHAR(250) NOT NULL,		/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT FK_DoiTacNo FOREIGN KEY (MaDoiTac) REFERENCES DoiTac(MaDoiTac) 
-		ON DELETE SET NULL ON UPDATE CASCADE,
-	CONSTRAINT FK_NoTuHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon),
+		ON DELETE SET NULL,
+	CONSTRAINT FK_NoTuHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon)
+		ON DELETE SET NULL,
 	CONSTRAINT CK_TienNo CHECK (TienNo >= 0),
 	CONSTRAINT CK_ThoiGianTra CHECK (ThoiGianTra > CAST(ThoiGianLap AS DATE)),
 	CONSTRAINT CK_LoaiPhieuNo CHECK (LoaiPhieu = 1 OR LoaiPhieu = 2)
@@ -297,10 +274,9 @@ CREATE TABLE BienLaiTraNo(
 	TienTra DECIMAL(18, 2) DEFAULT 0 NOT NULL,
 	MaPhieuGhiNo CHAR(10) NOT NULL,
 	CONSTRAINT FK_TraNoChoKhoanNoNao FOREIGN KEY (MaPhieuGhiNo) REFERENCES PhieuGhiNo(MaPhieu)
-		ON DELETE CASCADE ON UPDATE CASCADE,
+		ON DELETE CASCADE,
 	CONSTRAINT CK_TienTraNo CHECK (TienTra >= 0)
 );
-GO
 
 /*Tạo INDEX cho thuộc tính ThoiGianTra của quan hệ BienLaiTraNo*/
 CREATE INDEX idx_bienlaitrano_thoigiantra ON BienLaiTraNo(ThoiGianTra);
@@ -359,22 +335,18 @@ CREATE INDEX idx_nhanvien_vaitro ON NhanVien(VaiTro);
 GO
 
 CREATE TABLE BangChamCong(
-	MaNhanVien CHAR(10) NOT NULL,
-	ThoiGianChamCong DATETIME DEFAULT GETDATE() NOT NULL,
+	ThoiGianChamCong DATETIME DEFAULT GETDATE() PRIMARY KEY,
+	MaNhanVien CHAR(10) NULL,
 	TenNhanVien NVARCHAR(100) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	SoDienThoai CHAR(10) UNIQUE NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	DiaChi NVARCHAR(250),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	Email NVARCHAR(100),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	LuongTrenNgay DECIMAL(18, 2) DEFAULT 250000 NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
-	CONSTRAINT PK_BangChamCong PRIMARY KEY (MaNhanVien, ThoiGianChamCong),
 	CONSTRAINT FK_NhanVienNaoChamCong FOREIGN KEY (MaNhanVien) REFERENCES NhanVien(MaNhanVien)
-		ON UPDATE CASCADE
+		ON DELETE SET NULL,
 );
 GO
 
 /*Tạo INDEX cho thuộc tính MaNhanVien của quan hệ BangChamCong*/
 CREATE INDEX idx_bangchamcong_manhanvien ON BangChamCong(MaNhanVien);
-GO
-/*Tạo INDEX cho thuộc tính ThoiGianChamCong của quan hệ BangChamCong*/
-CREATE INDEX idx_bangchamcong_thoigianchamcong ON BangChamCong(ThoiGianChamCong);
 GO

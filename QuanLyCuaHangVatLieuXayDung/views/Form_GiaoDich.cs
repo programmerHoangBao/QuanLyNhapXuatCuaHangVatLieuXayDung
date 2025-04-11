@@ -47,7 +47,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 userControl = new UserControlShowVatLieu();
                 userControl.VatLieu = vatLieu;
                 userControl.Size = new Size(200, 280);
-                if (this.radioButtonXuatHang.Checked && vatLieu.totalSoLuong() > 0)
+                if (this.radioButtonXuatHang.Checked && vatLieu.SoLuong > 0)
                 {
                     userControl.ShowVatLieu(1);
                 }
