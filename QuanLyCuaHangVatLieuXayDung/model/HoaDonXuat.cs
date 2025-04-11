@@ -17,6 +17,9 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             this.khachHang = khachHang;
         }
+
+        public KhachHang KhachHang { get => khachHang; set => khachHang = value; }
+
         public override byte loaiHoaDon_toByte()
         {
             return 1;
