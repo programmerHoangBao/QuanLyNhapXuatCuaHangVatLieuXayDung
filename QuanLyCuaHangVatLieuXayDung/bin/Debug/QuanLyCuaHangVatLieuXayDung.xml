@@ -6,23 +6,170 @@
     <members>
         <member name="M:QuanLyCuaHangVatLieuXayDung.config.FormApp.SetUp">
             <summary>
-            Phương thức SetUp tạo các thư mục cần thiết dựa trên các đường dẫn đã được định nghĩa.
-            Nó kiểm tra xem thư mục đã tồn tại hay chưa và tạo mới nếu cần.
+            The SetUp method creates required directories based on predefined paths.
+            It checks whether each directory exists and creates it if it does not.
             </summary>
             <remarks>
-            Các thư mục được tạo dựa trên danh sách đường dẫn sau:
-            - CUAHANGXAYDUNG_DATA: Thư mục chứa dữ liệu cửa hàng xây dựng.
-            - VATLIEU_DATA: Thư mục chứa dữ liệu vật liệu.
-            - DOITAC_DATA: Thư mục chứa dữ liệu đối tác.
-            - TAIKHOAN_DATA: Thư mục chứa dữ liệu tài khoản.
-            Nếu thư mục đã tồn tại, phương thức sẽ ghi thông báo ra màn hình.
+            The following directories are processed:
+            - CUAHANGXAYDUNG_DATA: Directory for construction store data.
+            - VATLIEU_DATA: Directory for material data.
+            - DOITAC_DATA: Directory for partner data.
+            - TAIKHOAN_DATA: Directory for account data.
+            If a directory already exists or the path is invalid, a debug message is logged.
             </remarks>
-            <exception cref="T:System.Exception">Bắt lỗi nếu xảy ra trong quá trình tạo thư mục.</exception>
+            <exception cref="T:System.Exception">Throws an exception if an error occurs during directory creation.</exception>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:QuanLyCuaHangVatLieuXayDung.config.FormApp.GetConnectionString" -->
+        <member name="M:QuanLyCuaHangVatLieuXayDung.config.FormApp.GetConnectionString">
+            <summary>
+            The GetConnectionString method generates and returns the SQL Server connection string 
+            based on the configured properties.
+            </summary>
+            <returns>
+            A connection string in the format:
+            "Data Source=&lt;ServerName&gt;;Initial Catalog=&lt;DatabaseName&gt;;User ID=&lt;UserName&gt;;Password=&lt;Password&gt;"
+            </returns>
+            <remarks>
+            The following properties must be set before calling this method:
+            - DATA_SOURCE: Name or address of the SQL Server.
+            - DATABASE: Name of the target database.
+            - USER_ID: SQL Server login username.
+            - PASSWORD: Corresponding password for the USER_ID.
+            </remarks>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility">
+            <summary>
+            Utilities related to file
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.CreateFolder(System.String)">
+            <summary>
+            Creates a new folder at the specified path if it does not already exist.
+            </summary>
+            <param name="folderPath">The full path of the folder to create.</param>
+            <returns>
+            Returns <c>true</c> if the folder was created;
+            <c>false</c> if the folder already exists.
+            </returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.GetImagePathsFromFolder(System.String)">
+            <summary>
+            Retrieves a list of image file paths from a specified folder.
+            Supports file extensions: .jpg, .jpeg, .png, .bmp, .gif.
+            </summary>
+            <param name="folderPath">The path of the folder to search for image files.</param>
+            <returns>A list of full image file paths found in the folder.</returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.SaveImages(System.String,System.String)">
+            <summary>
+            Copies an image file from a source path to a target folder. 
+            Creates the target folder if it does not exist.
+            </summary>
+            <param name="hinhAnhPath">The full path to the source image file.</param>
+            <param name="targetFolder">The directory where the image will be copied to.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.DeleteFolder(System.String)">
+            <summary>
+            Deletes a folder at the specified path along with all its contents.
+            </summary>
+            <param name="folderPath">The full path of the folder to delete.</param>
+            <returns>
+            Returns <c>true</c> if the folder was successfully deleted;
+            <c>false</c> if the folder does not exist or an error occurs during deletion.
+            </returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.DeleteFile(System.String)">
+            <summary>
+            Deletes a file at the specified path if it exists.
+            </summary>
+            <param name="filePath">The full path of the file to delete.</param>
+            <returns>
+            Returns <c>true</c> if the file was successfully deleted; 
+            <c>false</c> if the file does not exist or an error occurs during deletion.
+            </returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.WriteTupleToJsonFile``1(``0,System.Single,System.String)">
+            <summary>
+            Serializes a generic object along with a quantity value into JSON format and writes it to a specified file.
+            Creates the file and parent directory if they do not exist.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <param name="quantity">The quantity associated with the object.</param>
+            <param name="filePath">The full path of the file where the JSON data will be saved.</param>
+            <returns>
+            Returns <c>true</c> if the file was written successfully; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.AppendTupleToJsonFile``1(``0,System.Single,System.String)">
+            <summary>
+            Appends an object and its quantity as a JSON entry to an existing JSON file.
+            If the file does not exist, the method will do nothing and return false.
+            The JSON file must contain a JSON array to append to.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to append.</param>
+            <param name="quantity">The quantity associated with the object.</param>
+            <param name="filePath">The full path of the existing JSON file.</param>
+            <returns>Returns <c>true</c> if the append operation is successful; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.IsFileExists(System.String)">
+            <summary>
+            Checks whether a file exists at the specified file path.
+            </summary>
+            <param name="filePath">The path of the file to check.</param>
+            <returns>True if the file exists; otherwise, false.</returns>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.utilities.MyDatabase">
+            <summary>
+            Perform connection with your database
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.utilities.StringUtility">
+            <summary>
+            Utilities related to String data type
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.StringUtility.ConvertToVietnameseCurrency(System.Double)">
+            <summary>
+            Converts a numeric amount to a Vietnamese currency string format.
+            </summary>
+            <param name="amount">The numeric amount to convert.</param>
+            <returns>A formatted string representing the amount in Vietnamese Dong (VNĐ).</returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.StringUtility.ConvertFromVietnameseCurrency(System.String)">
+            <summary>
+            Converts a Vietnamese currency string format back to a numeric amount.
+            </summary>
+            <param name="currencyString">The currency string to convert (e.g., "1,000,000 VNĐ").</param>
+            <returns>A numeric value representing the amount.</returns>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.StringUtility.GenerateRandomString(System.Int32)">
+            <summary>
+            Generates a random alphanumeric string of the specified length.
+            </summary>
+            <param name="length">The desired length of the generated string.</param>
+            <returns>A random string consisting of uppercase letters, lowercase letters, and digits.</returns>
+        </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.Program.Main">
             <summary>
             The main entry point for the application.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ChonSoLuongVatLieu.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChonSoLuongVatLieu.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChonSoLuongVatLieu.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
         </member>
         <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_TrangChu.components">
@@ -109,6 +256,16 @@
             </summary>
         </member>
         <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.logo">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.minus">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:QuanLyCuaHangVatLieuXayDung.Properties.Resources.plus">
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>

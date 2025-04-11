@@ -154,6 +154,12 @@
     <Compile Include="service\impl\VatLieuService.cs" />
     <Compile Include="service\impl\KhoService.cs" />
     <Compile Include="utilities\StringUtility.cs" />
+    <Compile Include="views\Form_ChonSoLuongVatLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_ChonSoLuongVatLieu.Designer.cs">
+      <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="views\Form_ChonSoLuongVatLieu.resx">
+      <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TrangChu.resx">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,7 +212,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="template\layout.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -214,6 +222,8 @@
     <Content Include="database_design\User.sql" />
     <Content Include="model\description.txt" />
     <None Include="Resources\logo.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\minus.png" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />
   </ItemGroup>

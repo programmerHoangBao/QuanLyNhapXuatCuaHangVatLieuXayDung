@@ -10,6 +10,9 @@ using QuanLyCuaHangVatLieuXayDung.config;
 
 namespace QuanLyCuaHangVatLieuXayDung.utilities
 {
+    /// <summary>
+    /// Perform connection with your database
+    /// </summary>
     internal class MyDatabase
     {
         private SqlConnection connection;

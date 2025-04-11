@@ -15,11 +15,21 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     public partial class UserControlShowVatLieu : UserControl
     {
         private VatLieu vatLieu;
+        public event EventHandler btnTransactionClick;
+        public event EventHandler btnDetailClick;
         public UserControlShowVatLieu()
         {
             InitializeComponent();
             this.VatLieu = null;
             this.pictureBoxImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.btnTransaction.Click += (s, e) =>
+            {
+                this.btnTransactionClick?.Invoke(s, e);
+            };
+            this.btnDetail.Click += (s, e) =>
+            {
+                this.btnDetailClick?.Invoke(s, e);
+            };
         }
 
         internal VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }

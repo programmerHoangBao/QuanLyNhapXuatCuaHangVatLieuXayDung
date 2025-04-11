@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,65 +40,67 @@ namespace QuanLyCuaHangVatLieuXayDung.config
             this.USER_ID = databaseConfig["USER_ID"];
             this.PASSWORD = databaseConfig["PASSWORD"];
         }
+
         /// <summary>
-        /// Phương thức SetUp tạo các thư mục cần thiết dựa trên các đường dẫn đã được định nghĩa.
-        /// Nó kiểm tra xem thư mục đã tồn tại hay chưa và tạo mới nếu cần.
+        /// The SetUp method creates required directories based on predefined paths.
+        /// It checks whether each directory exists and creates it if it does not.
         /// </summary>
         /// <remarks>
-        /// Các thư mục được tạo dựa trên danh sách đường dẫn sau:
-        /// - CUAHANGXAYDUNG_DATA: Thư mục chứa dữ liệu cửa hàng xây dựng.
-        /// - VATLIEU_DATA: Thư mục chứa dữ liệu vật liệu.
-        /// - DOITAC_DATA: Thư mục chứa dữ liệu đối tác.
-        /// - TAIKHOAN_DATA: Thư mục chứa dữ liệu tài khoản.
-        /// Nếu thư mục đã tồn tại, phương thức sẽ ghi thông báo ra màn hình.
+        /// The following directories are processed:
+        /// - CUAHANGXAYDUNG_DATA: Directory for construction store data.
+        /// - VATLIEU_DATA: Directory for material data.
+        /// - DOITAC_DATA: Directory for partner data.
+        /// - TAIKHOAN_DATA: Directory for account data.
+        /// If a directory already exists or the path is invalid, a debug message is logged.
         /// </remarks>
-        /// <exception cref="Exception">Bắt lỗi nếu xảy ra trong quá trình tạo thư mục.</exception>
+        /// <exception cref="Exception">Throws an exception if an error occurs during directory creation.</exception>
         public void SetUp()
         {
             try
             {
-                // Danh sách các đường dẫn cần tạo
-                string[] folders = { CUAHANGXAYDUNG_DATA, VATLIEU_DATA, DOITAC_DATA, TAIKHOAN_DATA };
+                // List of required directory paths
+                string[] folders = { CUAHANGXAYDUNG_DATA, VATLIEU_DATA, DOITAC_DATA, TAIKHOAN_DATA};
 
                 foreach (string folder in folders)
                 {
                     if (!string.IsNullOrEmpty(folder) && !Directory.Exists(folder))
                     {
                         Directory.CreateDirectory(folder);
-                        Console.WriteLine($"Thư mục '{folder}' đã được tạo thành công.");
+                        Debug.WriteLine($"✅ Directory '{folder}' was successfully created.");
                     }
                     else
                     {
-                        Console.WriteLine($"Thư mục '{folder}' đã tồn tại hoặc đường dẫn không hợp lệ.");
+                        Debug.WriteLine($"ℹ️ Directory '{folder}' already exists or the path is invalid.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Đã xảy ra lỗi khi tạo thư mục: {ex.Message}");
+                Debug.WriteLine($"❌ An error occurred while creating directories: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Phương thức GetConnectionString tạo và trả về chuỗi kết nối (connection string) 
-        /// để kết nối với cơ sở dữ liệu SQL Server.
+        /// The GetConnectionString method generates and returns the SQL Server connection string 
+        /// based on the configured properties.
         /// </summary>
         /// <returns>
-        /// Chuỗi kết nối dạng:
-        /// "Data Source=<ServerName>;Initial Catalog=<DatabaseName>;User ID=<UserName>;Password=<Password>"
+        /// A connection string in the format:
+        /// "Data Source=&lt;ServerName&gt;;Initial Catalog=&lt;DatabaseName&gt;;User ID=&lt;UserName&gt;;Password=&lt;Password&gt;"
         /// </returns>
         /// <remarks>
-        /// Các thuộc tính cần thiết để tạo chuỗi kết nối:
-        /// - DATA_SOURCE: Tên máy chủ hoặc địa chỉ máy chủ SQL Server.
-        /// - DATABASE: Tên cơ sở dữ liệu.
-        /// - USER_ID: Tên người dùng để đăng nhập SQL Server.
-        /// - PASSWORD: Mật khẩu liên quan đến USER_ID.
-        /// Đảm bảo các thuộc tính được gán giá trị trước khi gọi hàm.
+        /// The following properties must be set before calling this method:
+        /// - DATA_SOURCE: Name or address of the SQL Server.
+        /// - DATABASE: Name of the target database.
+        /// - USER_ID: SQL Server login username.
+        /// - PASSWORD: Corresponding password for the USER_ID.
         /// </remarks>
-
         public string GetConnectionString()
         {
-            return $"Data Source={this.DATA_SOURCE};Initial Catalog={this.DATABASE};User ID={this.USER_ID};Password={this.PASSWORD}";
+            string connectionString = $"Data Source={this.DATA_SOURCE};Initial Catalog={this.DATABASE};User ID={this.USER_ID};Password={this.PASSWORD}";
+            //Debug.WriteLine($"ℹ️ Generated connection string: {connectionString}");
+            return connectionString;
         }
+
     }
 }
