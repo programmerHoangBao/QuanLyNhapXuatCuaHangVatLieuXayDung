@@ -6,7 +6,7 @@
     "TAIKHOAN_DATA": "C:\\CuaHangXayDung\\TaiKhoan"
   },
   "DatabaseConfig": {
-    "DATA_SOURCE": "(localdb)\\MSSQLLocalDB",
+    "DATA_SOURCE": "(localdb)\\ProjectModels",
     "DATABASE": "CuaHangXayDung",
     "USER_ID": "ChuCuaHang",
     "PASSWORD": "ChuCuaHang123"

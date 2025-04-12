@@ -39,6 +39,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         private void ShowVatLieus()
         {
+            
             this.flowLayoutPanelShowVatLieu.Controls.Clear();
             List<VatLieu> vatLieus = this.vatLieuService.findAll();
             UserControlShowVatLieu userControl = null;
@@ -64,6 +65,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
                 }
             }
+            
         }
         private void resetPanelHoaDon()
         {
@@ -246,6 +248,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.formChonSoLuongVatLieu.ShowDialog();
                 }
             }
+        }
+
+        private void btnTaoVatLieuMoi_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
