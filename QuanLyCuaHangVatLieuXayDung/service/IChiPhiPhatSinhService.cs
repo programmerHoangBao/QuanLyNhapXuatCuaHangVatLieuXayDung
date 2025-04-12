@@ -15,6 +15,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
         bool UpdateChiPhi(ChiPhiPhatSinh chiPhi);
         bool DeleteChiPhi(string maChiPhi);
         List<ChiPhiPhatSinh> SearchByKeyword(string keyword);
+        List<ChiPhiPhatSinh> FindAllChiPhiSortDateDesc();
     }
 
 
