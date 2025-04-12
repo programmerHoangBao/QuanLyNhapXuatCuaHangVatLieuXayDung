@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace QuanLyCuaHangVatLieuXayDung.service
 {
-    internal interface ITaiKhoanService
+    internal interface TaiKhoanService 
+
     {
         // Lấy danh sách tất cả tài khoản
         List<TaiKhoan> findAllTaiKhoan();
@@ -26,7 +27,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool updateTaiKhoan(TaiKhoan taiKhoan);
 
         // Xóa tài khoản
-        bool deleteTaiKhoan(TaiKhoan taiKhoan);
+        bool DeleteTaiKhoan(string maTaiKhoan);
 
         // Kiểm tra đăng nhập
         TaiKhoan login(string username, string password);

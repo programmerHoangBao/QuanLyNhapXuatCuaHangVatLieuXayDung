@@ -249,5 +249,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
             }
         }
+
+        private void btnTaoVatLieuMoi_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+S
