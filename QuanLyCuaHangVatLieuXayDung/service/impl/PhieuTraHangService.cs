@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
+    //Khác phục các hoạt động liên quan đến ChiTietPhieuTraHang thì thực hiện code trong ChiTietService
+    // Chinh sưa lại các method cho PhieuTraHangService cần thiết kết lại code transaction cho phù hợp có thể tham khảo VatLieuServicce
     internal class PhieuTraHangService : IPhieuTraHangService
     {
         private MyDatabase myDatabase = new MyDatabase();

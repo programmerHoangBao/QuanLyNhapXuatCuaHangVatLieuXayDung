@@ -151,7 +151,6 @@
     <Compile Include="service\impl\DoiTacService.cs" />
     <Compile Include="service\IDoiTacService.cs" />
     <Compile Include="service\IVatLieuService.cs" />
-    <Compile Include="service\IPhieuTraHangService.cs" />
     <Compile Include="service\impl\VatLieuService.cs" />
     <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
