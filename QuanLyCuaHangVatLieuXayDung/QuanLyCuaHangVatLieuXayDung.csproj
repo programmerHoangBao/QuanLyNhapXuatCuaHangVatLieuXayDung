@@ -123,9 +123,9 @@
     <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\ChiTietService.cs" />
     <Compile Include="service\impl\HoaDonService.cs" />
-    <Compile Include="service\impl\TaiKhoanService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="service\impl\PhieuTraHangService.cs" />
+    <Compile Include="service\impl\TaiKhoanService.cs" />
     <Compile Include="service\INhanVienService.cs" />
     <Compile Include="service\IPhieuTraHangService.cs" />
     <Compile Include="service\ITaiKhoanService.cs" />
