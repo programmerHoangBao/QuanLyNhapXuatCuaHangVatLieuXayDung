@@ -59,7 +59,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
                     this.formChonSoLuongVatLieu.VatLieu = userControl.VatLieu;
-                    this.formChonSoLuongVatLieu.btnOkClick += this.btnOk_Click;
                     userControl.btnTransactionClick += this.btnTransaction_Click;
                     this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
                 }
@@ -197,26 +196,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.btnAnHoaDon.Enabled = true;
             this.formChonSoLuongVatLieu.ShowDialog();
         }
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            if (isExitsVatLieuInHoaDon(this.formChonSoLuongVatLieu.VatLieu))
-            {
-                if (this.formChonSoLuongVatLieu.GetSoLuong() == 0)
-                {
-                    this.removeVatLieuInHoaDon(this.formChonSoLuongVatLieu.VatLieu);
-                }
-                else
-                {
-                    this.setSoLuongVatLieuInHoDon(this.formChonSoLuongVatLieu.VatLieu, this.formChonSoLuongVatLieu.GetSoLuong());
-                }
-            }
-            else
-            {
-                this.addVatlieuToHoaDon(this.formChonSoLuongVatLieu.VatLieu, this.formChonSoLuongVatLieu.GetSoLuong());
-            }
-            this.formChonSoLuongVatLieu.Close();
-        }
-
         private void dataGridViewShowVatLieu_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             int stt = 1; // Bắt đầu từ 1
@@ -242,7 +221,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.formChonSoLuongVatLieu.VatLieu = vatLieu;
                     this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
                     this.formChonSoLuongVatLieu.SetSoLuong(soLuong);
-                    this.formChonSoLuongVatLieu.btnOkClick += this.btnOk_Click;
                     this.formChonSoLuongVatLieu.ShowDialog();
                 }
             }
