@@ -1,236 +1,164 @@
 ﻿using QuanLyCuaHangVatLieuXayDung.model;
+using QuanLyCuaHangVatLieuXayDung.service;
 using QuanLyCuaHangVatLieuXayDung.utilities;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
+using System;
 
-namespace QuanLyCuaHangVatLieuXayDung.service.impl
+internal class NhanVienService : INhanVienService
 {
-    internal class NhanVienService : INhanVienService
+    private MyDatabase myDatabase = new MyDatabase();
+
+    public bool insertnhanVien(NhanVien nv)
     {
-        private MyDatabase myDatabase = new MyDatabase();
+        string query = "INSERT INTO NHAN_VIEN (MaNV, Ten, SoDienThoai, DiaChi, VaiTro, Email, LuongTrenNgay) " +
+                       "VALUES (@MaNV, @Ten, @SDT, @DiaChi, @VaiTro, @Email, @Luong)";
+        SqlTransaction transaction = null;
+        bool result = false;
 
-        public bool insertnhanVien(NhanVien nv)
+        try
         {
-            using (SqlConnection conn = myDatabase.Connection)
+            myDatabase.OpenConnection();
+            transaction = myDatabase.Connection.BeginTransaction();
+
+            SqlCommand command = new SqlCommand(query, myDatabase.Connection, transaction);
+            command.Parameters.AddWithValue("@MaNV", nv.MaNhanVien);
+            command.Parameters.AddWithValue("@Ten", nv.Ten);
+            command.Parameters.AddWithValue("@SDT", nv.SoDienThoai);
+            command.Parameters.AddWithValue("@DiaChi", nv.DiaChi);
+            command.Parameters.AddWithValue("@VaiTro", nv.VaiTro);
+            command.Parameters.AddWithValue("@Email", nv.Email);
+            command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
+
+            int rowsAffected = command.ExecuteNonQuery();
+            if (rowsAffected > 0)
             {
-                conn.Open();
-                SqlTransaction transaction = conn.BeginTransaction();
-
-                try
-                {
-                    SqlCommand command = new SqlCommand(
-                        "INSERT INTO NHAN_VIEN (MaNV, Ten, SoDienThoai, DiaChi, VaiTro, Email, LuongTrenNgay) " +
-                        "VALUES (@MaNV, @Ten, @SDT, @DiaChi, @VaiTro, @Email, @Luong)", conn, transaction);
-
-                    command.Parameters.AddWithValue("@MaNV", nv.MaNhanVien);
-                    command.Parameters.AddWithValue("@Ten", nv.Ten);
-                    command.Parameters.AddWithValue("@SDT", nv.SoDienThoai);
-                    command.Parameters.AddWithValue("@DiaChi", nv.DiaChi);
-                    command.Parameters.AddWithValue("@VaiTro", nv.VaiTro);
-                    command.Parameters.AddWithValue("@Email", nv.Email);
-                    command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        transaction.Rollback();
-                        return false;
-                    }
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    return false;
-                }
+                transaction.Commit();
+                result = true;
+            }
+            else
+            {
+                transaction.Rollback();
             }
         }
-
-        public bool updatenhanVien(NhanVien nv)
+        catch (Exception ex)
         {
-            using (SqlConnection conn = myDatabase.Connection)
-            {
-                conn.Open();
-                SqlTransaction transaction = conn.BeginTransaction();
-
-                try
-                {
-                    SqlCommand command = new SqlCommand(
-                        "UPDATE NHAN_VIEN SET Ten = @Ten, SoDienThoai = @SDT, DiaChi = @DiaChi, VaiTro = @VaiTro, " +
-                        "Email = @Email, LuongTrenNgay = @Luong WHERE MaNV = @MaNV", conn, transaction);
-
-                    command.Parameters.AddWithValue("@MaNV", nv.MaNhanVien);
-                    command.Parameters.AddWithValue("@Ten", nv.Ten);
-                    command.Parameters.AddWithValue("@SDT", nv.SoDienThoai);
-                    command.Parameters.AddWithValue("@DiaChi", nv.DiaChi);
-                    command.Parameters.AddWithValue("@VaiTro", nv.VaiTro);
-                    command.Parameters.AddWithValue("@Email", nv.Email);
-                    command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        transaction.Rollback();
-                        return false;
-                    }
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    return false;
-                }
-            }
+            transaction?.Rollback();
+            MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            myDatabase.CloseConnection();
         }
 
-        public bool deletenhanVien(string maNV)
+        return result;
+    }
+
+    public bool updatenhanVien(NhanVien nv)
+    {
+        string query = "UPDATE NHAN_VIEN SET Ten = @Ten, SoDienThoai = @SDT, DiaChi = @DiaChi, VaiTro = @VaiTro, " +
+                       "Email = @Email, LuongTrenNgay = @Luong WHERE MaNV = @MaNV";
+        SqlTransaction transaction = null;
+        bool result = false;
+
+        try
         {
-            using (SqlConnection conn = myDatabase.Connection)
+            myDatabase.OpenConnection();
+            transaction = myDatabase.Connection.BeginTransaction();
+
+            SqlCommand command = new SqlCommand(query, myDatabase.Connection, transaction);
+            command.Parameters.AddWithValue("@MaNV", nv.MaNhanVien);
+            command.Parameters.AddWithValue("@Ten", nv.Ten);
+            command.Parameters.AddWithValue("@SDT", nv.SoDienThoai);
+            command.Parameters.AddWithValue("@DiaChi", nv.DiaChi);
+            command.Parameters.AddWithValue("@VaiTro", nv.VaiTro);
+            command.Parameters.AddWithValue("@Email", nv.Email);
+            command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
+
+            int rowsAffected = command.ExecuteNonQuery();
+            if (rowsAffected > 0)
             {
-                conn.Open();
-                SqlTransaction transaction = conn.BeginTransaction();
-
-                try
-                {
-                    SqlCommand command = new SqlCommand("DELETE FROM NHAN_VIEN WHERE MaNV = @MaNV", conn, transaction);
-                    command.Parameters.AddWithValue("@MaNV", maNV);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        transaction.Rollback();
-                        return false;
-                    }
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    return false;
-                }
+                transaction.Commit();
+                result = true;
+            }
+            else
+            {
+                transaction.Rollback();
             }
         }
-
-        public DataTable getallNhanVien()
+        catch (Exception ex)
         {
-            using (SqlConnection conn = myDatabase.Connection)
-            {
-                SqlCommand command = new SqlCommand("SELECT * FROM NHAN_VIEN", conn);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable table = new DataTable();
-                adapter.Fill(table);
-                return table;
-            }
+            transaction?.Rollback();
+            MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            myDatabase.CloseConnection();
         }
 
-        public bool ChamCong(string maNV)
+        return result;
+    }
+
+    public bool deletenhanVien(string maNV)
+    {
+        string query = "DELETE FROM NHAN_VIEN WHERE MaNV = @MaNV";
+        SqlTransaction transaction = null;
+        bool result = false;
+
+        try
         {
-            using (SqlConnection conn = myDatabase.Connection)
+            myDatabase.OpenConnection();
+            transaction = myDatabase.Connection.BeginTransaction();
+
+            SqlCommand command = new SqlCommand(query, myDatabase.Connection, transaction);
+            command.Parameters.AddWithValue("@MaNV", maNV);
+
+            int rowsAffected = command.ExecuteNonQuery();
+            if (rowsAffected > 0)
             {
-                conn.Open();
-                SqlTransaction transaction = conn.BeginTransaction();
-
-                try
-                {
-                    SqlCommand command = new SqlCommand("INSERT INTO BANG_CHAM_CONG (MaNV, ThoiGianChamCong) VALUES (@MaNV, @ThoiGian)", conn, transaction);
-                    command.Parameters.AddWithValue("@MaNV", maNV);
-                    command.Parameters.AddWithValue("@ThoiGian", DateTime.Now);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        transaction.Commit();
-                        return true;
-                    }
-                    else
-                    {
-                        transaction.Rollback();
-                        return false;
-                    }
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    return false;
-                }
+                transaction.Commit();
+                result = true;
+            }
+            else
+            {
+                transaction.Rollback();
             }
         }
-
-        public double TinhTongLuong(string maNV)
+        catch (Exception ex)
         {
-            using (SqlConnection conn = myDatabase.Connection)
-            {
-                SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM BANG_CHAM_CONG WHERE MaNV = @MaNV", conn);
-                command.Parameters.AddWithValue("@MaNV", maNV);
-
-                conn.Open();
-                int soNgayCong = (int)command.ExecuteScalar();
-                double luongTrenNgay = LayLuongTrenNgay(maNV);
-                return soNgayCong * luongTrenNgay;
-            }
+            transaction?.Rollback();
+            MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            myDatabase.CloseConnection();
         }
 
-        public double TinhLuongTheoThang(string maNV, int thang, int nam)
-        {
-            using (SqlConnection conn = myDatabase.Connection)
-            {
-                SqlCommand command = new SqlCommand(
-                    "SELECT COUNT(*) FROM BANG_CHAM_CONG WHERE MaNV = @MaNV AND MONTH(ThoiGianChamCong) = @Thang AND YEAR(ThoiGianChamCong) = @Nam", conn);
-                command.Parameters.AddWithValue("@MaNV", maNV);
-                command.Parameters.AddWithValue("@Thang", thang);
-                command.Parameters.AddWithValue("@Nam", nam);
+        return result;
+    }
 
-                conn.Open();
-                int soNgayCong = (int)command.ExecuteScalar();
-                double luongTrenNgay = LayLuongTrenNgay(maNV);
-                return soNgayCong * luongTrenNgay;
-            }
+    public DataTable getallNhanVien()
+    {
+        DataTable table = new DataTable();
+
+        try
+        {
+            myDatabase.OpenConnection();
+
+            SqlCommand command = new SqlCommand("SELECT * FROM NHAN_VIEN", myDatabase.Connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(table);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            myDatabase.CloseConnection();
         }
 
-        public double TinhLuongTheoNam(string maNV, int nam)
-        {
-            using (SqlConnection conn = myDatabase.Connection)
-            {
-                SqlCommand command = new SqlCommand(
-                    "SELECT COUNT(*) FROM BANG_CHAM_CONG WHERE MaNV = @MaNV AND YEAR(ThoiGianChamCong) = @Nam", conn);
-                command.Parameters.AddWithValue("@MaNV", maNV);
-                command.Parameters.AddWithValue("@Nam", nam);
-
-                conn.Open();
-                int soNgayCong = (int)command.ExecuteScalar();
-                double luongTrenNgay = LayLuongTrenNgay(maNV);
-                return soNgayCong * luongTrenNgay;
-            }
-        }
-
-        private double LayLuongTrenNgay(string maNV)
-        {
-            using (SqlConnection conn = myDatabase.Connection)
-            {
-                SqlCommand command = new SqlCommand("SELECT LuongTrenNgay FROM NHAN_VIEN WHERE MaNV = @MaNV", conn);
-                command.Parameters.AddWithValue("@MaNV", maNV);
-
-                conn.Open();
-                object result = command.ExecuteScalar();
-                return result != null ? Convert.ToDouble(result) : 0;
-            }
-        }
+        return table;
     }
 }

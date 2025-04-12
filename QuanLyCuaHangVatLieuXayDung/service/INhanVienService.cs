@@ -10,10 +10,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool updatenhanVien(NhanVien nv);
         bool deletenhanVien(string maNV);
         DataTable getallNhanVien();
-        bool ChamCong(string maNV);
-        double TinhTongLuong(string maNV);
-        double TinhLuongTheoThang(string maNV, int thang, int nam);
-        double TinhLuongTheoNam(string maNV, int nam);
-
+        
     }
 }

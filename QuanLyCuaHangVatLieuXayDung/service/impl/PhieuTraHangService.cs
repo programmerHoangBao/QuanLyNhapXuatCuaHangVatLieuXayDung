@@ -3,9 +3,6 @@ using QuanLyCuaHangVatLieuXayDung.utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QuanLyCuaHangVatLieuXayDung.service.impl
@@ -37,13 +34,13 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         cmd.ExecuteNonQuery();
                     }
 
-                    foreach (var (vatLieu, soLuong) in phieu.ChiTiets)
+                    foreach (var ct in phieu.ChiTiets)
                     {
                         using (SqlCommand chiTietCmd = new SqlCommand(chiTietQuery, myDatabase.Connection, transaction))
                         {
                             chiTietCmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
-                            chiTietCmd.Parameters.AddWithValue("@MaVatLieu", vatLieu.MaVatLieu);
-                            chiTietCmd.Parameters.AddWithValue("@SoLuong", soLuong);
+                            chiTietCmd.Parameters.AddWithValue("@MaVatLieu", ct.VatLieu.MaVatLieu);
+                            chiTietCmd.Parameters.AddWithValue("@SoLuong", ct.SoLuong);
                             chiTietCmd.ExecuteNonQuery();
                         }
                     }
@@ -63,7 +60,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
             return false;
         }
-
 
         public bool deletephieuTraHang(string maPhieu)
         {
@@ -101,29 +97,25 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return false;
         }
 
-
         public List<PhieuTraHang> findallphieuTraHang()
         {
             List<PhieuTraHang> list = new List<PhieuTraHang>();
             string query = "SELECT * FROM PhieuTraHang";
+
             try
             {
                 myDatabase.OpenConnection();
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
                 SqlDataReader reader = cmd.ExecuteReader();
                 PhieuTraHang phieu;
-                byte loaiPhieu;
                 while (reader.Read())
                 {
-                    loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
+                    byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
                     if (loaiPhieu == 1)
-                    {
                         phieu = new PhieuTraHangTuKhachHang();
-                    }
                     else
-                    {
                         phieu = new PhieuTraHangChoNhaCungCap();
-                    }
+
                     phieu.MaPhieu = reader["MaPhieu"].ToString();
                     phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
                     phieu.LyDo = reader["LyDo"].ToString();
@@ -142,6 +134,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             {
                 myDatabase.CloseConnection();
             }
+
             return list;
         }
 
@@ -149,23 +142,21 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
         {
             PhieuTraHang phieu = null;
             string query = "SELECT * FROM PhieuTraHang WHERE MaPhieu = @MaPhieu";
+
             try
             {
                 myDatabase.OpenConnection();
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
                 cmd.Parameters.AddWithValue("@MaPhieu", maPhieu);
                 SqlDataReader reader = cmd.ExecuteReader();
+
                 if (reader.Read())
                 {
                     byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
                     if (loaiPhieu == 1)
-                    {
                         phieu = new PhieuTraHangTuKhachHang();
-                    }
                     else
-                    {
                         phieu = new PhieuTraHangChoNhaCungCap();
-                    }
 
                     phieu.MaPhieu = reader["MaPhieu"].ToString();
                     phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
@@ -173,6 +164,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     phieu.TongTien = double.Parse(reader["TongTien"].ToString());
                     phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
@@ -183,6 +175,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             {
                 myDatabase.CloseConnection();
             }
+
             return phieu;
         }
 
@@ -209,12 +202,12 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 insertCmd.Parameters.AddWithValue("@LoaiPhieu", phieu.loaiPhieu_toByte());
                 insertCmd.ExecuteNonQuery();
 
-                foreach (var (vatLieu, soLuong) in phieu.ChiTiets)
+                foreach (var ct in phieu.ChiTiets)
                 {
                     SqlCommand chiTietCmd = new SqlCommand("INSERT INTO ChiTietPhieuTraHang (MaPhieu, MaVatLieu, SoLuong) VALUES (@MaPhieu, @MaVatLieu, @SoLuong)", myDatabase.Connection, transaction);
                     chiTietCmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
-                    chiTietCmd.Parameters.AddWithValue("@MaVatLieu", vatLieu.MaVatLieu);
-                    chiTietCmd.Parameters.AddWithValue("@SoLuong", soLuong);
+                    chiTietCmd.Parameters.AddWithValue("@MaVatLieu", ct.VatLieu.MaVatLieu);
+                    chiTietCmd.Parameters.AddWithValue("@SoLuong", ct.SoLuong);
                     chiTietCmd.ExecuteNonQuery();
                 }
 
@@ -229,9 +222,9 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             {
                 myDatabase.CloseConnection();
             }
+
             return false;
         }
-
 
         public List<PhieuTraHang> findphieuTraHangByDay(DateTime tuNgay, DateTime denNgay)
         {
@@ -241,17 +234,16 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             try
             {
                 myDatabase.OpenConnection();
-
                 DateTime ngayHomSau = denNgay.Date.AddDays(1);
 
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
-                cmd.Parameters.AddWithValue("@TuNgay", tuNgay.Date); 
+                cmd.Parameters.AddWithValue("@TuNgay", tuNgay.Date);
                 cmd.Parameters.AddWithValue("@NgayHomSau", ngayHomSau);
 
                 SqlDataReader reader = cmd.ExecuteReader();
+                PhieuTraHang phieu;
                 while (reader.Read())
                 {
-                    PhieuTraHang phieu;
                     byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
                     if (loaiPhieu == 1)
                         phieu = new PhieuTraHangTuKhachHang();
@@ -263,8 +255,10 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     phieu.LyDo = reader["LyDo"].ToString();
                     phieu.TongTien = double.Parse(reader["TongTien"].ToString());
                     phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
+
                     list.Add(phieu);
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
@@ -275,57 +269,48 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             {
                 myDatabase.CloseConnection();
             }
+
             return list;
         }
-
 
         public List<PhieuTraHang> searchByKey(string keyword)
         {
             List<PhieuTraHang> list = new List<PhieuTraHang>();
-
             string query = @"SELECT * FROM PhieuTraHang 
-                     WHERE MaPhieu LIKE @keyword 
-                        OR LyDo LIKE @keyword 
-                        OR CONVERT(VARCHAR(10), ThoiGianLap, 120) = @ngayKeyword"; // yyyy-MM-dd
+                             WHERE MaPhieu LIKE @keyword 
+                                OR LyDo LIKE @keyword 
+                                OR CONVERT(VARCHAR(10), ThoiGianLap, 120) = @ngayKeyword";
 
             try
             {
                 myDatabase.OpenConnection();
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
-
                 cmd.Parameters.AddWithValue("@keyword", "%" + keyword + "%");
 
-                DateTime ngayParsed;
-                if (DateTime.TryParse(keyword, out ngayParsed))
-                {
+                if (DateTime.TryParse(keyword, out DateTime ngayParsed))
                     cmd.Parameters.AddWithValue("@ngayKeyword", ngayParsed.ToString("yyyy-MM-dd"));
-                }
                 else
-                {
                     cmd.Parameters.AddWithValue("@ngayKeyword", "0000-00-00");
-                }
 
                 SqlDataReader reader = cmd.ExecuteReader();
+                PhieuTraHang phieu;
                 while (reader.Read())
                 {
                     byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
-                    PhieuTraHang phieu;
                     if (loaiPhieu == 1)
-                    {
                         phieu = new PhieuTraHangTuKhachHang();
-                    }
                     else
-                    {
                         phieu = new PhieuTraHangChoNhaCungCap();
-                    }
 
                     phieu.MaPhieu = reader["MaPhieu"].ToString();
                     phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
                     phieu.LyDo = reader["LyDo"].ToString();
                     phieu.TongTien = double.Parse(reader["TongTien"].ToString());
                     phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
+
                     list.Add(phieu);
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
@@ -340,30 +325,31 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return list;
         }
 
-
-        private List<(VatLieu, float)> loaddanhSachVatLieu(string maPhieu)
+        private List<ChiTiet> loaddanhSachVatLieu(string maPhieu)
         {
-            List<(VatLieu, float)> list = new List<(VatLieu, float)>();
-            string query = "SELECT MaVatLieu, SoLuong FROM ChiTietPhieuTraHang WHERE MaPhieu = @MaPhieu";
+            List<ChiTiet> list = new List<ChiTiet>();
+            string query = "SELECT MaVatLieu, SoLuong FROM ChiTietTraHang WHERE MaPhieu = @MaPhieu";
+
             try
             {
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
                 cmd.Parameters.AddWithValue("@MaPhieu", maPhieu);
                 SqlDataReader reader = cmd.ExecuteReader();
-                VatLieu vatLieu;
-                float soLuong;
+
                 while (reader.Read())
                 {
-                    vatLieu = vatLieuService.findByMaVatLieu(reader["MaVatLieu"].ToString());
-                    soLuong = float.Parse(reader["SoLuong"].ToString());
-                    list.Add((vatLieu, soLuong));
+                    VatLieu vatLieu = vatLieuService.findByMaVatLieu(reader["MaVatLieu"].ToString());
+                    float soLuong = float.Parse(reader["SoLuong"].ToString());
+                    list.Add(new ChiTiet(soLuong, vatLieu));
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
+
             return list;
         }
     }
