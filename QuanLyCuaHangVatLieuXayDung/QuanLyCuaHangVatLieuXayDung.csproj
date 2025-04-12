@@ -123,7 +123,9 @@
     <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
     <Compile Include="service\IChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\HoaDonService.cs" />
+    <Compile Include="service\impl\PhieuGhiNoService.cs" />
     <Compile Include="service\impl\TaiKhoanService.cs" />
+    <Compile Include="service\IPhieuGhiNoService.cs" />
     <Compile Include="service\ITaiKhoanService.cs" />
     <Compile Include="utilities\FileUtility.cs" />
     <Compile Include="utilities\MyDatabase.cs" />
