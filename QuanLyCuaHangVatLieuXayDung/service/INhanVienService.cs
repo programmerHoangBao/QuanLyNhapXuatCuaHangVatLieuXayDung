@@ -1,5 +1,6 @@
 ﻿
 using QuanLyCuaHangVatLieuXayDung.model;
+using System.Collections.Generic;
 using System.Data;
 
 namespace QuanLyCuaHangVatLieuXayDung.service
@@ -9,7 +10,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool insertnhanVien(NhanVien nv);
         bool updatenhanVien(NhanVien nv);
         bool deletenhanVien(string maNV);
-        DataTable getallNhanVien();
+        List<NhanVien> findAllNhanVien();
         
     }
 }

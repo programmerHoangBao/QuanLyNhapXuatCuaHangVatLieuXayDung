@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
 
 internal class NhanVienService : INhanVienService
 {
@@ -12,17 +14,17 @@ internal class NhanVienService : INhanVienService
 
     public bool insertnhanVien(NhanVien nv)
     {
-        string query = "INSERT INTO NHAN_VIEN (MaNV, Ten, SoDienThoai, DiaChi, VaiTro, Email, LuongTrenNgay) " +
+        string query = "INSERT INTO NhanVien (MaNhanVien, Ten, SoDienThoai, DiaChi, VaiTro, Email, LuongTrenNgay) " +
                        "VALUES (@MaNV, @Ten, @SDT, @DiaChi, @VaiTro, @Email, @Luong)";
         SqlTransaction transaction = null;
-        bool result = false;
+        int rowsAffected = 0;
 
         try
         {
-            myDatabase.OpenConnection();
+            this.myDatabase.OpenConnection();
             transaction = myDatabase.Connection.BeginTransaction();
 
-            SqlCommand command = new SqlCommand(query, myDatabase.Connection, transaction);
+            SqlCommand command = new SqlCommand(query, this.myDatabase.Connection, transaction);
             command.Parameters.AddWithValue("@MaNV", nv.MaNhanVien);
             command.Parameters.AddWithValue("@Ten", nv.Ten);
             command.Parameters.AddWithValue("@SDT", nv.SoDienThoai);
@@ -31,43 +33,38 @@ internal class NhanVienService : INhanVienService
             command.Parameters.AddWithValue("@Email", nv.Email);
             command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
 
-            int rowsAffected = command.ExecuteNonQuery();
-            if (rowsAffected > 0)
-            {
-                transaction.Commit();
-                result = true;
-            }
-            else
-            {
-                transaction.Rollback();
-            }
+            rowsAffected = command.ExecuteNonQuery();
+            transaction.Commit();
         }
         catch (Exception ex)
         {
-            transaction?.Rollback();
+            if (transaction != null)
+            {
+                transaction.Rollback();
+            }
             MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         finally
         {
-            myDatabase.CloseConnection();
+            this.myDatabase.CloseConnection();
         }
 
-        return result;
+        return rowsAffected > 0;
     }
 
     public bool updatenhanVien(NhanVien nv)
     {
-        string query = "UPDATE NHAN_VIEN SET Ten = @Ten, SoDienThoai = @SDT, DiaChi = @DiaChi, VaiTro = @VaiTro, " +
-                       "Email = @Email, LuongTrenNgay = @Luong WHERE MaNV = @MaNV";
+        string query = "UPDATE NhanVien SET Ten = @Ten, SoDienThoai = @SDT, DiaChi = @DiaChi, VaiTro = @VaiTro, " +
+                       "Email = @Email, LuongTrenNgay = @Luong WHERE MaNhanVien = @MaNV";
         SqlTransaction transaction = null;
-        bool result = false;
+        int rowsAffected = 0;
 
         try
         {
-            myDatabase.OpenConnection();
+            this.myDatabase.OpenConnection();
             transaction = myDatabase.Connection.BeginTransaction();
 
-            SqlCommand command = new SqlCommand(query, myDatabase.Connection, transaction);
+            SqlCommand command = new SqlCommand(query, this.myDatabase.Connection, transaction);
             command.Parameters.AddWithValue("@MaNV", nv.MaNhanVien);
             command.Parameters.AddWithValue("@Ten", nv.Ten);
             command.Parameters.AddWithValue("@SDT", nv.SoDienThoai);
@@ -76,35 +73,30 @@ internal class NhanVienService : INhanVienService
             command.Parameters.AddWithValue("@Email", nv.Email);
             command.Parameters.AddWithValue("@Luong", nv.LuongTrenNgay);
 
-            int rowsAffected = command.ExecuteNonQuery();
-            if (rowsAffected > 0)
-            {
-                transaction.Commit();
-                result = true;
-            }
-            else
-            {
-                transaction.Rollback();
-            }
+            rowsAffected = command.ExecuteNonQuery();
+            transaction.Commit();
         }
         catch (Exception ex)
         {
-            transaction?.Rollback();
+            if (transaction != null)
+            {
+                transaction.Rollback();
+            }
             MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         finally
         {
-            myDatabase.CloseConnection();
+            this.myDatabase.CloseConnection();
         }
 
-        return result;
+        return rowsAffected > 0;
     }
 
     public bool deletenhanVien(string maNV)
     {
-        string query = "DELETE FROM NHAN_VIEN WHERE MaNV = @MaNV";
+        string query = "DELETE FROM NhanVien WHERE MaNhanVien = @MaNV";
         SqlTransaction transaction = null;
-        bool result = false;
+        int rowsAffected = 0;
 
         try
         {
@@ -114,41 +106,48 @@ internal class NhanVienService : INhanVienService
             SqlCommand command = new SqlCommand(query, myDatabase.Connection, transaction);
             command.Parameters.AddWithValue("@MaNV", maNV);
 
-            int rowsAffected = command.ExecuteNonQuery();
-            if (rowsAffected > 0)
-            {
-                transaction.Commit();
-                result = true;
-            }
-            else
+            rowsAffected = command.ExecuteNonQuery();
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            if (transaction != null)
             {
                 transaction.Rollback();
             }
-        }
-        catch (Exception ex)
-        {
-            transaction?.Rollback();
             MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         finally
         {
-            myDatabase.CloseConnection();
+            this.myDatabase.CloseConnection();
         }
 
-        return result;
+        return rowsAffected > 0;
     }
 
-    public DataTable getallNhanVien()
+    public List<NhanVien> findAllNhanVien()
     {
-        DataTable table = new DataTable();
-
+        string query = "SELECT * FROM NhanVien";
+        List<NhanVien> nhanViens = new List<NhanVien>();
         try
         {
-            myDatabase.OpenConnection();
-
-            SqlCommand command = new SqlCommand("SELECT * FROM NHAN_VIEN", myDatabase.Connection);
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            this.myDatabase.OpenConnection();
+            SqlCommand command = new SqlCommand(query, this.myDatabase.Connection);
+            SqlDataReader reader = command.ExecuteReader();
+            NhanVien nhanVien;
+            while (reader.Read())
+            {
+                nhanVien = new NhanVien();
+                nhanVien.MaNhanVien = reader["MaNhanVien"].ToString();
+                nhanVien.Ten = reader["Ten"].ToString();
+                nhanVien.SoDienThoai = reader["SoDienThoai"].ToString();
+                nhanVien.DiaChi = reader["DiaChi"].ToString();
+                nhanVien.VaiTro = reader["VaiTro"].ToString();
+                nhanVien.Email = reader["Email"].ToString();
+                nhanVien.LuongTrenNgay = double.Parse(reader["LuongTrenNgay"].ToString());
+                nhanViens.Add(nhanVien);
+            }
+            reader.Close();
         }
         catch (Exception ex)
         {
@@ -156,9 +155,9 @@ internal class NhanVienService : INhanVienService
         }
         finally
         {
-            myDatabase.CloseConnection();
+            this.myDatabase.CloseConnection();
         }
 
-        return table;
+        return nhanViens;
     }
 }
