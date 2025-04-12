@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,45 +18,69 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         private DateTime ngayNhap;
         private NhaCungCap nhaCungCap;
         private string dirHinhAnh;
-        private List<string> hinhAnhPaths;
-        private List<(Kho kho, float soLuong)> tonKhos;
+        private float soLuong;
         
         public VatLieu()
         {
         }
-        public VatLieu(string maVatLieu, string ten, double giaNhap, double giaXuat, string donVi, DateTime ngayNhap, NhaCungCap nhaCungCap, List<string> hinhAnhPaths, string dirHinhAnh)
+
+        public VatLieu(string maVatLieu, string ten, double giaNhap, double giaXuat, string donVi, DateTime ngayNhap, string dirHinhAnh, NhaCungCap nhaCungCap, float soLuong)
         {
-            this.MaVatLieu = maVatLieu;
-            this.Ten = ten;
-            this.GiaNhap = giaNhap;
-            this.GiaXuat = giaXuat;
-            this.DonVi = donVi;
-            this.NgayNhap = ngayNhap;
-            this.NhaCungCap = nhaCungCap;
-            this.HinhAnhPaths = hinhAnhPaths;
-            this.DirHinhAnh = dirHinhAnh;
+            MaVatLieu = maVatLieu;
+            Ten = ten;
+            GiaNhap = giaNhap;
+            GiaXuat = giaXuat;
+            DonVi = donVi;
+            NgayNhap = ngayNhap;
+            DirHinhAnh = dirHinhAnh;
+            NhaCungCap = nhaCungCap;
+            SoLuong = soLuong;
         }
+
         public string MaVatLieu { get => maVatLieu; set => maVatLieu = value; }
         public string Ten { get => ten; set => ten = value; }
         public double GiaNhap { get => giaNhap; set => giaNhap = value; }
         public double GiaXuat { get => giaXuat; set => giaXuat = value; }
         public string DonVi { get => donVi; set => donVi = value; }
         public DateTime NgayNhap { get => ngayNhap; set => ngayNhap = value; }
-        public List<string> HinhAnhPaths { get => hinhAnhPaths; set => hinhAnhPaths = value; }
         public string DirHinhAnh { get => dirHinhAnh; set => dirHinhAnh = value; }
         internal NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
-        internal List<(Kho kho, float soLuong)> TonKhos { get => tonKhos; set => tonKhos = value; }
-        public float totalSoLuong()
+        public float SoLuong { get => soLuong; set => soLuong = value; }
+
+        /// <summary>
+        /// Gets a list of image file paths in the specified folder.
+        /// </summary>
+        /// <returns>
+        /// A list of full file paths for image files (e.g., .jpg, .jpeg, .png, .bmp, .gif) found in the folder.
+        /// If the folder does not exist or an error occurs, returns an empty list.
+        /// </returns>
+        public List<string> GetDanhSachHinhAnhVatLieus()
         {
-            float total = 0;
-            if (this.TonKhos.Count > 0)
+            List<string> imageFiles = new List<string>();
+
+            try
             {
-                foreach (float soLuong in this.TonKhos.Select(tk => tk.soLuong))
+                if (Directory.Exists(this.DirHinhAnh))
                 {
-                    total += soLuong;
+                    string[] supportedExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+
+                    imageFiles = Directory
+                        .GetFiles(this.DirHinhAnh)
+                        .Where(file => supportedExtensions.Contains(Path.GetExtension(file).ToLower()))
+                        .ToList();
+                }
+                else
+                {
+                    Debug.WriteLine($"⚠️ Folder '{this.DirHinhAnh}' does not exist.");
                 }
             }
-            return total;
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"❌ Error reading image files from '{this.DirHinhAnh}': {ex.Message}");
+            }
+
+            return imageFiles;
         }
+
     }
 }

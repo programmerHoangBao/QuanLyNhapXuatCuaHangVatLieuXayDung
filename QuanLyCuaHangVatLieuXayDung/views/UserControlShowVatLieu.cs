@@ -61,15 +61,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             this.labelId.Text = "Mã: " + this.VatLieu.MaVatLieu;
             this.labelName.Text = "Tên: " + this.VatLieu.Ten;
-            float soLuong = 0;
-            if (this.VatLieu.TonKhos != null)
-            {
-                foreach (var item in this.VatLieu.TonKhos)
-                {
-                    soLuong += item.soLuong;
-                }
-            }
-            this.labelQuantity.Text = "Số lượng: " + soLuong.ToString() + " " + this.VatLieu.DonVi;
+            this.labelQuantity.Text = "Số lượng: " + this.VatLieu.SoLuong.ToString() + " " + this.VatLieu.DonVi;
             if (loaiVatLieu == 1)
             {
                 this.labelPrice.Text = "Giá xuất: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaXuat)
@@ -80,9 +72,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 this.labelPrice.Text = "Giá nhập: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaNhap)
                     + "/" + this.VatLieu.DonVi;
             }
-            if (this.VatLieu.HinhAnhPaths != null && this.VatLieu.HinhAnhPaths.Count > 0)
+            if (this.VatLieu.GetDanhSachHinhAnhVatLieus().Count > 0)
             {
-                this.pictureBoxImage.ImageLocation = this.VatLieu.HinhAnhPaths[0];
+                this.pictureBoxImage.ImageLocation = this.VatLieu.GetDanhSachHinhAnhVatLieus()[0];
             }
         }
     }
