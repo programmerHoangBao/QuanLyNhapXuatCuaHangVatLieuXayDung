@@ -105,88 +105,109 @@
             <c>false</c> if the file does not exist or an error occurs during deletion.
             </returns>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.WriteTupleToJsonFile``1(``0,System.Single,System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.WriteObjectJsonFile``1(``0,System.String)">
             <summary>
-            Serializes a generic object along with a quantity value into JSON format and writes it to a specified file.
-            Creates the file and parent directory if they do not exist.
+            Writes an object of any type to a JSON file at the specified path.
             </summary>
-            <typeparam name="T">The type of the object to serialize.</typeparam>
-            <param name="obj">The object to serialize.</param>
-            <param name="quantity">The quantity associated with the object.</param>
-            <param name="filePath">The full path of the file where the JSON data will be saved.</param>
+            <typeparam name="T">The type of the object to be written.</typeparam>
+            <param name="obj">The object instance to serialize and write to the file.</param>
+            <param name="filePath">The full file path where the JSON file will be saved, including the file name and extension.</param>
             <returns>
-            Returns <c>true</c> if the file was written successfully; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.AppendTupleToJsonFile``1(``0,System.Single,System.String)">
-            <summary>
-            Appends an object and its quantity as a JSON entry to an existing JSON file.
-            If the file does not exist, the method will do nothing and return false.
-            The JSON file must contain a JSON array to append to.
-            </summary>
-            <typeparam name="T">The type of the object to serialize.</typeparam>
-            <param name="obj">The object to append.</param>
-            <param name="quantity">The quantity associated with the object.</param>
-            <param name="filePath">The full path of the existing JSON file.</param>
-            <returns>Returns <c>true</c> if the append operation is successful; otherwise, <c>false</c>.</returns>
-        </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.RemoveTupleFromJsonFile``1(``0,System.String)">
-            <summary>
-            Removes all entries from a JSON file that match a specific object in the "Data" field of each entry.
-            </summary>
-            <typeparam name="T">The type of the object to remove. Must match the type used when appending data.</typeparam>
-            <param name="objToRemove">The object to search for and remove from the JSON file.</param>
-            <param name="filePath">The full path to the JSON file.</param>
-            <returns>
-            Returns <c>true</c> if one or more matching entries were found and removed; 
-            <c>false</c> if the file does not exist, is invalid, or no matching entries were found.
+            Returns <c>true</c> if the operation succeeds; otherwise, returns <c>false</c> if an error occurs.
             </returns>
             <remarks>
-            Each entry in the JSON file is expected to be an object with two fields: "Data" and "Quantity". 
-            This method deserializes the file, compares the "Data" field of each entry to <paramref name="objToRemove"/>,
-            and removes any entries that match.
+            If the directory does not exist, it will be automatically created. 
+            The object will be wrapped in a parent object with a "Data" property before being serialized.
+            The JSON output will be indented for readability.
             </remarks>
-            <example>
-            Example usage:
-            <code>
-            var product = new Product { Id = 1, Name = "Apple" };
-            string filePath = "data.json";
-            bool removed = RemoveTupleFromJsonFile(product, filePath);
-            </code>
-            </example>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.UpdateQuantityInJsonFile``1(``0,System.Single,System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.AppendObjectToJsonFile``1(``0,System.String)">
             <summary>
-            Updates the quantity value of an existing object in a JSON file based on the specified object.
-            The JSON file must be an array of entries containing "Data" and "Quantity" fields.
+            Appends a new object to an existing JSON file that contains an array of objects.
             </summary>
-            <typeparam name="T">The type of the object to match and update.</typeparam>
-            <param name="objToUpdate">The object whose quantity should be updated.</param>
-            <param name="newQuantity">The new quantity to set.</param>
-            <param name="filePath">The full path to the JSON file.</param>
-            <returns>Returns <c>true</c> if the update was successful; otherwise, <c>false</c>.</returns>
+            <typeparam name="T">The type of the object to be appended.</typeparam>
+            <param name="obj">The object instance to serialize and append to the JSON file.</param>
+            <param name="filePath">The full path to the JSON file, including the file name and extension.</param>
+            <returns>
+            Returns <c>true</c> if the object is successfully appended; 
+            returns <c>false</c> if the file doesn't exist, is not a valid JSON array, or if an error occurs.
+            </returns>
+            <remarks>
+            The object will be wrapped in an anonymous object with a "Data" property before being added to the JSON array.
+            If the JSON file is not a valid array, the method will log an error and return false.
+            </remarks>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.ExistsInJsonFile``1(``0,System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.RemoveObjectFromJsonFile``1(``0,System.String)">
             <summary>
-            Checks whether a specific object exists in a JSON file by comparing the serialized "Data" field.
-            The JSON file must be an array of entries with "Data" and "Quantity" fields.
+            Removes all matching objects from a JSON file containing an array of objects wrapped in a "Data" property.
             </summary>
-            <typeparam name="T">The type of the object to check for existence.</typeparam>
-            <param name="objToCheck">The object to find in the JSON file.</param>
-            <param name="filePath">The full path of the JSON file.</param>
-            <returns>Returns <c>true</c> if the object exists in the file; otherwise, <c>false</c>.</returns>
+            <typeparam name="T">The type of the object to be removed.</typeparam>
+            <param name="objToRemove">The object to find and remove from the JSON file.</param>
+            <param name="filePath">The full path to the JSON file, including the file name and extension.</param>
+            <returns>
+            Returns <c>true</c> if one or more matching entries were successfully removed; 
+            otherwise, returns <c>false</c> if no match was found, the file does not exist, or an error occurred.
+            </returns>
+            <remarks>
+            This method assumes that each item in the JSON file is an object containing a "Data" property.
+            The object to remove is serialized to JSON, and comparison is made using raw JSON string matching against the "Data" values.
+            The updated JSON is written back to the file after removal.
+            </remarks>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.ReadTuplesFromJsonFile``1(System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.UpdateObjectInJsonFile``1(``0,System.String)">
             <summary>
-            Reads a JSON file containing a list of objects with associated quantities,
-            and returns a list of tuples of the form (T, float).
+            Updates an existing object inside a JSON file where each object is wrapped in a "Data" property.
             </summary>
-            <typeparam name="T">The type of the object stored in the "Data" field.</typeparam>
+            <typeparam name="T">The type of the object to be updated.</typeparam>
+            <param name="objToUpdate">The object to update in the JSON file.</param>
+            <param name="filePath">The full path to the JSON file, including file name and extension.</param>
+            <returns>
+            Returns <c>true</c> if the object was found and updated; 
+            <c>false</c> if no matching entry was found, the file does not exist, or an error occurred.
+            </returns>
+            <remarks>
+            This method assumes each item in the JSON file is an object containing a "Data" property.
+            It matches the object to update by comparing the serialized JSON string of the "Data" property.
+            If a match is found, the entry is replaced with the updated object and written back to the file.
+            </remarks>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.ExistsObjectInJsonFile``1(``0,System.String)">
+            <summary>
+            Checks whether a specific object exists in a JSON file, 
+            where each entry is wrapped in a "Data" property.
+            </summary>
+            <typeparam name="T">The type of the object to check.</typeparam>
+            <param name="objToCheck">The object to search for in the JSON file.</param>
             <param name="filePath">The full path to the JSON file.</param>
             <returns>
-            A list of tuples where each tuple contains an object of type T and a float quantity.
-            Returns an empty list if the file does not exist or is invalid.
+            Returns <c>true</c> if the object exists in the file; 
+            otherwise, returns <c>false</c>. Also returns <c>false</c> 
+            if the file doesn't exist or if a read/parse error occurs.
             </returns>
+            <remarks>
+            The method deserializes the JSON file into a list of elements,
+            then checks each element's "Data" property for a match with the serialized form of <paramref name="objToCheck"/>.
+            </remarks>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.ReadObjectsFromJsonFile``1(System.String)">
+            <summary>
+            Reads a JSON file and deserializes its content into a list of objects of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">The type of objects to deserialize from the JSON file.</typeparam>
+            <param name="filePath">The full path to the JSON file.</param>
+            <returns>
+            A list of objects of type <typeparamref name="T"/>.
+            If the file does not exist or an error occurs, an empty list is returned.
+            </returns>
+            <remarks>
+            The method assumes that the JSON file contains an array of objects,
+            each having a property named "Data" that holds the actual object data.
+            Example of expected JSON format:
+            [
+                { "Data": { "Id": 1, "Name": "Item 1" } },
+                { "Data": { "Id": 2, "Name": "Item 2" } }
+            ]
+            </remarks>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.IsFileExists(System.String)">
             <summary>

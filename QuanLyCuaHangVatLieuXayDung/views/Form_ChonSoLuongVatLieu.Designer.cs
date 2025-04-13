@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_ChonSoLuongVatLieu));
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelbutton = new System.Windows.Forms.Panel();
+            this.btnRemove = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.panelInput = new System.Windows.Forms.Panel();
             this.btnMinus = new System.Windows.Forms.Button();
@@ -52,12 +53,24 @@
             // 
             // panelbutton
             // 
+            this.panelbutton.Controls.Add(this.btnRemove);
             this.panelbutton.Controls.Add(this.btnOk);
             this.panelbutton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelbutton.Location = new System.Drawing.Point(0, 118);
             this.panelbutton.Name = "panelbutton";
             this.panelbutton.Size = new System.Drawing.Size(378, 76);
             this.panelbutton.TabIndex = 1;
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnRemove.Location = new System.Drawing.Point(46, 17);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(143, 38);
+            this.btnRemove.TabIndex = 0;
+            this.btnRemove.Text = "Loại bỏ";
+            this.btnRemove.UseVisualStyleBackColor = false;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnOk
             // 
@@ -68,6 +81,7 @@
             this.btnOk.TabIndex = 0;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // panelInput
             // 
@@ -146,5 +160,6 @@
         private System.Windows.Forms.TextBox txtSoLuong;
         private System.Windows.Forms.Button btnMinus;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
