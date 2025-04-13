@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCuaHangVatLieuXayDung.config;
+using System.Diagnostics.Eventing.Reader;
 
 namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
@@ -18,24 +19,43 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
         public bool deleteDoiTac(DoiTac doiTac)
         {
             string query = "DELETE FROM DoiTac WHERE MaDoiTac = @MaDoiTac";
+            SqlTransaction transaction = null;
+            int affectedRows = 0;
+            bool result = false;
             try
             {
-                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
-                cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
                 this.myDatabase.OpenConnection();
-                int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
-                if (result > 0)
+                transaction = this.myDatabase.Connection.BeginTransaction();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
+                cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
+                affectedRows = cmd.ExecuteNonQuery();
+                if (affectedRows > 0)
                 {
-                    new FileUtility().DeleteFile(doiTac.QR);
-                    return true;
+                    if (new FileUtility().DeleteFile(doiTac.QR))
+                    {
+                        result = true;
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("Failed to delete the file.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }   
                 }
             }
             catch (Exception ex)
             {
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return result;
         }
 
         public List<KhachHang> findAllKhachHang()
@@ -61,11 +81,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     khachHang.QR = reader["QR"].ToString();
                     khachHangs.Add(khachHang);
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return khachHangs;
         }
@@ -99,11 +123,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     doiTac.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     doiTac.QR = reader["QR"].ToString();
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return doiTac;
         }
@@ -130,11 +158,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     nhaCungCap.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     nhaCungCap.QR = reader["QR"].ToString();
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return nhaCungCaps;
         }
@@ -144,9 +176,13 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             string query = @"INSERT INTO DoiTac 
                                (MaDoiTac, Ten, SoDienThoai, DiaChi, Email, LoaiDoiTac, NganHang, SoTaiKhoan, QR)
                                VALUES (@MaDoiTac, @Ten, @SoDienThoai, @DiaChi, @Email, @LoaiDoiTac, @NganHang, @SoTaiKhoan, @QR)";
+            SqlTransaction transaction = null;
+            int affectedRows = 0;
             try
             {
-                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                this.myDatabase.OpenConnection();
+                transaction = this.myDatabase.Connection.BeginTransaction();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
                 cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
@@ -156,21 +192,22 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
                 cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
                 cmd.Parameters.AddWithValue("@QR", doiTac.QR);
-                this.myDatabase.OpenConnection();
-                int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
-                if (result > 0)
-                {
-                    string directory = new FormApp().DOITAC_DATA;
-                    new FileUtility().SaveImages(doiTac.QR, directory);
-                    return true;
-                }
+                affectedRows = cmd.ExecuteNonQuery();
+                transaction.Commit();
             }
             catch (Exception ex)
             {
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return affectedRows > 0;
         }
 
         public List<DoiTac> searchByKey(string key)
@@ -208,11 +245,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     doiTac.QR = reader["QR"].ToString();
                     doiTacs.Add(doiTac);
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return doiTacs;
         }
@@ -229,9 +270,13 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                                     LoaiDoiTac = @LoaiDoiTac,
                                     QR = @QR
                                 WHERE MaDoiTac = @MaDoiTac";
+            SqlTransaction transaction = null;
+            int affectedRows = 0;   
             try
             {
-                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                this.myDatabase.OpenConnection();
+                transaction = this.myDatabase.Connection.BeginTransaction();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
                 cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
@@ -241,22 +286,22 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
                 cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
                 cmd.Parameters.AddWithValue("@QR", doiTac.QR);
-                this.myDatabase.OpenConnection();
-                int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
-                if (result > 0)
-                {
-                    string directory = new FormApp().DOITAC_DATA;
-                    new FileUtility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
-                    new FileUtility().SaveImages(doiTac.QR, directory);
-                    return true;
-                }
+                affectedRows = cmd.ExecuteNonQuery();
+                transaction.Commit();
             }
             catch (Exception ex)
             {
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return affectedRows > 0;
         }
     }
 }
