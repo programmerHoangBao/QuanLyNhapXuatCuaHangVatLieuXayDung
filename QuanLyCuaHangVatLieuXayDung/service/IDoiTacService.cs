@@ -10,7 +10,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
     internal interface IDoiTacService
     {
         List<KhachHang> findAllKhachHang();
-        List<NhaCungCap> findNhaCungCap();
+        List<NhaCungCap> findAllNhaCungCap();
         DoiTac findByMaDoiTac(string maDoiTac);
         bool insertDoiTac(DoiTac doiTac);
         bool updateDoiTac(DoiTac doiTac);

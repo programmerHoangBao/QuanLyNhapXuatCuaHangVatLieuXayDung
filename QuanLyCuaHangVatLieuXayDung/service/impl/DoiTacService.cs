@@ -136,7 +136,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return doiTac;
         }
 
-        public List<NhaCungCap> findNhaCungCap()
+        public List<NhaCungCap> findAllNhaCungCap()
         {
             string query = @"SELECT * FROM DoiTac WHERE LoaiDoiTac = 2";
             List<NhaCungCap> nhaCungCaps = new List<NhaCungCap>();

@@ -671,5 +671,16 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
                 return false;
             }
         }
+
+        /// <summary>
+        /// Checks whether a specified folder exists at the given path.
+        /// </summary>
+        /// <param name="folderPath">The full path of the folder to check.</param>
+        /// <returns>True if the folder exists; otherwise, false.</returns>
+        public bool FolderExists(string folderPath)
+        {
+            return Directory.Exists(folderPath);
+        }
+
     }
 }
