@@ -62,6 +62,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             this.txtSoLuong.Text = soLuong.ToString();
         }
+        //Lấy ra số lượng vật liệu
         public float GetSoLuong()
         {
             if (this.txtSoLuong.Text == "" || float.Parse(this.txtSoLuong.Text) <= 0)

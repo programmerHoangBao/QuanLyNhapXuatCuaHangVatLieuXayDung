@@ -164,6 +164,18 @@
     <Compile Include="views\Form_ChonSoLuongVatLieu.Designer.cs">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_SelectVatLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_SelectVatLieu.Designer.cs">
+      <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_TaoVatLieuMoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_TaoVatLieuMoi.Designer.cs">
+      <DependentUpon>Form_TaoVatLieuMoi.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,6 +206,12 @@
     </Compile>
     <EmbeddedResource Include="views\Form_ChonSoLuongVatLieu.resx">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_SelectVatLieu.resx">
+      <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_TaoVatLieuMoi.resx">
+      <DependentUpon>Form_TaoVatLieuMoi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TrangChu.resx">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
@@ -228,6 +246,8 @@
     <None Include="Resources\logo.png" />
     <None Include="Resources\plus.png" />
     <None Include="Resources\minus.png" />
+    <None Include="Resources\right-arrow.png" />
+    <None Include="Resources\left-arrow.png" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />
   </ItemGroup>
