@@ -33,18 +33,19 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         public void ShowSoLuongVatLieu()
         {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = "";
             if (this.loaiHoaDon == 1)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
             }
             else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
             float soLuong = 0;
             FileUtility fileUtility = new FileUtility();
@@ -160,18 +161,19 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = "";
             if (this.loaiHoaDon == 1)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                filePath = Path.Combine(projectDirectory, "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
             }
             else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
             FileUtility fileUtility = new FileUtility();
             VatLieu vatLieu = this.vatLieu;
@@ -195,18 +197,19 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = "";
             if (this.loaiHoaDon == 1)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
+                filePath = Path.Combine(projectDirectory,"temp", "hoadon", "chitiethoadonxuat.json");
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
             }
             else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
             FileUtility fileUtility = new FileUtility();
             if (fileUtility.IsFileExists(filePath))

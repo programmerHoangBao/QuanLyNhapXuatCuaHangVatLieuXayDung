@@ -682,5 +682,38 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
             return Directory.Exists(folderPath);
         }
 
+        /// <summary>
+        /// Copies a file to a specified destination folder and renames it with a new file name.
+        /// </summary>
+        /// <param name="sourceFilePath">The full path to the source file that needs to be copied.</param>
+        /// <param name="destinationFolder">The full path to the destination folder where the file will be copied.</param>
+        /// <param name="newFileName">The new name for the copied file, including the file extension (e.g., "newfile.txt").</param>
+        /// <returns>
+        /// Returns the full path to the newly copied and renamed file if successful.
+        /// Returns an empty string if the copy or rename operation fails.
+        /// </returns>
+        public string CopyAndRenameFile(string sourceFilePath, string destinationFolder, string newFileName)
+        {
+            try
+            {
+                if (!File.Exists(sourceFilePath))
+                {
+                    return string.Empty;
+                }
+                if (!Directory.Exists(destinationFolder))
+                {
+                    Directory.CreateDirectory(destinationFolder);
+                }
+                string destinationFilePath = Path.Combine(destinationFolder, newFileName);
+
+                File.Copy(sourceFilePath, destinationFilePath, true);
+
+                return destinationFilePath;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
     }
 }
