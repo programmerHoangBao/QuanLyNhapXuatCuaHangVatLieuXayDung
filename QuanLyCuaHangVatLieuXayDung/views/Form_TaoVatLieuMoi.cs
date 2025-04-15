@@ -218,7 +218,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnThemAnh_Click(object sender, EventArgs e)
         {
-            string dir_temp = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "image", "vatlieu");
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string dir_temp = Path.Combine(projectDirectory, "temp", "image", "vatlieu");
             if (dir_temp == "")
             {
                 MessageBox.Show("có nơi lưu tạm thời hình ảnh", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -242,23 +243,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     if (this.fileUtility.FolderExists(dir_temp))
                     {
                         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                        string newImageName = $"{imagePath}_{timestamp}{extension}";
+                        string newImageName = $"{imageName}_{timestamp}{extension}";
 
-                        string newFilePath = Path.Combine(dir_temp, newImageName);
-                        try
+                        string newImagePath = this.fileUtility.CopyAndRenameFile(imagePath, dir_temp, newImageName);
+                        if (!String.IsNullOrEmpty(newImagePath))
                         {
-                            // Sao chép hình ảnh vào vị trí mới
-                            File.Copy(imagePath, newFilePath);
-                            this.hinhAnhPaths.Add(newImageName);
+                            this.hinhAnhPaths.Add(newImagePath);
                             if (this.hinhAnhPaths.Count > 0)
                             {
+                                this.index = this.hinhAnhPaths.Count - 1;
                                 this.ShowImage(this.hinhAnhPaths[index]);
                             }
-                            Debug.WriteLine("Image successfully copied to: " + newFilePath);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -271,6 +266,12 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnXoaAnh_Click(object sender, EventArgs e)
         {
+            if (this.pictureBoxShowImage.Image != null)
+            {
+                this.pictureBoxShowImage.Image.Dispose();
+                this.pictureBoxShowImage.Image = null;
+            }
+
             if (this.fileUtility.DeleteFile(this.hinhAnhPaths[index]))
             {
                 this.hinhAnhPaths.RemoveAt(index);
@@ -278,10 +279,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 if (this.hinhAnhPaths.Count > 0)
                 {
                     this.ShowImage(this.hinhAnhPaths[index]);
-                }
-                else
-                {
-                    this.pictureBoxShowImage.Image = null;
                 }
             }
         }

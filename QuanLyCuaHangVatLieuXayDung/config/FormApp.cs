@@ -23,7 +23,8 @@ namespace QuanLyCuaHangVatLieuXayDung.config
 
         public FormApp()
         {
-            string configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "config", "config.json");
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string configFilePath = Path.Combine(projectDirectory, "config", "config.json");
             var config = new ConfigurationBuilder()
                 .AddJsonFile(configFilePath, optional: false, reloadOnChange: true)
                 .Build();
