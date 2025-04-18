@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace QuanLyCuaHangVatLieuXayDung.service
 {
     internal interface ITaiKhoanService
@@ -26,7 +25,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool updateTaiKhoan(TaiKhoan taiKhoan);
 
         // Xóa tài khoản
-        bool deleteTaiKhoan(TaiKhoan taiKhoan);
+        bool DeleteTaiKhoan(TaiKhoan taiKhoan);
 
         // Kiểm tra đăng nhập
         TaiKhoan login(string username, string password);
