@@ -64,7 +64,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@GiaXuat", chiTiet.VatLieu.GiaXuat);
                 cmd.Parameters.AddWithValue("@DonVi", chiTiet.VatLieu.DonVi);
                 cmd.Parameters.AddWithValue("@NgayNhap", chiTiet.VatLieu.NgayNhap);
-                cmd.Parameters.AddWithValue("@NhaCungCap", chiTiet.VatLieu.NhaCungCap);
+                cmd.Parameters.AddWithValue("@NhaCungCap",
+                chiTiet.VatLieu.NhaCungCap != null ? (object)chiTiet.VatLieu.NhaCungCap.MaDoiTac : DBNull.Value);
                 cmd.Parameters.AddWithValue("@DirHinhAnh", chiTiet.VatLieu.DirHinhAnh);
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();

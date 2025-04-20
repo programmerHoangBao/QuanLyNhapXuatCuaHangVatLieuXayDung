@@ -314,7 +314,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                                      @TienGiam, @PhuongThucThanhToan, @LoaiHoaDon, @TienThanhToan)";
             SqlTransaction transaction = null;
             int affectedRows = 0;
-            bool result = false;
+            bool result = true;
             try
             {
                 this.myDatabase.OpenConnection();
