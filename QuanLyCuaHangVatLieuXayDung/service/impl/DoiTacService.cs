@@ -96,6 +96,10 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
         public DoiTac findByMaDoiTac(string maDoiTac)
         {
+            if (string.IsNullOrEmpty(maDoiTac))
+            {
+                return null;
+            }
             string query = @"SELECT * FROM DoiTac WHERE MaDoiTac = @MaDoiTac";
             DoiTac doiTac = null;
             try
@@ -157,6 +161,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     nhaCungCap.NganHang = reader["NganHang"].ToString();
                     nhaCungCap.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     nhaCungCap.QR = reader["QR"].ToString();
+                    nhaCungCaps.Add(nhaCungCap);
                 }
                 reader.Close();
             }
@@ -187,11 +192,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
-                cmd.Parameters.AddWithValue("@Email", doiTac.Email);
+                cmd.Parameters.AddWithValue("@Email", (object)doiTac.Email ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
-                cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
-                cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
-                cmd.Parameters.AddWithValue("@QR", doiTac.QR);
+                cmd.Parameters.AddWithValue("@NganHang", (object)doiTac.NganHang ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoTaiKhoan", (object)doiTac.SoTaiKhoan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@QR", (object)doiTac.QR ?? DBNull.Value);
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
@@ -281,11 +286,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
-                cmd.Parameters.AddWithValue("@Email", doiTac.Email);
+                cmd.Parameters.AddWithValue("@Email", (object)doiTac.Email ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
-                cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
-                cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
-                cmd.Parameters.AddWithValue("@QR", doiTac.QR);
+                cmd.Parameters.AddWithValue("@NganHang", (object)doiTac.NganHang ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoTaiKhoan", (object)doiTac.SoTaiKhoan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@QR", (object)doiTac.QR ?? DBNull.Value);
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }

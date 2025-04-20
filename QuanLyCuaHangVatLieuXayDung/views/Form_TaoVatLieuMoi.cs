@@ -218,15 +218,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnThemAnh_Click(object sender, EventArgs e)
         {
-            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string dir_temp = Path.Combine(projectDirectory, "temp", "image", "vatlieu");
-            if (dir_temp == "")
-            {
-                MessageBox.Show("có nơi lưu tạm thời hình ảnh", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            //Sao chép hình ảnh vào temp/image/vatlieu và lưu đường dẫn đó vào hinhAnhPaths
             try
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -235,26 +226,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string imagePath = openFileDialog.FileName;
-                    string imageName = Path.GetFileNameWithoutExtension(imagePath);
-                    string extension = Path.GetExtension(imagePath);
-
-                    //Tạo nơi lưu trử temp cho hình ảnh
-                    this.fileUtility.CreateFolder(dir_temp);
-                    if (this.fileUtility.FolderExists(dir_temp))
+                    this.hinhAnhPaths.Add(imagePath);
+                    if (this.hinhAnhPaths.Count > 0)
                     {
-                        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                        string newImageName = $"{imageName}_{timestamp}{extension}";
-
-                        string newImagePath = this.fileUtility.CopyAndRenameFile(imagePath, dir_temp, newImageName);
-                        if (!String.IsNullOrEmpty(newImagePath))
-                        {
-                            this.hinhAnhPaths.Add(newImagePath);
-                            if (this.hinhAnhPaths.Count > 0)
-                            {
-                                this.index = this.hinhAnhPaths.Count - 1;
-                                this.ShowImage(this.hinhAnhPaths[index]);
-                            }
-                        }
+                        this.index = this.hinhAnhPaths.Count - 1;
+                        this.ShowImage(this.hinhAnhPaths[index]);
                     }
                 }
             }
@@ -290,9 +266,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             double giaNhap = double.Parse(this.txtGiaNhap.Text.Trim());
             double giaXuat = double.Parse(this.txtGiaXuat.Text.Trim());
             string donVi = this.txtDonVi.Text.Trim();
-            NhaCungCap nhaCungCap = this.nhaCungCaps[this.comboBoxNhaCungCap.SelectedIndex];
+            NhaCungCap nhaCungCap;
+            if (this.comboBoxNhaCungCap.Text.Trim() == "")
+            {
+                nhaCungCap = null;
+            }
+            else
+            {
+                nhaCungCap = this.nhaCungCaps[this.comboBoxNhaCungCap.SelectedIndex];
+            }
             float soLuong = float.Parse(this.txtSoLuong.Text.Trim());
-            string dir_temp = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "image", "vatlieu");
+            //Lưu hình ảnh vào thư mục hệ thống
             string dirHinhAnh = new FormApp().VATLIEU_DATA;
             string dirName = maVatLieu + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
             dirHinhAnh = Path.Combine(dirHinhAnh, dirName);
@@ -300,10 +284,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 this.fileUtility.CreateFolder(dirHinhAnh);
             }
-            List<string> imagePaths = this.fileUtility.GetImagePathsFromFolder(dir_temp);
-            foreach (string imagePath in imagePaths)
+            string imageName = "";
+            string extension = "";
+            string timestamp = "";
+            string newImageName = "";
+            foreach (string imagePath in this.hinhAnhPaths)
             {
-                this.fileUtility.SaveImages(imagePath, dirHinhAnh);
+                imageName = Path.GetFileNameWithoutExtension(imagePath);
+                extension = Path.GetExtension(imagePath);
+                timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                newImageName = $"{imageName}_{timestamp}{extension}";
+                this.fileUtility.CopyAndRenameFile(imagePath, dirHinhAnh, newImageName);
             }
             VatLieu vatLieu = new VatLieu(maVatLieu, tenVatLieu, giaNhap, giaXuat
                 , donVi, DateTime.Now, dirHinhAnh, nhaCungCap, soLuong);
@@ -319,14 +310,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     chiTietJson = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
                 }
-                ChiTiet chiTiet = new ChiTiet(vatLieu.SoLuong, vatLieu);
+                ChiTiet chiTiet = new ChiTiet(vatLieu, vatLieu.SoLuong);
                 if (!this.fileUtility.IsFileExists(chiTietJson))
                 {
                     this.fileUtility.WriteObjectJsonFile(chiTiet, chiTietJson);
                 }
                 else
                 {
-                    this.fileUtility.AppendObjectToJsonFile(chiTiet, chiTietJson);
+                    this.fileUtility.AppendObjectJsonFile(chiTiet, chiTietJson);
                 }
                 this.Close();
             }
