@@ -55,5 +55,61 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.btnGiaoDich.BackColor = Color.FromArgb(255, 165, 0);
             this.OpenFormChild(new Form_GiaoDich());
         }
+
+        private void btnTraHang_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnTraHang.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_TraHang());
+        }
+
+        private void btnDoiTac_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnDoiTac.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_DoiTac());
+        }
+
+        private void btnVatLieu_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnVatLieu.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_VatLieu());
+        }
+
+        private void btnNhanVien_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnNhanVien.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_NhanVien());
+        }
+
+        private void btnPhieuGhiNo_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnPhieuGhiNo.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_PhieuGhiNo());
+        }
+
+        private void btnBienLaiTraNo_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnBienLaiTraNo.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_BienLaiTraNo());
+        }
+
+        private void btnChiPhiPhatSinh_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnChiPhiPhatSinh.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_ChiPhiPhatSinh());
+        }
+
+        private void btnLichSuGiaoDich_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnLichSuGiaoDich.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_LichSuGiaoDich());
+        }
     }
 }

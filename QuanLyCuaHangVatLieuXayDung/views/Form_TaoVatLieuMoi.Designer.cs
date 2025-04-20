@@ -34,7 +34,6 @@
             this.panelInputVatLieu = new System.Windows.Forms.Panel();
             this.btnXoaAnh = new System.Windows.Forms.Button();
             this.btnThemAnh = new System.Windows.Forms.Button();
-            this.btnLeftArrow = new System.Windows.Forms.Button();
             this.btnRightArrow = new System.Windows.Forms.Button();
             this.pictureBoxShowImage = new System.Windows.Forms.PictureBox();
             this.comboBoxNhaCungCap = new System.Windows.Forms.ComboBox();
@@ -55,6 +54,7 @@
             this.labelMa = new System.Windows.Forms.Label();
             this.panelBtnTao = new System.Windows.Forms.Panel();
             this.btnTaoVatLieu = new System.Windows.Forms.Button();
+            this.btnLeftArrow = new System.Windows.Forms.Button();
             this.panelTitle.SuspendLayout();
             this.panelInputVatLieu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowImage)).BeginInit();
@@ -132,18 +132,6 @@
             this.btnThemAnh.Text = "Thêm ảnh";
             this.btnThemAnh.UseVisualStyleBackColor = false;
             this.btnThemAnh.Click += new System.EventHandler(this.btnThemAnh_Click);
-            // 
-            // btnLeftArrow
-            // 
-            this.btnLeftArrow.BackgroundImage = global::QuanLyCuaHangVatLieuXayDung.Properties.Resources.left_arrow;
-            this.btnLeftArrow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnLeftArrow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLeftArrow.Location = new System.Drawing.Point(116, 484);
-            this.btnLeftArrow.Name = "btnLeftArrow";
-            this.btnLeftArrow.Size = new System.Drawing.Size(78, 92);
-            this.btnLeftArrow.TabIndex = 7;
-            this.btnLeftArrow.UseVisualStyleBackColor = true;
-            this.btnLeftArrow.Click += new System.EventHandler(this.btnLeftArrow_Click);
             // 
             // btnRightArrow
             // 
@@ -333,6 +321,18 @@
             this.btnTaoVatLieu.UseVisualStyleBackColor = false;
             this.btnTaoVatLieu.Click += new System.EventHandler(this.btnTaoVatLieu_Click);
             // 
+            // btnLeftArrow
+            // 
+            this.btnLeftArrow.BackgroundImage = global::QuanLyCuaHangVatLieuXayDung.Properties.Resources.left_arrow;
+            this.btnLeftArrow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnLeftArrow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLeftArrow.Location = new System.Drawing.Point(116, 484);
+            this.btnLeftArrow.Name = "btnLeftArrow";
+            this.btnLeftArrow.Size = new System.Drawing.Size(78, 92);
+            this.btnLeftArrow.TabIndex = 7;
+            this.btnLeftArrow.UseVisualStyleBackColor = true;
+            this.btnLeftArrow.Click += new System.EventHandler(this.btnLeftArrow_Click);
+            // 
             // Form_TaoVatLieuMoi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
@@ -382,9 +382,9 @@
         private System.Windows.Forms.Label labelNhaCungCap;
         private System.Windows.Forms.PictureBox pictureBoxShowImage;
         private System.Windows.Forms.Button btnRightArrow;
-        private System.Windows.Forms.Button btnLeftArrow;
         private System.Windows.Forms.Button btnXoaAnh;
         private System.Windows.Forms.Button btnThemAnh;
         private System.Windows.Forms.Button btnTaoVatLieu;
+        private System.Windows.Forms.Button btnLeftArrow;
     }
 }

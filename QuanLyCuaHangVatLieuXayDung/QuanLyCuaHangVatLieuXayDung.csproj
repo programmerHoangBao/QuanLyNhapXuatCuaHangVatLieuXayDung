@@ -158,6 +158,18 @@
     <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="utilities\StringUtility.cs" />
+    <Compile Include="views\Form_BienLaiTraNo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_BienLaiTraNo.Designer.cs">
+      <DependentUpon>Form_BienLaiTraNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_ChiPhiPhatSinh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_ChiPhiPhatSinh.Designer.cs">
+      <DependentUpon>Form_ChiPhiPhatSinh.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_ChiTietVatlieu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,6 +187,30 @@
     </Compile>
     <Compile Include="views\Form_ChonSoLuongVatLieu.Designer.cs">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_DoiTac.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_DoiTac.Designer.cs">
+      <DependentUpon>Form_DoiTac.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_LichSuGiaoDich.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_LichSuGiaoDich.Designer.cs">
+      <DependentUpon>Form_LichSuGiaoDich.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_NhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_NhanVien.Designer.cs">
+      <DependentUpon>Form_NhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_PhieuGhiNo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_PhieuGhiNo.Designer.cs">
+      <DependentUpon>Form_PhieuGhiNo.cs</DependentUpon>
     </Compile>
     <Compile Include="views\Form_SelectVatLieu.cs">
       <SubType>Form</SubType>
@@ -194,6 +230,12 @@
     <Compile Include="views\Form_TaoVatLieuMoi.Designer.cs">
       <DependentUpon>Form_TaoVatLieuMoi.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_TraHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_TraHang.Designer.cs">
+      <DependentUpon>Form_TraHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_TrangChu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +247,12 @@
     </Compile>
     <Compile Include="views\Form_GiaoDich.Designer.cs">
       <DependentUpon>Form_GiaoDich.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_VatLieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_VatLieu.Designer.cs">
+      <DependentUpon>Form_VatLieu.cs</DependentUpon>
     </Compile>
     <Compile Include="views\UserControlShowVatLieu.cs">
       <SubType>UserControl</SubType>
@@ -222,6 +270,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="views\Form_BienLaiTraNo.resx">
+      <DependentUpon>Form_BienLaiTraNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_ChiPhiPhatSinh.resx">
+      <DependentUpon>Form_ChiPhiPhatSinh.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_ChiTietVatlieu.resx">
       <DependentUpon>Form_ChiTietVatlieu.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,6 +284,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_ChonSoLuongVatLieu.resx">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_DoiTac.resx">
+      <DependentUpon>Form_DoiTac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_LichSuGiaoDich.resx">
+      <DependentUpon>Form_LichSuGiaoDich.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_NhanVien.resx">
+      <DependentUpon>Form_NhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_PhieuGhiNo.resx">
+      <DependentUpon>Form_PhieuGhiNo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_SelectVatLieu.resx">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
@@ -240,11 +306,17 @@
     <EmbeddedResource Include="views\Form_TaoVatLieuMoi.resx">
       <DependentUpon>Form_TaoVatLieuMoi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_TraHang.resx">
+      <DependentUpon>Form_TraHang.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TrangChu.resx">
       <DependentUpon>Form_TrangChu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_GiaoDich.resx">
       <DependentUpon>Form_GiaoDich.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_VatLieu.resx">
+      <DependentUpon>Form_VatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\UserControlShowVatLieu.resx">
       <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>

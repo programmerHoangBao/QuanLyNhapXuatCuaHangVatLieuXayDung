@@ -118,6 +118,7 @@
             this.btnLichSuGiaoDich.TabIndex = 1;
             this.btnLichSuGiaoDich.Text = "Lịch sử giao dịch";
             this.btnLichSuGiaoDich.UseVisualStyleBackColor = true;
+            this.btnLichSuGiaoDich.Click += new System.EventHandler(this.btnLichSuGiaoDich_Click);
             // 
             // btnChiPhiPhatSinh
             // 
@@ -130,6 +131,7 @@
             this.btnChiPhiPhatSinh.TabIndex = 1;
             this.btnChiPhiPhatSinh.Text = "Chi phí phát sinh";
             this.btnChiPhiPhatSinh.UseVisualStyleBackColor = true;
+            this.btnChiPhiPhatSinh.Click += new System.EventHandler(this.btnChiPhiPhatSinh_Click);
             // 
             // btnBienLaiTraNo
             // 
@@ -142,6 +144,7 @@
             this.btnBienLaiTraNo.TabIndex = 1;
             this.btnBienLaiTraNo.Text = "Biên lai tra nợ";
             this.btnBienLaiTraNo.UseVisualStyleBackColor = true;
+            this.btnBienLaiTraNo.Click += new System.EventHandler(this.btnBienLaiTraNo_Click);
             // 
             // btnPhieuGhiNo
             // 
@@ -154,6 +157,7 @@
             this.btnPhieuGhiNo.TabIndex = 1;
             this.btnPhieuGhiNo.Text = "Phiếu ghi nợ";
             this.btnPhieuGhiNo.UseVisualStyleBackColor = true;
+            this.btnPhieuGhiNo.Click += new System.EventHandler(this.btnPhieuGhiNo_Click);
             // 
             // btnNhanVien
             // 
@@ -166,6 +170,7 @@
             this.btnNhanVien.TabIndex = 1;
             this.btnNhanVien.Text = "Nhân viên";
             this.btnNhanVien.UseVisualStyleBackColor = true;
+            this.btnNhanVien.Click += new System.EventHandler(this.btnNhanVien_Click);
             // 
             // btnVatLieu
             // 
@@ -178,6 +183,7 @@
             this.btnVatLieu.TabIndex = 1;
             this.btnVatLieu.Text = "Vật liệu";
             this.btnVatLieu.UseVisualStyleBackColor = true;
+            this.btnVatLieu.Click += new System.EventHandler(this.btnVatLieu_Click);
             // 
             // btnDoiTac
             // 
@@ -190,6 +196,7 @@
             this.btnDoiTac.TabIndex = 1;
             this.btnDoiTac.Text = "Đối tác";
             this.btnDoiTac.UseVisualStyleBackColor = true;
+            this.btnDoiTac.Click += new System.EventHandler(this.btnDoiTac_Click);
             // 
             // btnTraHang
             // 
@@ -202,6 +209,7 @@
             this.btnTraHang.TabIndex = 1;
             this.btnTraHang.Text = "Trả hàng";
             this.btnTraHang.UseVisualStyleBackColor = true;
+            this.btnTraHang.Click += new System.EventHandler(this.btnTraHang_Click);
             // 
             // btnGiaoDich
             // 
