@@ -111,6 +111,7 @@
             this.btnTimKiem.TabIndex = 22;
             this.btnTimKiem.Text = "Tìm kiếm";
             this.btnTimKiem.UseVisualStyleBackColor = false;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // panelVatLieu
             // 
@@ -164,6 +165,7 @@
             this.btnXoaAnh.TabIndex = 21;
             this.btnXoaAnh.Text = "Xóa ảnh";
             this.btnXoaAnh.UseVisualStyleBackColor = false;
+            this.btnXoaAnh.Click += new System.EventHandler(this.btnXoaAnh_Click);
             // 
             // btnThemAnh
             // 
@@ -174,6 +176,7 @@
             this.btnThemAnh.TabIndex = 22;
             this.btnThemAnh.Text = "Thêm ảnh";
             this.btnThemAnh.UseVisualStyleBackColor = false;
+            this.btnThemAnh.Click += new System.EventHandler(this.btnThemAnh_Click);
             // 
             // btnLeftArrow
             // 
@@ -185,6 +188,7 @@
             this.btnLeftArrow.Size = new System.Drawing.Size(78, 92);
             this.btnLeftArrow.TabIndex = 20;
             this.btnLeftArrow.UseVisualStyleBackColor = true;
+            this.btnLeftArrow.Click += new System.EventHandler(this.btnLeftArrow_Click);
             // 
             // btnRightArrow
             // 
@@ -196,6 +200,7 @@
             this.btnRightArrow.Size = new System.Drawing.Size(78, 92);
             this.btnRightArrow.TabIndex = 19;
             this.btnRightArrow.UseVisualStyleBackColor = true;
+            this.btnRightArrow.Click += new System.EventHandler(this.btnRightArrow_Click);
             // 
             // pictureBoxShowImage
             // 
@@ -203,13 +208,16 @@
             this.pictureBoxShowImage.Location = new System.Drawing.Point(124, 413);
             this.pictureBoxShowImage.Name = "pictureBoxShowImage";
             this.pictureBoxShowImage.Size = new System.Drawing.Size(250, 200);
+            this.pictureBoxShowImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxShowImage.TabIndex = 18;
             this.pictureBoxShowImage.TabStop = false;
             // 
             // dateTimePickerNgayNhap
             // 
+            this.dateTimePickerNgayNhap.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerNgayNhap.Location = new System.Drawing.Point(147, 60);
             this.dateTimePickerNgayNhap.Name = "dateTimePickerNgayNhap";
+            this.dateTimePickerNgayNhap.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dateTimePickerNgayNhap.Size = new System.Drawing.Size(320, 37);
             this.dateTimePickerNgayNhap.TabIndex = 17;
             // 
@@ -222,6 +230,7 @@
             this.btnPlus.Size = new System.Drawing.Size(50, 37);
             this.btnPlus.TabIndex = 16;
             this.btnPlus.UseVisualStyleBackColor = true;
+            this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click);
             // 
             // btnMinus
             // 
@@ -232,6 +241,7 @@
             this.btnMinus.Size = new System.Drawing.Size(50, 37);
             this.btnMinus.TabIndex = 15;
             this.btnMinus.UseVisualStyleBackColor = true;
+            this.btnMinus.Click += new System.EventHandler(this.btnMinus_Click);
             // 
             // txtSoLuong
             // 
@@ -240,6 +250,8 @@
             this.txtSoLuong.Size = new System.Drawing.Size(218, 37);
             this.txtSoLuong.TabIndex = 14;
             this.txtSoLuong.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSoLuong.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSoLuong_KeyPress);
+            this.txtSoLuong.Leave += new System.EventHandler(this.txtSoLuong_Leave);
             // 
             // labelSoLuong
             // 
@@ -291,6 +303,7 @@
             this.txtGiaXuat.Size = new System.Drawing.Size(320, 37);
             this.txtGiaXuat.TabIndex = 8;
             this.txtGiaXuat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtGiaXuat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtGiaXuat_KeyPress);
             // 
             // labelGiaXuat
             // 
@@ -308,6 +321,8 @@
             this.txtGiaNhap.Size = new System.Drawing.Size(320, 37);
             this.txtGiaNhap.TabIndex = 6;
             this.txtGiaNhap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtGiaNhap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtGiaNhap_KeyPress);
+            this.txtGiaNhap.MouseLeave += new System.EventHandler(this.txtGiaNhap_MouseLeave);
             // 
             // labelGiaNhap
             // 
@@ -382,6 +397,7 @@
             this.btnRefresh.TabIndex = 1;
             this.btnRefresh.Text = "Làm mới";
             this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnDeleteVatLieu
             // 
@@ -392,6 +408,7 @@
             this.btnDeleteVatLieu.TabIndex = 1;
             this.btnDeleteVatLieu.Text = "Xóa";
             this.btnDeleteVatLieu.UseVisualStyleBackColor = false;
+            this.btnDeleteVatLieu.Click += new System.EventHandler(this.btnDeleteVatLieu_Click);
             // 
             // btnUpdateVatLieu
             // 
@@ -402,6 +419,7 @@
             this.btnUpdateVatLieu.TabIndex = 1;
             this.btnUpdateVatLieu.Text = "Chỉnh sửa";
             this.btnUpdateVatLieu.UseVisualStyleBackColor = false;
+            this.btnUpdateVatLieu.Click += new System.EventHandler(this.btnUpdateVatLieu_Click);
             // 
             // btnThemVatLieu
             // 
@@ -412,6 +430,7 @@
             this.btnThemVatLieu.TabIndex = 1;
             this.btnThemVatLieu.Text = "Thêm";
             this.btnThemVatLieu.UseVisualStyleBackColor = false;
+            this.btnThemVatLieu.Click += new System.EventHandler(this.btnThemVatLieu_Click);
             // 
             // panelTitle
             // 
@@ -462,9 +481,10 @@
             this.dataGridViewShowVatLieu.Name = "dataGridViewShowVatLieu";
             this.dataGridViewShowVatLieu.RowHeadersVisible = false;
             this.dataGridViewShowVatLieu.RowHeadersWidth = 62;
-            this.dataGridViewShowVatLieu.RowTemplate.Height = 28;
+            this.dataGridViewShowVatLieu.RowTemplate.Height = 50;
             this.dataGridViewShowVatLieu.Size = new System.Drawing.Size(826, 888);
             this.dataGridViewShowVatLieu.TabIndex = 0;
+            this.dataGridViewShowVatLieu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewShowVatLieu_CellContentClick);
             // 
             // MaVatLieu
             // 
@@ -517,6 +537,7 @@
             // HinhAnh
             // 
             this.HinhAnh.HeaderText = "Hình ảnh";
+            this.HinhAnh.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.HinhAnh.MinimumWidth = 8;
             this.HinhAnh.Name = "HinhAnh";
             this.HinhAnh.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -534,6 +555,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "Form_VatLieu";
             this.Text = "Form_VatLieu";
+            this.Load += new System.EventHandler(this.Form_VatLieu_Load);
             this.panelTimKiem.ResumeLayout(false);
             this.panelTimKiem.PerformLayout();
             this.panelVatLieu.ResumeLayout(false);
@@ -557,15 +579,6 @@
         private System.Windows.Forms.Panel panelTitle;
         private System.Windows.Forms.Panel panelShowVatLieu;
         private System.Windows.Forms.DataGridView dataGridViewShowVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TenVatLieu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GiaNhap;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GiaXuat;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DonVi;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NgayNhap;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NhaCungCap;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
-        private System.Windows.Forms.DataGridViewImageColumn HinhAnh;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Label labelMa;
         private System.Windows.Forms.TextBox txtMaVatLieu;
@@ -596,5 +609,14 @@
         private System.Windows.Forms.Button btnThemVatLieu;
         private System.Windows.Forms.TextBox txtTimKiem;
         private System.Windows.Forms.Button btnTimKiem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TenVatLieu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GiaNhap;
+        private System.Windows.Forms.DataGridViewTextBoxColumn GiaXuat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DonVi;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NgayNhap;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NhaCungCap;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
+        private System.Windows.Forms.DataGridViewImageColumn HinhAnh;
     }
 }
