@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     {
         private IVatLieuService vatLieuService = new VatLieuService();
         private IDoiTacService doiTacService = new DoiTacService();
+        private List<NhaCungCap> nhaCungCaps = new List<NhaCungCap>();
         private List<string> imagePaths = new List<string>();
         private StringUtility stringUtility = new StringUtility();
         private FileUtility fileUtility = new FileUtility();
@@ -41,24 +43,22 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             foreach(VatLieu vatLieu in vatLieus)
             {
                 this.dataGridViewShowVatLieu.Rows.Add(
-                                                      vatLieu.MaVatLieu, vatLieu.Ten
-                                                      , vatLieu.GiaNhap, vatLieu.GiaXuat
-                                                      , vatLieu.DonVi, vatLieu.NgayNhap
-                                                      , vatLieu.NhaCungCap.Ten, vatLieu.SoLuong
-                                                      , Image.FromFile(vatLieu.GetDanhSachHinhAnhVatLieus()[0])
-                                                       );               
+                    vatLieu.MaVatLieu, vatLieu.Ten, vatLieu.GiaNhap, vatLieu.GiaXuat,
+                    vatLieu.DonVi, vatLieu.NgayNhap,
+                    vatLieu.NhaCungCap != null ? vatLieu.NhaCungCap.Ten : "Unknown",
+                    vatLieu.SoLuong,
+                    vatLieu.GetDanhSachHinhAnhVatLieus().Any() ? Image.FromFile(vatLieu.GetDanhSachHinhAnhVatLieus()[0]) : null
+                );
             }
         }
         private void SetUpComboBoxNhaCungCap()
         {
             this.comboBoxNhaCungCap.Items.Clear();
-            List<NhaCungCap> nhaCungCaps = this.doiTacService.findAllNhaCungCap();
+            this.nhaCungCaps = this.doiTacService.findAllNhaCungCap();
             foreach (NhaCungCap nhaCungCap in nhaCungCaps)
             {
-                this.comboBoxNhaCungCap.Items.Add(nhaCungCap);
+                this.comboBoxNhaCungCap.Items.Add(nhaCungCap.Ten);
             }
-            this.comboBoxNhaCungCap.DisplayMember = "Ten";
-            this.comboBoxNhaCungCap.ValueMember = "MaDoiTac";
         }
         private string TaoMaVatLieuTuDong()
         {
@@ -91,7 +91,10 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             vatLieu.GiaXuat = double.Parse(this.txtGiaXuat.Text.Trim());
             vatLieu.DonVi = this.txtDonVi.Text.Trim();
             vatLieu.NgayNhap = this.dateTimePickerNgayNhap.Value;
-            vatLieu.NhaCungCap = this.doiTacService.findByMaDoiTac(this.comboBoxNhaCungCap.SelectedValue.ToString()) as NhaCungCap;
+            if (this.comboBoxNhaCungCap.SelectedIndex != -1)
+            {
+                vatLieu.NhaCungCap = this.nhaCungCaps[this.comboBoxNhaCungCap.SelectedIndex];
+            }
             vatLieu.SoLuong = int.Parse(this.txtSoLuong.Text.Trim());
             string dirHinhAnh = string.Empty;
             if (this.imagePaths.Count > 0)
@@ -162,8 +165,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         this.txtGiaXuat.Text = vatLieu.GiaXuat.ToString();
                         this.txtDonVi.Text = vatLieu.DonVi;
                         this.dateTimePickerNgayNhap.Value = vatLieu.NgayNhap;
-                        this.comboBoxNhaCungCap.SelectedValue = vatLieu.NhaCungCap.MaDoiTac;
-                        this.comboBoxNhaCungCap.Text = vatLieu.NhaCungCap.Ten;
+                        if (vatLieu.NhaCungCap != null)
+                        {
+                            for (int i =0; i < this.nhaCungCaps.Count; i++)
+                            {
+                                if (vatLieu.NhaCungCap.MaDoiTac == this.nhaCungCaps[i].MaDoiTac)
+                                {
+                                    this.comboBoxNhaCungCap.SelectedIndex = i;
+                                    break;
+                                }
+                            }
+                        }
                         this.txtSoLuong.Text = vatLieu.SoLuong.ToString();
                         if (vatLieu.GetDanhSachHinhAnhVatLieus().Count > 0)
                         {
@@ -393,6 +405,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             VatLieu vatLieuUpdate = this.CreateVatLieuInput();
             if (vatLieuUpdate != null)
             {
+                string oldDirHinhAnh = this.vatLieuService.findByMaVatLieu(vatLieuUpdate.MaVatLieu).DirHinhAnh;
                 if (this.vatLieuService.updateVatLieu(vatLieuUpdate))
                 {
                     MessageBox.Show("Cập nhật vật liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

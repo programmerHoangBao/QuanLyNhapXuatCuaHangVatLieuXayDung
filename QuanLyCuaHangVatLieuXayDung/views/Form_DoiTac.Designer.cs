@@ -55,9 +55,9 @@
             this.lableMaDoiTac = new System.Windows.Forms.Label();
             this.panelButton = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnDeleteVatLieu = new System.Windows.Forms.Button();
-            this.btnUpdateVatLieu = new System.Windows.Forms.Button();
-            this.btnThemVatLieu = new System.Windows.Forms.Button();
+            this.btnDeleteDoiTac = new System.Windows.Forms.Button();
+            this.btnUpdateDoiTac = new System.Windows.Forms.Button();
+            this.btnThemDoiTac = new System.Windows.Forms.Button();
             this.panelTitle = new System.Windows.Forms.Panel();
             this.label_Title = new System.Windows.Forms.Label();
             this.panelShoDoiTac = new System.Windows.Forms.Panel();
@@ -378,9 +378,9 @@
             // panelButton
             // 
             this.panelButton.Controls.Add(this.btnRefresh);
-            this.panelButton.Controls.Add(this.btnDeleteVatLieu);
-            this.panelButton.Controls.Add(this.btnUpdateVatLieu);
-            this.panelButton.Controls.Add(this.btnThemVatLieu);
+            this.panelButton.Controls.Add(this.btnDeleteDoiTac);
+            this.panelButton.Controls.Add(this.btnUpdateDoiTac);
+            this.panelButton.Controls.Add(this.btnThemDoiTac);
             this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelButton.Location = new System.Drawing.Point(0, 690);
             this.panelButton.Name = "panelButton";
@@ -398,38 +398,38 @@
             this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // btnDeleteVatLieu
+            // btnDeleteDoiTac
             // 
-            this.btnDeleteVatLieu.BackColor = System.Drawing.Color.Orange;
-            this.btnDeleteVatLieu.Location = new System.Drawing.Point(341, 1);
-            this.btnDeleteVatLieu.Name = "btnDeleteVatLieu";
-            this.btnDeleteVatLieu.Size = new System.Drawing.Size(142, 42);
-            this.btnDeleteVatLieu.TabIndex = 3;
-            this.btnDeleteVatLieu.Text = "Xóa";
-            this.btnDeleteVatLieu.UseVisualStyleBackColor = false;
-            this.btnDeleteVatLieu.Click += new System.EventHandler(this.btnDeleteVatLieu_Click);
+            this.btnDeleteDoiTac.BackColor = System.Drawing.Color.Orange;
+            this.btnDeleteDoiTac.Location = new System.Drawing.Point(341, 1);
+            this.btnDeleteDoiTac.Name = "btnDeleteDoiTac";
+            this.btnDeleteDoiTac.Size = new System.Drawing.Size(142, 42);
+            this.btnDeleteDoiTac.TabIndex = 3;
+            this.btnDeleteDoiTac.Text = "Xóa";
+            this.btnDeleteDoiTac.UseVisualStyleBackColor = false;
+            this.btnDeleteDoiTac.Click += new System.EventHandler(this.btnDeleteDoiTac_Click);
             // 
-            // btnUpdateVatLieu
+            // btnUpdateDoiTac
             // 
-            this.btnUpdateVatLieu.BackColor = System.Drawing.Color.Orange;
-            this.btnUpdateVatLieu.Location = new System.Drawing.Point(183, 1);
-            this.btnUpdateVatLieu.Name = "btnUpdateVatLieu";
-            this.btnUpdateVatLieu.Size = new System.Drawing.Size(142, 42);
-            this.btnUpdateVatLieu.TabIndex = 4;
-            this.btnUpdateVatLieu.Text = "Chỉnh sửa";
-            this.btnUpdateVatLieu.UseVisualStyleBackColor = false;
-            this.btnUpdateVatLieu.Click += new System.EventHandler(this.btnUpdateVatLieu_Click);
+            this.btnUpdateDoiTac.BackColor = System.Drawing.Color.Orange;
+            this.btnUpdateDoiTac.Location = new System.Drawing.Point(183, 1);
+            this.btnUpdateDoiTac.Name = "btnUpdateDoiTac";
+            this.btnUpdateDoiTac.Size = new System.Drawing.Size(142, 42);
+            this.btnUpdateDoiTac.TabIndex = 4;
+            this.btnUpdateDoiTac.Text = "Chỉnh sửa";
+            this.btnUpdateDoiTac.UseVisualStyleBackColor = false;
+            this.btnUpdateDoiTac.Click += new System.EventHandler(this.btnUpdateDoiTac_Click);
             // 
-            // btnThemVatLieu
+            // btnThemDoiTac
             // 
-            this.btnThemVatLieu.BackColor = System.Drawing.Color.Orange;
-            this.btnThemVatLieu.Location = new System.Drawing.Point(17, 1);
-            this.btnThemVatLieu.Name = "btnThemVatLieu";
-            this.btnThemVatLieu.Size = new System.Drawing.Size(142, 42);
-            this.btnThemVatLieu.TabIndex = 5;
-            this.btnThemVatLieu.Text = "Thêm";
-            this.btnThemVatLieu.UseVisualStyleBackColor = false;
-            this.btnThemVatLieu.Click += new System.EventHandler(this.btnThemVatLieu_Click);
+            this.btnThemDoiTac.BackColor = System.Drawing.Color.Orange;
+            this.btnThemDoiTac.Location = new System.Drawing.Point(17, 1);
+            this.btnThemDoiTac.Name = "btnThemDoiTac";
+            this.btnThemDoiTac.Size = new System.Drawing.Size(142, 42);
+            this.btnThemDoiTac.TabIndex = 5;
+            this.btnThemDoiTac.Text = "Thêm";
+            this.btnThemDoiTac.UseVisualStyleBackColor = false;
+            this.btnThemDoiTac.Click += new System.EventHandler(this.btnThemDoiTac_Click);
             // 
             // panelTitle
             // 
@@ -546,9 +546,9 @@
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.Label label_Title;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Button btnDeleteVatLieu;
-        private System.Windows.Forms.Button btnUpdateVatLieu;
-        private System.Windows.Forms.Button btnThemVatLieu;
+        private System.Windows.Forms.Button btnDeleteDoiTac;
+        private System.Windows.Forms.Button btnUpdateDoiTac;
+        private System.Windows.Forms.Button btnThemDoiTac;
         private System.Windows.Forms.TextBox txtMaDoiTac;
         private System.Windows.Forms.Label lableMaDoiTac;
         private System.Windows.Forms.TextBox txtTenDoiTac;

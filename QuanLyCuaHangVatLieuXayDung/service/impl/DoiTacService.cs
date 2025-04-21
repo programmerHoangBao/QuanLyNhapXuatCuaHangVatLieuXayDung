@@ -31,16 +31,23 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 affectedRows = cmd.ExecuteNonQuery();
                 if (affectedRows > 0)
                 {
-                    if (new FileUtility().DeleteFile(doiTac.QR))
+                    result = true;
+                    if (!string.IsNullOrEmpty(doiTac.QR))
                     {
-                        result = true;
-                        transaction.Commit();
+                        if (new FileUtility().DeleteFile(doiTac.QR))
+                        {
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show("Failed to delete the file.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
-                        transaction.Rollback();
-                        MessageBox.Show("Failed to delete the file.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }   
+                        transaction.Commit();
+                    }
                 }
             }
             catch (Exception ex)

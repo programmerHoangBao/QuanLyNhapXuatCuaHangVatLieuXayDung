@@ -101,12 +101,12 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             string email = string.IsNullOrEmpty(this.txtEmail.Text.Trim()) ? null : this.txtEmail.Text.Trim();
             string nganHang = string.IsNullOrEmpty(this.comboBoxNganHang.Text.Trim()) ? null : this.comboBoxNganHang.Text.Trim();
             string stk = string.IsNullOrEmpty(this.txtSoTK.Text.Trim()) ? null : this.txtSoTK.Text.Trim();
-            this.qrPath = string.IsNullOrEmpty(this.qrPath.Trim()) ? null : this.qrPath.Trim();
-            if (string.IsNullOrEmpty(qrPath))
+            this.qrPath = string.IsNullOrEmpty(this.qrPath) ? null : this.qrPath;
+            if (!string.IsNullOrEmpty(qrPath))
             {
                 if (this.fileUtility.IsFileExists(qrPath))
                 {
-                    string imageName = Path.GetFileNameWithoutExtension(this.imagePath);
+                    string imageName = Path.GetFileNameWithoutExtension(this.qrPath);
                     string extension = Path.GetExtension(this.qrPath);
                     string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
                     string newImageName = $"{imageName}_{timestamp}{extension}";
@@ -251,7 +251,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             resetFrom();
         }
 
-        private void btnThemVatLieu_Click(object sender, EventArgs e)
+        private void btnThemDoiTac_Click(object sender, EventArgs e)
         {
             DoiTac doiTacNew = this.CreateDoiTacToInput();
             if (doiTacNew != null)
@@ -268,7 +268,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
         }
 
-        private void btnUpdateVatLieu_Click(object sender, EventArgs e)
+        private void btnUpdateDoiTac_Click(object sender, EventArgs e)
         {
             DoiTac doiTacUpdate = this.CreateDoiTacToInput();
             if (doiTacUpdate != null)
@@ -298,7 +298,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
         }
 
-        private void btnDeleteVatLieu_Click(object sender, EventArgs e)
+        private void btnDeleteDoiTac_Click(object sender, EventArgs e)
         {
             DoiTac doiTacDelete = this.CreateDoiTacToInput();
             if (doiTacDelete != null)
