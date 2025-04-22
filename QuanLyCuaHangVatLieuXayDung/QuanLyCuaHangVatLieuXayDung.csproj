@@ -126,8 +126,8 @@
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\TaiKhoanService.cs" />
-	<Compile Include="service\IPhieuGhiNoService.cs" />
-	<Compile Include="service\impl\PhieuGhiNoService.cs" />
+    <Compile Include="service\IPhieuGhiNoService.cs" />
+    <Compile Include="service\impl\PhieuGhiNoService.cs" />
     <Compile Include="service\INhanVienService.cs" />
     <Compile Include="service\IPhieuTraHangService.cs" />
     <Compile Include="service\ITaiKhoanService.cs" />

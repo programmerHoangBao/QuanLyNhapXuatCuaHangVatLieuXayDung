@@ -8,7 +8,7 @@
   "DatabaseConfig": {
     "DATA_SOURCE": "(localdb)\\MSSQLLocalDB",
     "DATABASE": "CuaHangXayDung",
-    "USER_ID": "ChuCuaHang",
+    "USER_ID": "ChuCuaHang",  
     "PASSWORD": "ChuCuaHang123"
   }
 }

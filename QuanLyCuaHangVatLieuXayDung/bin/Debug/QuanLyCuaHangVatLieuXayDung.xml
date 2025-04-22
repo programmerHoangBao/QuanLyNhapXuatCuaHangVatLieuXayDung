@@ -52,6 +52,9 @@
             If the folder does not exist or an error occurs, returns an empty list.
             </returns>
         </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.service.IPhieuGhiNoService.searchByKey(System.String)">
+            <returns>Danh sách phiếu ghi nợ khớp với từ khóa</returns>
+        </member>
         <member name="T:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility">
             <summary>
             Utilities related to file
@@ -322,6 +325,23 @@
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChonSoLuongVatLieu.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_PhieuGhiNo.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_PhieuGhiNo.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_PhieuGhiNo.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
