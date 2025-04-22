@@ -468,6 +468,23 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ReportHoaDon.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportHoaDon.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportHoaDon.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_SelectVatLieu.components">
             <summary>
             Required designer variable.
@@ -587,6 +604,41 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet.ChiTietHoaDonDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet.ImageDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet.ChiTietHoaDonRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet.ImageRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet.ChiTietHoaDonRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:QuanLyCuaHangVatLieuXayDung.views.report.DataSet.ImageRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.views.UserControlShowVatLieu.ShowVatLieu(System.Byte)">
             <summary>
             Hiển thị thông tin về vật liệu lên giao diện người dùng.
@@ -665,6 +717,20 @@
             <summary>
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
+        </member>
+        <member name="T:SqlServerTypes.Utilities">
+            <summary>
+            Utility methods related to CLR Types for SQL Server 
+            </summary>
+        </member>
+        <member name="M:SqlServerTypes.Utilities.LoadNativeAssemblies(System.String)">
+            <summary>
+            Loads the required native assemblies for the current architecture (x86 or x64)
+            </summary>
+            <param name="rootApplicationPath">
+            Root path of the current application. Use Server.MapPath(".") for ASP.NET applications
+            and AppDomain.CurrentDomain.BaseDirectory for desktop applications.
+            </param>
         </member>
     </members>
 </doc>

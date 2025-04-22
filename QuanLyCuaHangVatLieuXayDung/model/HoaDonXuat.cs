@@ -31,7 +31,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
             double tongTien = 0;
             foreach (ChiTiet chiTiet in this.ChiTiets)
             {
-                tongTien += chiTiet.VatLieu.GiaXuat;
+                tongTien += chiTiet.VatLieu.GiaXuat * chiTiet.SoLuong;
             }
             return tongTien - this.tienGiam;
         }

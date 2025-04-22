@@ -36,10 +36,10 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 this.btnPlus.Enabled = false;
             }
-            //else
-            //{
-            //    this.ShowSoLuongVatLieu();
-            //}
+            else
+            {
+                this.ShowSoLuongVatLieu();
+            }
         }
         public void ShowSoLuongVatLieu()
         {
