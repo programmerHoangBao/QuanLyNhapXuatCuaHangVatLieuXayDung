@@ -298,32 +298,19 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             VatLieu vatLieu = new VatLieu(maVatLieu, tenVatLieu, giaNhap, giaXuat
                 , donVi, DateTime.Now, dirHinhAnh, nhaCungCap, soLuong);
-            if (this.vatLieuService.insertVatLieu(vatLieu))
+            //Ghi đối tượng vật liệu mới vào file json
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+            if (this.fileUtility.WriteObjectJsonFile(new ChiTiet(vatLieu, vatLieu.SoLuong), filePath))
             {
-                MessageBox.Show("Tạo vật liệu thành công!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                string chiTietJson = "";
-                if (this.LoaiHoaDon == 1)
-                {
-                    chiTietJson = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
-                }
-                else if (this.LoaiHoaDon == 2)
-                {
-                    chiTietJson = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
-                }
-                ChiTiet chiTiet = new ChiTiet(vatLieu, vatLieu.SoLuong);
-                if (!this.fileUtility.IsFileExists(chiTietJson))
-                {
-                    this.fileUtility.WriteObjectJsonFile(chiTiet, chiTietJson);
-                }
-                else
-                {
-                    this.fileUtility.AppendObjectJsonFile(chiTiet, chiTietJson);
-                }
+                MessageBox.Show("Tạo vật liệu mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Tạo vật liệu thất bại!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tạo vật liệu mới thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.fileUtility.DeleteFolder(vatLieu.DirHinhAnh);
+                this.fileUtility.DeleteFile(filePath);
             }
         }
     }
