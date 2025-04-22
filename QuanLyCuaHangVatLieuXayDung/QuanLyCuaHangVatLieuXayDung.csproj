@@ -117,14 +117,15 @@
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
     <Compile Include="model\ChiTiet.cs" />
+    <Compile Include="service\IChamCongService.cs" />
     <Compile Include="service\IChiPhiPhatSinhService.cs" />
     <Compile Include="service\IChiTietService.cs" />
     <Compile Include="service\IHoaDonService.cs" />
+    <Compile Include="service\impl\ChamCongService.cs" />
     <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\ChiTietService.cs" />
     <Compile Include="service\impl\HoaDonService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
-    <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\TaiKhoanService.cs" />
     <Compile Include="service\INhanVienService.cs" />
     <Compile Include="service\IPhieuTraHangService.cs" />
@@ -155,7 +156,6 @@
     <Compile Include="service\IDoiTacService.cs" />
     <Compile Include="service\IVatLieuService.cs" />
     <Compile Include="service\impl\VatLieuService.cs" />
-    <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="utilities\StringUtility.cs" />
     <Compile Include="views\Form_BienLaiTraNo.cs">

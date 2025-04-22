@@ -13,6 +13,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool updatenhanVien(NhanVien nv);
         bool deletenhanVien(string maNV);
         List<NhanVien> findAllNhanVien();
-        
+        NhanVien FindByMaNhanVien(string maNhanVien);
+
+
     }
 }
