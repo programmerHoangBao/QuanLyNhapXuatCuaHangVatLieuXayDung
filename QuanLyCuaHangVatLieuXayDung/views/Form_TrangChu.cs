@@ -55,5 +55,20 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.btnGiaoDich.BackColor = Color.FromArgb(255, 165, 0);
             this.OpenFormChild(new Form_GiaoDich());
         }
+
+        private void btnNhanVien_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnNhanVien.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_NhanVien());
+        }
+
+        private void btnTaiKhoan_Click(object sender, EventArgs e)
+        {
+            this.SetCollorAllButton();
+            this.btnTaiKhoan.BackColor = Color.FromArgb(255, 165, 0);
+            this.OpenFormChild(new Form_TaiKhoan());
+
+        }
     }
 }

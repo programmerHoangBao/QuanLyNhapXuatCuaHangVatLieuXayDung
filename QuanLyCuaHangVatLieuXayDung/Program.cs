@@ -17,11 +17,11 @@ namespace QuanLyCuaHangVatLieuXayDung
         [STAThread]
         static void Main()
         {
-            FormApp form = new FormApp();
-            form.SetUp();
+            //FormApp form = new FormApp();
+            //form.SetUp();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_TrangChu());
+            Application.Run(new Form_DangNhap());
         }
     }
 }

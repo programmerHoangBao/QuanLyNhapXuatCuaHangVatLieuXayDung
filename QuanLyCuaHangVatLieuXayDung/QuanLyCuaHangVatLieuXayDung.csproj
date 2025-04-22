@@ -164,11 +164,29 @@
     <Compile Include="views\Form_ChonSoLuongVatLieu.Designer.cs">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_DangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_DangNhap.Designer.cs">
+      <DependentUpon>Form_DangNhap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_NhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_NhanVien.Designer.cs">
+      <DependentUpon>Form_NhanVien.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_SelectVatLieu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="views\Form_SelectVatLieu.Designer.cs">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_TaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_TaiKhoan.Designer.cs">
+      <DependentUpon>Form_TaiKhoan.cs</DependentUpon>
     </Compile>
     <Compile Include="views\Form_TaoVatLieuMoi.cs">
       <SubType>Form</SubType>
@@ -207,8 +225,17 @@
     <EmbeddedResource Include="views\Form_ChonSoLuongVatLieu.resx">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_DangNhap.resx">
+      <DependentUpon>Form_DangNhap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_NhanVien.resx">
+      <DependentUpon>Form_NhanVien.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_SelectVatLieu.resx">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_TaiKhoan.resx">
+      <DependentUpon>Form_TaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TaoVatLieuMoi.resx">
       <DependentUpon>Form_TaoVatLieuMoi.cs</DependentUpon>
@@ -248,6 +275,8 @@
     <None Include="Resources\minus.png" />
     <None Include="Resources\right-arrow.png" />
     <None Include="Resources\left-arrow.png" />
+    <None Include="Resources\view.png" />
+    <None Include="Resources\man.png" />
     <Content Include="service\impl\description.txt" />
     <Content Include="views\description.txt" />
   </ItemGroup>
