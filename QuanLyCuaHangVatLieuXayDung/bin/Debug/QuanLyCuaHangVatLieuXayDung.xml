@@ -52,6 +52,9 @@
             If the folder does not exist or an error occurs, returns an empty list.
             </returns>
         </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.service.IPhieuGhiNoService.searchByKey(System.String)">
+            <returns>Danh sách phiếu ghi nợ khớp với từ khóa</returns>
+        </member>
         <member name="T:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility">
             <summary>
             Utilities related to file

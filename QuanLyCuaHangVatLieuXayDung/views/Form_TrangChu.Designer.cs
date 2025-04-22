@@ -67,8 +67,9 @@
             this.panelOptional.Controls.Add(this.pictureBoxLogo);
             this.panelOptional.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelOptional.Location = new System.Drawing.Point(0, 0);
+            this.panelOptional.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelOptional.Name = "panelOptional";
-            this.panelOptional.Size = new System.Drawing.Size(230, 1044);
+            this.panelOptional.Size = new System.Drawing.Size(205, 835);
             this.panelOptional.TabIndex = 0;
             // 
             // btnDangXuat
@@ -76,9 +77,10 @@
             this.btnDangXuat.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnDangXuat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDangXuat.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDangXuat.Location = new System.Drawing.Point(0, 906);
+            this.btnDangXuat.Location = new System.Drawing.Point(0, 725);
+            this.btnDangXuat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDangXuat.Name = "btnDangXuat";
-            this.btnDangXuat.Size = new System.Drawing.Size(228, 70);
+            this.btnDangXuat.Size = new System.Drawing.Size(203, 56);
             this.btnDangXuat.TabIndex = 1;
             this.btnDangXuat.Text = "Đăng xuất";
             this.btnDangXuat.UseVisualStyleBackColor = true;
@@ -88,9 +90,10 @@
             this.btnTaiKhoan.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnTaiKhoan.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnTaiKhoan.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTaiKhoan.Location = new System.Drawing.Point(0, 836);
+            this.btnTaiKhoan.Location = new System.Drawing.Point(0, 669);
+            this.btnTaiKhoan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTaiKhoan.Name = "btnTaiKhoan";
-            this.btnTaiKhoan.Size = new System.Drawing.Size(228, 70);
+            this.btnTaiKhoan.Size = new System.Drawing.Size(203, 56);
             this.btnTaiKhoan.TabIndex = 1;
             this.btnTaiKhoan.Text = "Tài khoản";
             this.btnTaiKhoan.UseVisualStyleBackColor = true;
@@ -100,9 +103,10 @@
             this.btnDoanhThu.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnDoanhThu.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDoanhThu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDoanhThu.Location = new System.Drawing.Point(0, 766);
+            this.btnDoanhThu.Location = new System.Drawing.Point(0, 613);
+            this.btnDoanhThu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDoanhThu.Name = "btnDoanhThu";
-            this.btnDoanhThu.Size = new System.Drawing.Size(228, 70);
+            this.btnDoanhThu.Size = new System.Drawing.Size(203, 56);
             this.btnDoanhThu.TabIndex = 1;
             this.btnDoanhThu.Text = "Doanh thu";
             this.btnDoanhThu.UseVisualStyleBackColor = true;
@@ -112,9 +116,10 @@
             this.btnLichSuGiaoDich.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnLichSuGiaoDich.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnLichSuGiaoDich.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLichSuGiaoDich.Location = new System.Drawing.Point(0, 696);
+            this.btnLichSuGiaoDich.Location = new System.Drawing.Point(0, 557);
+            this.btnLichSuGiaoDich.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLichSuGiaoDich.Name = "btnLichSuGiaoDich";
-            this.btnLichSuGiaoDich.Size = new System.Drawing.Size(228, 70);
+            this.btnLichSuGiaoDich.Size = new System.Drawing.Size(203, 56);
             this.btnLichSuGiaoDich.TabIndex = 1;
             this.btnLichSuGiaoDich.Text = "Lịch sử giao dịch";
             this.btnLichSuGiaoDich.UseVisualStyleBackColor = true;
@@ -125,9 +130,10 @@
             this.btnChiPhiPhatSinh.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnChiPhiPhatSinh.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnChiPhiPhatSinh.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChiPhiPhatSinh.Location = new System.Drawing.Point(0, 626);
+            this.btnChiPhiPhatSinh.Location = new System.Drawing.Point(0, 501);
+            this.btnChiPhiPhatSinh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnChiPhiPhatSinh.Name = "btnChiPhiPhatSinh";
-            this.btnChiPhiPhatSinh.Size = new System.Drawing.Size(228, 70);
+            this.btnChiPhiPhatSinh.Size = new System.Drawing.Size(203, 56);
             this.btnChiPhiPhatSinh.TabIndex = 1;
             this.btnChiPhiPhatSinh.Text = "Chi phí phát sinh";
             this.btnChiPhiPhatSinh.UseVisualStyleBackColor = true;
@@ -138,11 +144,12 @@
             this.btnBienLaiTraNo.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnBienLaiTraNo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBienLaiTraNo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBienLaiTraNo.Location = new System.Drawing.Point(0, 556);
+            this.btnBienLaiTraNo.Location = new System.Drawing.Point(0, 445);
+            this.btnBienLaiTraNo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBienLaiTraNo.Name = "btnBienLaiTraNo";
-            this.btnBienLaiTraNo.Size = new System.Drawing.Size(228, 70);
+            this.btnBienLaiTraNo.Size = new System.Drawing.Size(203, 56);
             this.btnBienLaiTraNo.TabIndex = 1;
-            this.btnBienLaiTraNo.Text = "Biên lai tra nợ";
+            this.btnBienLaiTraNo.Text = "Biên lai trả nợ";
             this.btnBienLaiTraNo.UseVisualStyleBackColor = true;
             this.btnBienLaiTraNo.Click += new System.EventHandler(this.btnBienLaiTraNo_Click);
             // 
@@ -151,9 +158,10 @@
             this.btnPhieuGhiNo.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnPhieuGhiNo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPhieuGhiNo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPhieuGhiNo.Location = new System.Drawing.Point(0, 486);
+            this.btnPhieuGhiNo.Location = new System.Drawing.Point(0, 389);
+            this.btnPhieuGhiNo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPhieuGhiNo.Name = "btnPhieuGhiNo";
-            this.btnPhieuGhiNo.Size = new System.Drawing.Size(228, 70);
+            this.btnPhieuGhiNo.Size = new System.Drawing.Size(203, 56);
             this.btnPhieuGhiNo.TabIndex = 1;
             this.btnPhieuGhiNo.Text = "Phiếu ghi nợ";
             this.btnPhieuGhiNo.UseVisualStyleBackColor = true;
@@ -164,9 +172,10 @@
             this.btnNhanVien.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnNhanVien.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnNhanVien.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhanVien.Location = new System.Drawing.Point(0, 416);
+            this.btnNhanVien.Location = new System.Drawing.Point(0, 333);
+            this.btnNhanVien.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNhanVien.Name = "btnNhanVien";
-            this.btnNhanVien.Size = new System.Drawing.Size(228, 70);
+            this.btnNhanVien.Size = new System.Drawing.Size(203, 56);
             this.btnNhanVien.TabIndex = 1;
             this.btnNhanVien.Text = "Nhân viên";
             this.btnNhanVien.UseVisualStyleBackColor = true;
@@ -177,9 +186,10 @@
             this.btnVatLieu.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnVatLieu.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnVatLieu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVatLieu.Location = new System.Drawing.Point(0, 346);
+            this.btnVatLieu.Location = new System.Drawing.Point(0, 277);
+            this.btnVatLieu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnVatLieu.Name = "btnVatLieu";
-            this.btnVatLieu.Size = new System.Drawing.Size(228, 70);
+            this.btnVatLieu.Size = new System.Drawing.Size(203, 56);
             this.btnVatLieu.TabIndex = 1;
             this.btnVatLieu.Text = "Vật liệu";
             this.btnVatLieu.UseVisualStyleBackColor = true;
@@ -190,9 +200,10 @@
             this.btnDoiTac.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnDoiTac.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDoiTac.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDoiTac.Location = new System.Drawing.Point(0, 276);
+            this.btnDoiTac.Location = new System.Drawing.Point(0, 221);
+            this.btnDoiTac.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDoiTac.Name = "btnDoiTac";
-            this.btnDoiTac.Size = new System.Drawing.Size(228, 70);
+            this.btnDoiTac.Size = new System.Drawing.Size(203, 56);
             this.btnDoiTac.TabIndex = 1;
             this.btnDoiTac.Text = "Đối tác";
             this.btnDoiTac.UseVisualStyleBackColor = true;
@@ -203,9 +214,10 @@
             this.btnTraHang.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnTraHang.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnTraHang.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTraHang.Location = new System.Drawing.Point(0, 206);
+            this.btnTraHang.Location = new System.Drawing.Point(0, 165);
+            this.btnTraHang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTraHang.Name = "btnTraHang";
-            this.btnTraHang.Size = new System.Drawing.Size(228, 70);
+            this.btnTraHang.Size = new System.Drawing.Size(203, 56);
             this.btnTraHang.TabIndex = 1;
             this.btnTraHang.Text = "Trả hàng";
             this.btnTraHang.UseVisualStyleBackColor = true;
@@ -216,9 +228,10 @@
             this.btnGiaoDich.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnGiaoDich.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGiaoDich.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGiaoDich.Location = new System.Drawing.Point(0, 136);
+            this.btnGiaoDich.Location = new System.Drawing.Point(0, 109);
+            this.btnGiaoDich.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGiaoDich.Name = "btnGiaoDich";
-            this.btnGiaoDich.Size = new System.Drawing.Size(228, 70);
+            this.btnGiaoDich.Size = new System.Drawing.Size(203, 56);
             this.btnGiaoDich.TabIndex = 1;
             this.btnGiaoDich.Text = "Giao dịch";
             this.btnGiaoDich.UseVisualStyleBackColor = true;
@@ -230,8 +243,9 @@
             this.pictureBoxLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBoxLogo.Image = global::QuanLyCuaHangVatLieuXayDung.Properties.Resources.logo;
             this.pictureBoxLogo.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(228, 136);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(203, 109);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxLogo.TabIndex = 0;
             this.pictureBoxLogo.TabStop = false;
@@ -241,19 +255,21 @@
             this.panelBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBody.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelBody.Location = new System.Drawing.Point(230, 0);
+            this.panelBody.Location = new System.Drawing.Point(205, 0);
+            this.panelBody.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelBody.Name = "panelBody";
-            this.panelBody.Size = new System.Drawing.Size(1348, 1044);
+            this.panelBody.Size = new System.Drawing.Size(1198, 835);
             this.panelBody.TabIndex = 1;
             // 
             // Form_TrangChu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1578, 1044);
+            this.ClientSize = new System.Drawing.Size(1403, 835);
             this.Controls.Add(this.panelBody);
             this.Controls.Add(this.panelOptional);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form_TrangChu";
             this.Text = "Form_TrangChu";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
