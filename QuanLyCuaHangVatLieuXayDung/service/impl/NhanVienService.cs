@@ -160,4 +160,40 @@ internal class NhanVienService : INhanVienService
 
         return nhanViens;
     }
+
+    public NhanVien FindByMaNhanVien(string maNhanVien)
+    {
+        string query = "SELECT * FROM NhanVien WHERE MaNhanVien = @MaNhanVien";
+        NhanVien nhanVien = null;
+        try
+        {
+            this.myDatabase.OpenConnection();
+            SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+            cmd.Parameters.AddWithValue("@MaNhanVien", maNhanVien);
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                nhanVien = new NhanVien();
+                nhanVien.MaNhanVien = reader["MaNhanVien"].ToString();
+                nhanVien.Ten = reader["Ten"].ToString();
+                nhanVien.SoDienThoai = reader["SoDienThoai"].ToString();
+                nhanVien.DiaChi = reader["DiaChi"].ToString();
+                nhanVien.VaiTro = reader["VaiTro"].ToString();
+                nhanVien.Email = reader["Email"].ToString();
+                nhanVien.LuongTrenNgay = double.Parse(reader["LuongTrenNgay"].ToString());
+            }
+            reader.Close();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Error: " + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            this.myDatabase.CloseConnection();
+        }
+
+        return nhanVien;
+    }
+
 }
