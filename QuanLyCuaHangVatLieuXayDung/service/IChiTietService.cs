@@ -11,5 +11,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service
     {
         List<ChiTiet> GetChiTietHoaDon(string maHoaDon);
         bool insertChiTietHoaDon(string maHoaDon, ChiTiet chiTiet);
+        List<ChiTiet> getChiTietTraHangByPhieu(string maPhieu);
+        bool insertChiTietTraHang(string maPhieu, ChiTiet chiTiet);
+
     }
 }

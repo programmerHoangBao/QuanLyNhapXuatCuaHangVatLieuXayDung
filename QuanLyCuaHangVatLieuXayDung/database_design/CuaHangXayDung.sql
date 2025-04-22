@@ -27,6 +27,7 @@ CREATE TABLE TaiKhoan(
 	TenCuaHang NVARCHAR(100) NOT NULL,
 	SoDienThoai CHAR(10) UNIQUE NOT NULL,
 	DiaChi NVARCHAR(250) NOT NULL,
+	Email NVARCHAR(250),
 	NganHang NVARCHAR(100),
 	SoTaiKhoan CHAR(15),
 	QR NVARCHAR(250), /*đường dẫn đến file hình ảnh*/
@@ -350,3 +351,6 @@ GO
 /*Tạo INDEX cho thuộc tính MaNhanVien của quan hệ BangChamCong*/
 CREATE INDEX idx_bangchamcong_manhanvien ON BangChamCong(MaNhanVien);
 GO
+
+
+select * from PhieuGhiNo;

@@ -181,17 +181,21 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         }
 
         /// <summary>
-        /// Serializes a generic object along with a quantity value into JSON format and writes it to a specified file.
-        /// Creates the file and parent directory if they do not exist.
+        /// Overwrites a JSON file with a single object wrapped in a "Data" property.
         /// </summary>
-        /// <typeparam name="T">The type of the object to serialize.</typeparam>
-        /// <param name="obj">The object to serialize.</param>
-        /// <param name="quantity">The quantity associated with the object.</param>
-        /// <param name="filePath">The full path of the file where the JSON data will be saved.</param>
+        /// <typeparam name="T">The type of the object to be serialized and written to the JSON file.</typeparam>
+        /// <param name="obj">The object instance to serialize and write to the JSON file.</param>
+        /// <param name="filePath">The full path of the JSON file to be written, including the file name and extension.</param>
         /// <returns>
-        /// Returns <c>true</c> if the file was written successfully; otherwise, <c>false</c>.
+        /// Returns <c>true</c> if the operation completes successfully; otherwise, <c>false</c> if an error occurs.
         /// </returns>
-        public bool WriteTupleToJsonFile<T>(T obj, float quantity, string filePath)
+        /// <remarks>
+        /// If the directory does not exist, it will be created automatically.
+        /// The object will be serialized as a JSON array containing one item with a "Data" property.
+        /// The method will overwrite the entire file content regardless of any existing data.
+        /// The resulting JSON is formatted with indentation for readability.
+        /// </remarks>
+        public bool WriteObjectJsonFile<T>(T obj, string filePath)
         {
             try
             {
@@ -201,19 +205,88 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
                     Directory.CreateDirectory(directory);
                 }
 
-                var jsonObject = new
-                {
-                    Data = obj,
-                    Quantity = quantity
-                };
+                // Tạo object dạng { Data = obj }
+                var newEntry = new { Data = obj };
 
                 var options = new JsonSerializerOptions
                 {
                     WriteIndented = true
                 };
 
-                string json = JsonSerializer.Serialize(jsonObject, options);
-                File.WriteAllText(filePath, json);
+                // Tạo danh sách mới chỉ chứa một phần tử duy nhất
+                var entries = new List<object> { newEntry };
+
+                // Ghi đè toàn bộ dữ liệu vào file
+                string updatedJson = JsonSerializer.Serialize(entries, options);
+                File.WriteAllText(filePath, updatedJson);
+
+                Debug.WriteLine("✅ JSON file has been overwritten successfully.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("❌ Error writing JSON: " + ex.Message);
+                return false;
+            }
+        }
+        /// <summary>
+        /// Appends an object to a JSON file at the specified path, or creates a new file if it doesn't exist.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to be serialized and written to the JSON file.</typeparam>
+        /// <param name="obj">The object instance to serialize and add to the JSON file.</param>
+        /// <param name="filePath">The full file path where the JSON file will be saved, including the file name and extension.</param>
+        /// <returns>
+        /// Returns <c>true</c> if the operation is successful; otherwise, returns <c>false</c> if an error occurs.
+        /// </returns>
+        /// <remarks>
+        /// If the directory of the file does not exist, it will be created automatically.
+        /// The object will be wrapped in a parent object with a "Data" property before being serialized.
+        /// If the file already exists and contains a valid JSON array, the object will be added to the array.
+        /// If the file is empty or invalid, it will be overwritten with the new object.
+        /// The JSON output will be indented for readability.
+        /// </remarks>
+        public bool AppendObjectJsonFile<T>(T obj, string filePath)
+        {
+            try
+            {
+                var directory = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                var newEntry = new { Data = obj };
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+
+                List<object> entries = new List<object>();
+
+                if (File.Exists(filePath))
+                {
+                    string existingJson = File.ReadAllText(filePath);
+
+                    try
+                    {
+                        var existingEntries = JsonSerializer.Deserialize<List<JsonElement>>(existingJson, options);
+                        if (existingEntries != null)
+                        {
+                            entries = existingEntries.Cast<object>().ToList();
+                        }
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("⚠️ Existing file is not a valid JSON array. Overwriting.");
+                    }
+                }
+
+                entries.Add(newEntry);
+
+                string updatedJson = JsonSerializer.Serialize(entries, options);
+                File.WriteAllText(filePath, updatedJson);
+
                 return true;
             }
             catch (Exception ex)
@@ -224,91 +297,20 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         }
 
         /// <summary>
-        /// Appends an object and its quantity as a JSON entry to an existing JSON file.
-        /// If the file does not exist, the method will do nothing and return false.
-        /// The JSON file must contain a JSON array to append to.
+        /// Removes objects from a JSON file based on a specified condition defined by a predicate.
         /// </summary>
-        /// <typeparam name="T">The type of the object to serialize.</typeparam>
-        /// <param name="obj">The object to append.</param>
-        /// <param name="quantity">The quantity associated with the object.</param>
-        /// <param name="filePath">The full path of the existing JSON file.</param>
-        /// <returns>Returns <c>true</c> if the append operation is successful; otherwise, <c>false</c>.</returns>
-        public bool AppendTupleToJsonFile<T>(T obj, float quantity, string filePath)
-        {
-            try
-            {
-                if (!File.Exists(filePath))
-                {
-                    Debug.WriteLine($"⚠️ JSON file does not exist: {filePath}");
-                    return false;
-                }
-
-                var newEntry = new
-                {
-                    Data = obj,
-                    Quantity = quantity
-                };
-
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                };
-
-                // Đọc nội dung file và deserialize thành danh sách
-                string existingJson = File.ReadAllText(filePath);
-                List<JsonElement> entries;
-
-                try
-                {
-                    entries = JsonSerializer.Deserialize<List<JsonElement>>(existingJson, options) ?? new List<JsonElement>();
-                }
-                catch
-                {
-                    Debug.WriteLine("❌ File is not a valid JSON array.");
-                    return false;
-                }
-
-                // Append new entry
-                entries.Add(JsonSerializer.Deserialize<JsonElement>(JsonSerializer.Serialize(newEntry, options)));
-
-                // Serialize lại danh sách và ghi vào file
-                string updatedJson = JsonSerializer.Serialize(entries, options);
-                File.WriteAllText(filePath, updatedJson);
-
-                Debug.WriteLine($"✅ Added data to the JSON file: {filePath}");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"❌ Error when adding JSON: {ex.Message}");
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Removes all entries from a JSON file that match a specific object in the "Data" field of each entry.
-        /// </summary>
-        /// <typeparam name="T">The type of the object to remove. Must match the type used when appending data.</typeparam>
-        /// <param name="objToRemove">The object to search for and remove from the JSON file.</param>
-        /// <param name="filePath">The full path to the JSON file.</param>
+        /// <typeparam name="T">The type of the object that is being removed.</typeparam>
+        /// <param name="filePath">The full path to the JSON file from which objects will be removed.</param>
+        /// <param name="matchPredicate">A delegate (Func) that defines the condition to match objects for removal. It is applied to the "Data" property of each object.</param>
         /// <returns>
-        /// Returns <c>true</c> if one or more matching entries were found and removed; 
-        /// <c>false</c> if the file does not exist, is invalid, or no matching entries were found.
+        /// Returns <c>true</c> if matching objects were removed successfully; otherwise, returns <c>false</c> if no objects were removed or an error occurred.
         /// </returns>
         /// <remarks>
-        /// Each entry in the JSON file is expected to be an object with two fields: "Data" and "Quantity". 
-        /// This method deserializes the file, compares the "Data" field of each entry to <paramref name="objToRemove"/>,
-        /// and removes any entries that match.
+        /// This method reads the JSON file, deserializes it into a list of JSON elements, and removes entries that satisfy the provided predicate.
+        /// If no matching entries are found, a warning is logged. The updated JSON content is then written back to the file.
         /// </remarks>
-        /// <example>
-        /// Example usage:
-        /// <code>
-        /// var product = new Product { Id = 1, Name = "Apple" };
-        /// string filePath = "data.json";
-        /// bool removed = RemoveTupleFromJsonFile(product, filePath);
-        /// </code>
-        /// </example>
-        public bool RemoveTupleFromJsonFile<T>(T objToRemove, string filePath)
+
+        public bool RemoveObjectFromJsonFile<T>(string filePath, Func<JsonElement, bool> matchPredicate)
         {
             try
             {
@@ -337,15 +339,12 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
                     return false;
                 }
 
-                // Serialize objToRemove để so sánh
-                string objToRemoveJson = JsonSerializer.Serialize(objToRemove, options);
-
+                // Tìm và xóa các mục thỏa mãn điều kiện matchPredicate
                 int removedCount = entries.RemoveAll(e =>
                 {
                     if (e.TryGetProperty("Data", out var dataProperty))
                     {
-                        string dataJson = dataProperty.GetRawText();
-                        return dataJson == objToRemoveJson;
+                        return matchPredicate(dataProperty); // Sử dụng matchPredicate để kiểm tra
                     }
                     return false;
                 });
@@ -371,15 +370,26 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         }
 
         /// <summary>
-        /// Updates the quantity value of an existing object in a JSON file based on the specified object.
-        /// The JSON file must be an array of entries containing "Data" and "Quantity" fields.
+        /// Updates an object inside a JSON file based on a custom matching condition.
         /// </summary>
-        /// <typeparam name="T">The type of the object to match and update.</typeparam>
-        /// <param name="objToUpdate">The object whose quantity should be updated.</param>
-        /// <param name="newQuantity">The new quantity to set.</param>
-        /// <param name="filePath">The full path to the JSON file.</param>
-        /// <returns>Returns <c>true</c> if the update was successful; otherwise, <c>false</c>.</returns>
-        public bool UpdateQuantityInJsonFile<T>(T objToUpdate, float newQuantity, string filePath)
+        /// <typeparam name="T">The type of the object to be updated.</typeparam>
+        /// <param name="objToUpdate">The new object that will replace the existing matching object in the file.</param>
+        /// <param name="filePath">The path to the JSON file containing a list of objects.</param>
+        /// <param name="matchPredicate">
+        /// A delegate function that defines the matching condition. 
+        /// It takes a <see cref="JsonElement"/> representing the "Data" object from each entry in the JSON array.
+        /// Returns <c>true</c> if the entry matches the object to update.
+        /// </param>
+        /// <returns>
+        /// Returns <c>true</c> if the object was found and successfully updated; otherwise, returns <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// The JSON file is expected to contain an array of objects, where each object has a property named <c>"Data"</c>.
+        /// The method deserializes the JSON array, searches for the entry where the <paramref name="matchPredicate"/> returns true,
+        /// and replaces that entry with the updated object.
+        /// Uses <see cref="System.Text.Json"/> for serialization and deserialization.
+        /// </remarks>
+        public bool UpdateObjectInJsonFileById<T>(T objToUpdate, string filePath, Func<JsonElement, bool> matchPredicate)
         {
             try
             {
@@ -396,39 +406,21 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
                 };
 
                 string existingJson = File.ReadAllText(filePath);
-                List<JsonElement> entries;
+                List<JsonElement> entries = JsonSerializer.Deserialize<List<JsonElement>>(existingJson, options)
+                    ?? new List<JsonElement>();
 
-                try
-                {
-                    entries = JsonSerializer.Deserialize<List<JsonElement>>(existingJson, options) ?? new List<JsonElement>();
-                }
-                catch
-                {
-                    Debug.WriteLine("❌ File is not a valid JSON array.");
-                    return false;
-                }
-
-                string objToUpdateJson = JsonSerializer.Serialize(objToUpdate, options);
                 bool updated = false;
 
                 for (int i = 0; i < entries.Count; i++)
                 {
                     if (entries[i].TryGetProperty("Data", out var dataProperty))
                     {
-                        string dataJson = dataProperty.GetRawText();
-                        if (dataJson == objToUpdateJson)
+                        if (matchPredicate(dataProperty)) // 👈 So sánh bằng điều kiện custom
                         {
-                            // Tạo entry mới với quantity mới
-                            var updatedEntry = new
-                            {
-                                Data = objToUpdate,
-                                Quantity = newQuantity
-                            };
-
+                            var updatedEntry = new { Data = objToUpdate };
                             entries[i] = JsonSerializer.Deserialize<JsonElement>(
                                 JsonSerializer.Serialize(updatedEntry, options)
                             );
-
                             updated = true;
                             break;
                         }
@@ -444,7 +436,7 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
                 string updatedJson = JsonSerializer.Serialize(entries, options);
                 File.WriteAllText(filePath, updatedJson);
 
-                Debug.WriteLine("✅ Quantity updated successfully.");
+                Debug.WriteLine("✅ Object updated successfully.");
                 return true;
             }
             catch (Exception ex)
@@ -455,14 +447,18 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         }
 
         /// <summary>
-        /// Checks whether a specific object exists in a JSON file by comparing the serialized "Data" field.
-        /// The JSON file must be an array of entries with "Data" and "Quantity" fields.
+        /// Checks if an object exists in a JSON file based on a specified predicate for the object's properties.
         /// </summary>
-        /// <typeparam name="T">The type of the object to check for existence.</typeparam>
-        /// <param name="objToCheck">The object to find in the JSON file.</param>
-        /// <param name="filePath">The full path of the JSON file.</param>
-        /// <returns>Returns <c>true</c> if the object exists in the file; otherwise, <c>false</c>.</returns>
-        public bool ExistsInJsonFile<T>(T objToCheck, string filePath)
+        /// <param name="filePath">The full path of the JSON file to check.</param>
+        /// <param name="matchPredicate">A function that defines the condition to match against properties inside the "Data" field of each entry.</param>
+        /// <returns>
+        /// Returns <c>true</c> if the object matching the predicate is found in the JSON file; otherwise, returns <c>false</c> if not found or an error occurs.
+        /// </returns>
+        /// <remarks>
+        /// This method deserializes the JSON file into a list of objects, checks each object’s "Data" property against the provided predicate, 
+        /// and returns <c>true</c> if a match is found. If no match is found, it returns <c>false</c>.
+        /// </remarks>
+        public bool IsExistsObjectInJsonFile<T>(string filePath, Func<JsonElement, bool> matchPredicate)
         {
             try
             {
@@ -491,13 +487,13 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
                     return false;
                 }
 
-                string objJson = JsonSerializer.Serialize(objToCheck, options);
-
+                // Duyệt qua tất cả các mục trong file JSON và kiểm tra điều kiện matchPredicate
                 foreach (var entry in entries)
                 {
                     if (entry.TryGetProperty("Data", out var dataProperty))
                     {
-                        if (dataProperty.GetRawText() == objJson)
+                        // Dùng matchPredicate để kiểm tra thuộc tính tùy chọn trong Data
+                        if (matchPredicate(dataProperty))
                         {
                             Debug.WriteLine("✅ Object found in JSON file.");
                             return true;
@@ -516,72 +512,61 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         }
 
         /// <summary>
-        /// Reads a JSON file containing a list of objects with associated quantities,
-        /// and returns a list of tuples of the form (T, float).
+        /// Reads a JSON file and deserializes its content into a list of objects of type <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the object stored in the "Data" field.</typeparam>
+        /// <typeparam name="T">The type of objects to deserialize from the JSON file.</typeparam>
         /// <param name="filePath">The full path to the JSON file.</param>
         /// <returns>
-        /// A list of tuples where each tuple contains an object of type T and a float quantity.
-        /// Returns an empty list if the file does not exist or is invalid.
+        /// A list of objects of type <typeparamref name="T"/>.
+        /// If the file does not exist or an error occurs, an empty list is returned.
         /// </returns>
-        public List<(T, float)> ReadTuplesFromJsonFile<T>(string filePath)
-        {
-            var result = new List<(T, float)>();
+        /// <remarks>
+        /// The method assumes that the JSON file contains an array of objects,
+        /// each having a property named "Data" that holds the actual object data.
+        /// Example of expected JSON format:
+        /// [
+        ///     { "Data": { "Id": 1, "Name": "Item 1" } },
+        ///     { "Data": { "Id": 2, "Name": "Item 2" } }
+        /// ]
+        /// </remarks>
 
+        public List<T> ReadObjectsFromJsonFile<T>(string filePath)
+        {
             try
             {
                 if (!File.Exists(filePath))
                 {
                     Debug.WriteLine($"⚠️ JSON file does not exist: {filePath}");
-                    return result;
+                    return new List<T>();
                 }
 
                 var options = new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true,
-                    WriteIndented = true
+                    PropertyNameCaseInsensitive = true
                 };
 
                 string json = File.ReadAllText(filePath);
-                List<JsonElement> entries;
+                List<JsonElement> entries = JsonSerializer.Deserialize<List<JsonElement>>(json, options) ?? new List<JsonElement>();
 
-                try
-                {
-                    entries = JsonSerializer.Deserialize<List<JsonElement>>(json, options) ?? new List<JsonElement>();
-                }
-                catch
-                {
-                    Debug.WriteLine("❌ JSON file is not a valid array format.");
-                    return result;
-                }
-
+                var result = new List<T>();
                 foreach (var entry in entries)
                 {
-                    if (entry.TryGetProperty("Data", out var dataElement) &&
-                        entry.TryGetProperty("Quantity", out var quantityElement))
+                    if (entry.TryGetProperty("Data", out var dataProperty))
                     {
-                        try
-                        {
-                            T obj = JsonSerializer.Deserialize<T>(dataElement.GetRawText(), options);
-                            float quantity = quantityElement.GetSingle(); // hoặc GetDouble() rồi cast nếu cần
-
-                            result.Add((obj, quantity));
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine($"⚠️ Skipped entry due to deserialization error: {ex.Message}");
-                        }
+                        T obj = JsonSerializer.Deserialize<T>(dataProperty.GetRawText(), options);
+                        result.Add(obj);
                     }
                 }
+
+                return result;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"❌ Error reading JSON file: {ex.Message}");
+                return new List<T>();
             }
-
-            return result;
         }
+
 
         /// <summary>
         /// Checks whether a file exists at the specified file path.
@@ -669,6 +654,50 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
             {
                 Debug.WriteLine($"❌ Error deleting files in folder '{folderPath}': {ex.Message}");
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether a specified folder exists at the given path.
+        /// </summary>
+        /// <param name="folderPath">The full path of the folder to check.</param>
+        /// <returns>True if the folder exists; otherwise, false.</returns>
+        public bool FolderExists(string folderPath)
+        {
+            return Directory.Exists(folderPath);
+        }
+
+        /// <summary>
+        /// Copies a file to a specified destination folder and renames it with a new file name.
+        /// </summary>
+        /// <param name="sourceFilePath">The full path to the source file that needs to be copied.</param>
+        /// <param name="destinationFolder">The full path to the destination folder where the file will be copied.</param>
+        /// <param name="newFileName">The new name for the copied file, including the file extension (e.g., "newfile.txt").</param>
+        /// <returns>
+        /// Returns the full path to the newly copied and renamed file if successful.
+        /// Returns an empty string if the copy or rename operation fails.
+        /// </returns>
+        public string CopyAndRenameFile(string sourceFilePath, string destinationFolder, string newFileName)
+        {
+            try
+            {
+                if (!File.Exists(sourceFilePath))
+                {
+                    return string.Empty;
+                }
+                if (!Directory.Exists(destinationFolder))
+                {
+                    Directory.CreateDirectory(destinationFolder);
+                }
+                string destinationFilePath = Path.Combine(destinationFolder, newFileName);
+
+                File.Copy(sourceFilePath, destinationFilePath, true);
+
+                return destinationFilePath;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
     }

@@ -44,7 +44,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public string DonVi { get => donVi; set => donVi = value; }
         public DateTime NgayNhap { get => ngayNhap; set => ngayNhap = value; }
         public string DirHinhAnh { get => dirHinhAnh; set => dirHinhAnh = value; }
-        internal NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
+        public NhaCungCap NhaCungCap { get => nhaCungCap; set => nhaCungCap = value; }
         public float SoLuong { get => soLuong; set => soLuong = value; }
 
         /// <summary>

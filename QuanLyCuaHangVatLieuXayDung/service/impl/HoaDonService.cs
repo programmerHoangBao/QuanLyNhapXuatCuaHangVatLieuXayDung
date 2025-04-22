@@ -257,7 +257,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
             return hoaDons;
         }
-
         public HoaDon findByMaHoaDon(string maHoaDon)
         {
             string query = "SELECT * FROM HoaDon WHERE MaHoaDon = @MaHoaDon";
@@ -314,7 +313,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                                      @TienGiam, @PhuongThucThanhToan, @LoaiHoaDon, @TienThanhToan)";
             SqlTransaction transaction = null;
             int affectedRows = 0;
-            bool result = false;
+            bool result = true;
             try
             {
                 this.myDatabase.OpenConnection();

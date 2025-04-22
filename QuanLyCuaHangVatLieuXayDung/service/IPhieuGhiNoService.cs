@@ -17,8 +17,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service
 
         bool deletePhieuGhiNo(string maPhieu);
 
+        /// <returns>Danh sách phiếu ghi nợ khớp với từ khóa</returns>
         List<PhieuGhiNo> searchByKey(string key);
-
         List<PhieuGhiNo> findByLoaiPhieu(byte loaiPhieu);
 
         List<PhieuGhiNo> findByDateRange(DateTime startDate, DateTime endDate);
@@ -26,6 +26,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         List<PhieuGhiNo> findByDoiTac(string maDoiTac);
 
         List<PhieuGhiNo> findByTrangThai(bool trangThai);
+
         bool updateTrangThai(string maPhieu, bool trangThai);
     }
 }

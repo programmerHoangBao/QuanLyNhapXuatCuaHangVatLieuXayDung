@@ -84,6 +84,7 @@
             this.btnDetail.TabIndex = 4;
             this.btnDetail.Text = "Chi tiết";
             this.btnDetail.UseVisualStyleBackColor = false;
+            this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
             // 
             // btnTransaction
             // 

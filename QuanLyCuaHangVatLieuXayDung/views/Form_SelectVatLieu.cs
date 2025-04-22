@@ -42,7 +42,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 this.dataGridViewShowVatLieu.Rows.Clear();
                 foreach (VatLieu vatLieu in vatLieus)
                 {
-                    this.dataGridViewShowVatLieu.Rows.Add(vatLieu.MaVatLieu, vatLieu.Ten, vatLieu.GiaXuat, vatLieu.GiaNhap, vatLieu.DonVi, vatLieu.NhaCungCap.Ten, vatLieu.SoLuong);
+                    string nhaCungCapTen = vatLieu.NhaCungCap != null ? vatLieu.NhaCungCap.Ten : "Unknown";
+                    this.dataGridViewShowVatLieu.Rows.Add(vatLieu.MaVatLieu, vatLieu.Ten, vatLieu.GiaXuat, vatLieu.GiaNhap, vatLieu.DonVi, nhaCungCapTen, vatLieu.SoLuong);
                 }
                 DataGridViewButtonColumn buttonColumn = (DataGridViewButtonColumn)this.dataGridViewShowVatLieu.Columns["btnChon"];
                 buttonColumn.Text = "Chọn"; // Đặt văn bản cho nút
@@ -62,6 +63,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 if (dataGridViewShowVatLieu.Columns[e.ColumnIndex].Name == "btnChon" && e.RowIndex >= 0)
                 {
+                    var cellValue = this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["MaVatLieu"].Value;
+                    if (cellValue == null)
+                    {
+                        return;
+                    }
                     VatLieu vatLieu = this.vatLieuService.findByMaVatLieu(this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["MaVatLieu"].Value.ToString());
                     if (vatLieu != null)
                     {

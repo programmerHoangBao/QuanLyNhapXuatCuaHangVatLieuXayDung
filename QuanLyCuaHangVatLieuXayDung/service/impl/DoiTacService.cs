@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCuaHangVatLieuXayDung.config;
+using System.Diagnostics.Eventing.Reader;
 
 namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
@@ -18,24 +19,50 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
         public bool deleteDoiTac(DoiTac doiTac)
         {
             string query = "DELETE FROM DoiTac WHERE MaDoiTac = @MaDoiTac";
+            SqlTransaction transaction = null;
+            int affectedRows = 0;
+            bool result = false;
             try
             {
-                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
-                cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
                 this.myDatabase.OpenConnection();
-                int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
-                if (result > 0)
+                transaction = this.myDatabase.Connection.BeginTransaction();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
+                cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
+                affectedRows = cmd.ExecuteNonQuery();
+                if (affectedRows > 0)
                 {
-                    new FileUtility().DeleteFile(doiTac.QR);
-                    return true;
+                    result = true;
+                    if (!string.IsNullOrEmpty(doiTac.QR))
+                    {
+                        if (new FileUtility().DeleteFile(doiTac.QR))
+                        {
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show("Failed to delete the file.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        transaction.Commit();
+                    }
                 }
             }
             catch (Exception ex)
             {
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return result;
         }
 
         public List<KhachHang> findAllKhachHang()
@@ -61,17 +88,25 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     khachHang.QR = reader["QR"].ToString();
                     khachHangs.Add(khachHang);
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return khachHangs;
         }
 
         public DoiTac findByMaDoiTac(string maDoiTac)
         {
+            if (string.IsNullOrEmpty(maDoiTac))
+            {
+                return null;
+            }
             string query = @"SELECT * FROM DoiTac WHERE MaDoiTac = @MaDoiTac";
             DoiTac doiTac = null;
             try
@@ -99,16 +134,20 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     doiTac.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     doiTac.QR = reader["QR"].ToString();
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
             return doiTac;
         }
 
-        public List<NhaCungCap> findNhaCungCap()
+        public List<NhaCungCap> findAllNhaCungCap()
         {
             string query = @"SELECT * FROM DoiTac WHERE LoaiDoiTac = 2";
             List<NhaCungCap> nhaCungCaps = new List<NhaCungCap>();
@@ -129,12 +168,17 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     nhaCungCap.NganHang = reader["NganHang"].ToString();
                     nhaCungCap.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     nhaCungCap.QR = reader["QR"].ToString();
+                    nhaCungCaps.Add(nhaCungCap);
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return nhaCungCaps;
         }
@@ -144,33 +188,38 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             string query = @"INSERT INTO DoiTac 
                                (MaDoiTac, Ten, SoDienThoai, DiaChi, Email, LoaiDoiTac, NganHang, SoTaiKhoan, QR)
                                VALUES (@MaDoiTac, @Ten, @SoDienThoai, @DiaChi, @Email, @LoaiDoiTac, @NganHang, @SoTaiKhoan, @QR)";
+            SqlTransaction transaction = null;
+            int affectedRows = 0;
             try
             {
-                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                this.myDatabase.OpenConnection();
+                transaction = this.myDatabase.Connection.BeginTransaction();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
                 cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
-                cmd.Parameters.AddWithValue("@Email", doiTac.Email);
+                cmd.Parameters.AddWithValue("@Email", (object)doiTac.Email ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
-                cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
-                cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
-                cmd.Parameters.AddWithValue("@QR", doiTac.QR);
-                this.myDatabase.OpenConnection();
-                int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
-                if (result > 0)
-                {
-                    string directory = new FormApp().DOITAC_DATA;
-                    new FileUtility().SaveImages(doiTac.QR, directory);
-                    return true;
-                }
+                cmd.Parameters.AddWithValue("@NganHang", (object)doiTac.NganHang ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoTaiKhoan", (object)doiTac.SoTaiKhoan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@QR", (object)doiTac.QR ?? DBNull.Value);
+                affectedRows = cmd.ExecuteNonQuery();
+                transaction.Commit();
             }
             catch (Exception ex)
             {
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return affectedRows > 0;
         }
 
         public List<DoiTac> searchByKey(string key)
@@ -208,11 +257,15 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     doiTac.QR = reader["QR"].ToString();
                     doiTacs.Add(doiTac);
                 }
-                this.myDatabase.CloseConnection();
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
             }
             return doiTacs;
         }
@@ -229,34 +282,122 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                                     LoaiDoiTac = @LoaiDoiTac,
                                     QR = @QR
                                 WHERE MaDoiTac = @MaDoiTac";
+            SqlTransaction transaction = null;
+            int affectedRows = 0;   
             try
             {
-                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                this.myDatabase.OpenConnection();
+                transaction = this.myDatabase.Connection.BeginTransaction();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
                 cmd.Parameters.AddWithValue("@MaDoiTac", doiTac.MaDoiTac);
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
-                cmd.Parameters.AddWithValue("@Email", doiTac.Email);
+                cmd.Parameters.AddWithValue("@Email", (object)doiTac.Email ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
-                cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
-                cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
-                cmd.Parameters.AddWithValue("@QR", doiTac.QR);
-                this.myDatabase.OpenConnection();
-                int result = cmd.ExecuteNonQuery();
-                this.myDatabase.CloseConnection();
-                if (result > 0)
+                cmd.Parameters.AddWithValue("@NganHang", (object)doiTac.NganHang ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoTaiKhoan", (object)doiTac.SoTaiKhoan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@QR", (object)doiTac.QR ?? DBNull.Value);
+                affectedRows = cmd.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                if (transaction != null)
                 {
-                    string directory = new FormApp().DOITAC_DATA;
-                    new FileUtility().DeleteFile(this.findByMaDoiTac(doiTac.MaDoiTac).QR);
-                    new FileUtility().SaveImages(doiTac.QR, directory);
-                    return true;
+                    transaction.Rollback();
                 }
+                MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return affectedRows > 0;
+        }
+
+        public List<KhachHang> searchKhachHangByKey(string key)
+        {
+            string query = @"SELECT *
+                                FROM DoiTac
+                                WHERE LoaiDoiTac = 1 
+                                                AND (MaDoiTac LIKE @key
+                                                    OR Ten LIKE @key
+                                                    OR SoDienThoai LIKE @key)";
+            List<KhachHang> khachHangs = new List<KhachHang>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@key", "%" + key + "%");
+                this.myDatabase.OpenConnection();
+                SqlDataReader reader = cmd.ExecuteReader();
+                KhachHang khachHang;
+                while (reader.Read())
+                {
+                    khachHang = new KhachHang();
+                    khachHang.MaDoiTac = reader["MaDoiTac"].ToString();
+                    khachHang.Ten = reader["Ten"].ToString();
+                    khachHang.SoDienThoai = reader["SoDienThoai"].ToString();
+                    khachHang.DiaChi = reader["DiaChi"].ToString();
+                    khachHang.Email = reader["Email"].ToString();
+                    khachHang.NganHang = reader["NganHang"].ToString();
+                    khachHang.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
+                    khachHang.QR = reader["QR"].ToString();
+                    khachHangs.Add(khachHang);
+                }
+                reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return false;
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return khachHangs;
+        }
+
+        public List<NhaCungCap> searchNhaCungCapByKey(string key)
+        {
+            string query = @"SELECT *
+                                FROM DoiTac
+                                WHERE LoaiDoiTac = 2
+                                                AND (MaDoiTac LIKE @key
+                                                    OR Ten LIKE @key
+                                                    OR SoDienThoai LIKE @key)";
+            List<NhaCungCap> nhaCungCaps = new List<NhaCungCap>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@key", "%" + key + "%");
+                this.myDatabase.OpenConnection();
+                SqlDataReader reader = cmd.ExecuteReader();
+                NhaCungCap nhaCungCap;
+                while (reader.Read())
+                {
+                    nhaCungCap = new NhaCungCap();
+                    nhaCungCap.MaDoiTac = reader["MaDoiTac"].ToString();
+                    nhaCungCap.Ten = reader["Ten"].ToString();
+                    nhaCungCap.SoDienThoai = reader["SoDienThoai"].ToString();
+                    nhaCungCap.DiaChi = reader["DiaChi"].ToString();
+                    nhaCungCap.Email = reader["Email"].ToString();
+                    nhaCungCap.NganHang = reader["NganHang"].ToString();
+                    nhaCungCap.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
+                    nhaCungCap.QR = reader["QR"].ToString();
+                    nhaCungCaps.Add(nhaCungCap);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return nhaCungCaps;
         }
     }
 }
