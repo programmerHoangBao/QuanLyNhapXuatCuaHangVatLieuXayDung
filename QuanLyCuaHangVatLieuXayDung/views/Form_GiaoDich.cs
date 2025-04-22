@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -76,16 +77,20 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private List<ChiTiet> GetChiTetHoaDon()
         {
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = "";
+            List<ChiTiet> chiTiets = new List<ChiTiet>();
             if (this.radioButtonXuatHang.Checked)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+                string chiTietPath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+                chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietPath);
             }
             else
             {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
+                string chiTietNhapCu = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapCu);
+                chiTiets.AddRange(this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi));
             }
-            return this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
+            return chiTiets;
         }
         private DoiTac GetDoiTac()
         {
@@ -142,19 +147,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.labelTongHoaDon.Text = "Tổng hóa đơn: " + this.stringUtility.ConvertToVietnameseCurrency(tongTienVatLieu + tienGiam) + "VNĐ";
             this.labelTienThanhToan.Text = "Tiền thanh toán: " + this.stringUtility.ConvertToVietnameseCurrency(double.Parse(this.txtTienThanhToan.Text.Trim())) + "VNĐ";
         }
-        private void loadVatLieuInHoaDon()
+        private void ShowChiTietHoaDon(List<ChiTiet> chiTiets)
         {
-            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = "";
-            if (this.radioButtonXuatHang.Checked)
-            {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
-            }
-            else 
-            {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
-            }
-            List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
             this.dataGridViewShowVatLieu.Rows.Clear();
             DataGridViewRow dataGridViewRow;
             foreach (ChiTiet chiTiet in chiTiets)
@@ -170,7 +164,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     gia = chiTiet.VatLieu.GiaNhap;
                 }
                 tongTien = gia * chiTiet.SoLuong;
-
                 dataGridViewRow = new DataGridViewRow();
                 dataGridViewRow.CreateCells(this.dataGridViewShowVatLieu);
                 dataGridViewRow.Cells[1].Value = chiTiet.VatLieu.MaVatLieu;
@@ -181,7 +174,26 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 dataGridViewRow.Cells[6].Value = tongTien;
                 this.dataGridViewShowVatLieu.Rows.Add(dataGridViewRow);
             }
-            this.SetCacGiaTriTienTe(chiTiets);
+        }
+        private void loadVatLieuInHoaDon()
+        {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            if (this.radioButtonXuatHang.Checked)
+            {
+                string chiTietPath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+                List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietPath);
+                this.ShowChiTietHoaDon(chiTiets);
+                this.SetCacGiaTriTienTe(chiTiets);
+            }
+            else 
+            {
+                string chiTietNhapCu = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapCu);
+                chiTiets.AddRange(this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi));
+                this.ShowChiTietHoaDon(chiTiets);
+                this.SetCacGiaTriTienTe(chiTiets);
+            }
         }
         private void loadDoiTacInHoaDon()
         {
@@ -287,20 +299,30 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void dataGridViewShowVatLieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["MaVatLieu"].Value != null)
+            try
             {
-                string maVatLieu = this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["MaVatLieu"].Value.ToString();
-                float soLuong = float.Parse(this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["SoLuong"].Value.ToString());
-                VatLieu vatLieu = this.vatLieuService.findByMaVatLieu(maVatLieu);
-                if (vatLieu != null)
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
-                    this.formChonSoLuongVatLieu.VatLieu = vatLieu;
-                    this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
-                    this.formChonSoLuongVatLieu.SetSoLuong(soLuong);
-                    this.formChonSoLuongVatLieu.ShowDialog();
-                    //Cập nhật lại danh sách vật liệu giao dịch trong hóa đơn
-                    this.loadVatLieuInHoaDon();
+                    string maVatLieu = this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    List<ChiTiet> chiTiets = this.GetChiTetHoaDon();
+                    foreach (ChiTiet chiTiet in chiTiets)
+                    {
+                        if (chiTiet.VatLieu.MaVatLieu == maVatLieu)
+                        {
+                            Form_ChonSoLuongVatLieu form_ChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                            form_ChonSoLuongVatLieu.VatLieu = chiTiet.VatLieu;
+                            form_ChonSoLuongVatLieu.SetSoLuong(chiTiet.SoLuong);
+                            form_ChonSoLuongVatLieu.LoaiHoaDon = (this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2);
+                            form_ChonSoLuongVatLieu.ShowDialog();
+                            this.loadVatLieuInHoaDon();
+                            break;
+                        }
+                    }
                 }
+            }
+            catch
+            {
+                return;
             }
         }
 
@@ -483,9 +505,27 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         maHoaDon, thoiGianLap, doiTac, diaChi, tienGiam, phuongThucThanhToan, soTienThanhToan, chiTiets
                     );
             }
+
+            //Thêm vật liệu mới vào database của đơn nhập
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+            List<ChiTiet> chiTietsNhapMoi = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi);
+            if (chiTietsNhapMoi.Count > 0)
+            {
+                foreach (ChiTiet chiTiet in chiTietsNhapMoi)
+                {
+                    VatLieu vatLieu = chiTiet.VatLieu;
+                    vatLieu.SoLuong = chiTiet.SoLuong;
+                    this.vatLieuService.insertVatLieu(vatLieu);
+                }
+            }
+            
+            //Thêm hóa đơn vào cơ sở dữ liệu
             if (this.hoaDonService.insertHoaDon(hoaDon))
             {
                 MessageBox.Show("Tạo hóa đơn thành công!", "Nofitication", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //Thực hiện cập nhật lại số lượng vật liệu
                 if (this.radioButtonXuatHang.Checked)
                 {
                     VatLieu vatLieu = null;
@@ -496,7 +536,15 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         this.vatLieuService.updateVatLieu(vatLieu);
                     }
                 }
-                string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+
+                //Thực hiện ghi nợ cho hóa đơn có phương thức thanh toán là trả trước và ghi nợ
+                if (hoaDon.PhuongThucThanhToan == 2 || hoaDon.PhuongThucThanhToan == 3)
+                {
+                    string maPhieuGhiNo = this.stringUtility.GenerateRandomString(10);
+                    //Cần bổ sung đối tượng phiếu ghi nợ service mới làm được
+                }
+
+                //Thực hiện xóa các file temp
                 List<string> filePaths = new List<string>();
                 if (this.radioButtonXuatHang.Checked)
                 {
@@ -505,7 +553,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 else
                 {
-                    filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json"));
+                    filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json"));
+                    filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json"));
                     filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "nhacungcap.json"));
                 }
                 foreach (string path in filePaths)

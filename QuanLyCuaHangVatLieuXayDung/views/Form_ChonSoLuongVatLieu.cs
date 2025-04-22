@@ -1,4 +1,6 @@
 ﻿using QuanLyCuaHangVatLieuXayDung.model;
+using QuanLyCuaHangVatLieuXayDung.service;
+using QuanLyCuaHangVatLieuXayDung.service.impl;
 using QuanLyCuaHangVatLieuXayDung.utilities;
 using System;
 using System.Collections.Generic;
@@ -17,13 +19,12 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 {
     public partial class Form_ChonSoLuongVatLieu : Form
     {
+        private IVatLieuService vatLieuService = new VatLieuService();
         private VatLieu vatLieu;
         private byte loaiHoaDon = 0;
-        private float maxSoLuongTra = 0; /*Dành cho việc kiểm tra vật liệu khi trả hàng*/
 
         internal VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }
         public byte LoaiHoaDon { get => loaiHoaDon; set => loaiHoaDon = value; }
-        public float MaxSoLuongTra { get => maxSoLuongTra; set => maxSoLuongTra = value; }
 
         public Form_ChonSoLuongVatLieu()
         {
@@ -31,7 +32,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         private void Form_ChonSoLuongVatLieu_Load(object sender, EventArgs e)
         {
-            this.ShowSoLuongVatLieu();
+            if (this.loaiHoaDon == 0)
+            {
+                this.btnPlus.Enabled = false;
+            }
+            //else
+            //{
+            //    this.ShowSoLuongVatLieu();
+            //}
         }
         public void ShowSoLuongVatLieu()
         {
@@ -45,7 +53,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
             }
-            else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
+            else if (this.loaiHoaDon == 0)
             {
                 filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
@@ -89,14 +97,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             return false;
         }
-        public bool checkSoLuongVatLieuTraHang()
-        {
-            if (this.MaxSoLuongTra < this.GetSoLuong() && this.loaiHoaDon == 0)
-            {
-                return false;
-            }
-            return true;
-        }
         private void txtSoLuong_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Cho phép điều khiển (backspace, delete, ...)
@@ -127,10 +127,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 this.txtSoLuong.Text = this.vatLieu.SoLuong.ToString();
             }
-            else if (!this.checkSoLuongVatLieuTraHang())
-            {
-                this.txtSoLuong.Text = this.MaxSoLuongTra.ToString();
-            }
             else if (this.txtSoLuong.Text == "")
             {
                 this.txtSoLuong.Text = "0";
@@ -143,10 +139,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             if (soLuong > this.VatLieu.SoLuong && this.LoaiHoaDon == 1)
             {
                 soLuong = this.vatLieu.SoLuong;
-            }
-            else if (soLuong > this.MaxSoLuongTra && this.loaiHoaDon == 0)
-            {
-                soLuong = this.MaxSoLuongTra;
             }
             this.txtSoLuong.Text = soLuong.ToString();
         }
@@ -171,14 +163,20 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(projectDirectory, "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                if (this.vatLieuService.findByMaVatLieu(this.vatLieu.MaVatLieu) != null)
+                {
+                    filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                }
+                else
+                {
+                    filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                }
             }
-            else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
+            else if (this.loaiHoaDon == 0)
             {
                 filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
 
-            //Ghi dữ liệu vào file json chitietphieutrahang.json
             FileUtility fileUtility = new FileUtility();
             ChiTiet chiTiet = new ChiTiet(this.vatLieu, this.GetSoLuong());
             Func<JsonElement, bool> matchPredicate = (ChiTiet) =>
@@ -212,9 +210,16 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
+                if (this.vatLieuService.findByMaVatLieu(this.vatLieu.MaVatLieu) != null)
+                {
+                    filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                }
+                else
+                {
+                    filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                }
             }
-            else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
+            else if (this.loaiHoaDon == 0)
             {
                 filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
