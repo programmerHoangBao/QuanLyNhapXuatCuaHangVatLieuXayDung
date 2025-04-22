@@ -9,13 +9,16 @@ namespace QuanLyCuaHangVatLieuXayDung.service
 {
     internal interface IPhieuTraHangService
     {
-        bool insertphieuTraHang(PhieuTraHang phieu);
-        bool deletephieuTraHang(string maPhieu);
-        List<PhieuTraHang> findallphieuTraHang();
-        PhieuTraHang findbyMaPhieu(string maPhieu);
-        bool updatephieuTraHang(PhieuTraHang phieu);
-        List<PhieuTraHang> findphieuTraHangByDay(DateTime tuNgay, DateTime denNgay);
-        List<PhieuTraHang> searchByKey(string keyword);
+        bool insertPhieuTraHang(PhieuTraHang phieu);
+        bool deletePhieuTraHang(string maPhieu);
+        bool updatePhieuTraHang(PhieuTraHang phieu);
+        List<PhieuTraHang> findAll();
+        List<PhieuTraHang> searchByKey(string key);
+        List<PhieuTraHang> findByDateRange(DateTime startDate, DateTime endDate);
+        List<PhieuTraHang> findByLoaiPhieu(byte loaiPhieu);
+        PhieuTraHang findByMaPhieu(string maPhieu);
+
+
 
 
     }
