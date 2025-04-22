@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -21,7 +22,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     {
         private IVatLieuService vatLieuService = new VatLieuService();
         private IHoaDonService hoaDonService = new HoaDonService();
-        private Form_ChonSoLuongVatLieu formChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+        private IPhieuGhiNoService phieuGhiNoService = new PhieuGhiNoService();
         private FileUtility fileUtility = new FileUtility();
         private StringUtility stringUtility = new StringUtility();
 
@@ -67,9 +68,16 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 if (userControl != null)
                 {
-                    this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
-                    this.formChonSoLuongVatLieu.VatLieu = userControl.VatLieu;
-                    userControl.btnTransactionClick += this.btnTransaction_Click;
+                    userControl.btnTransactionClick += (s, ev) =>
+                    {
+                        this.panelHoaDon.Show();
+                        this.btnAnHoaDon.Enabled = true;
+                        Form_ChonSoLuongVatLieu formChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                        formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
+                        formChonSoLuongVatLieu.VatLieu = vatLieu;
+                        formChonSoLuongVatLieu.ShowDialog();
+                        this.loadVatLieuInHoaDon();
+                    };
                     this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
                 }
             }  
@@ -221,14 +229,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.txtAddress.Text = nhaCungCaps[0].DiaChi;
                 }
             }
-        }
-        private void btnTransaction_Click(object sender, EventArgs e)
-        {
-            this.panelHoaDon.Show();
-            this.btnAnHoaDon.Enabled = true;
-            this.formChonSoLuongVatLieu.ShowDialog();
-            //Hiển thị vật liệu giao dịch trong hóa đơn
-            this.loadVatLieuInHoaDon();
         }
         private void resetPanelHoaDon()
         {
@@ -408,9 +408,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 if (userControl != null)
                 {
-                    this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
-                    this.formChonSoLuongVatLieu.VatLieu = userControl.VatLieu;
-                    userControl.btnTransactionClick += this.btnTransaction_Click;
+
+                    userControl.btnTransactionClick += (s, ev) =>
+                    {
+                        this.panelHoaDon.Show();
+                        this.btnAnHoaDon.Enabled = true;
+                        Form_ChonSoLuongVatLieu formChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                        formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
+                        formChonSoLuongVatLieu.VatLieu = vatLieu;
+                        formChonSoLuongVatLieu.ShowDialog();
+                        this.loadVatLieuInHoaDon();
+                    };
                     this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
                 }
             }
@@ -481,7 +489,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             this.labelTienThanhToan.Text = "Tiền thanh toán: " + this.stringUtility.ConvertToVietnameseCurrency(double.Parse(this.txtTienThanhToan.Text.Trim())) + "VNĐ";
         }
-
         private void btnXuatHoaDon_Click(object sender, EventArgs e)
         {
             string maHoaDon = this.txtMaHoaDon.Text.Trim();
@@ -493,10 +500,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             double soTienThanhToan = double.Parse(this.txtTienThanhToan.Text.Trim());
             DateTime thoiGianLap = DateTime.Now;
             HoaDon hoaDon = null;
+
             if (this.radioButtonXuatHang.Checked)
             {
                 hoaDon = new HoaDonXuat(
-                          maHoaDon, thoiGianLap, doiTac, diaChi, tienGiam, phuongThucThanhToan, soTienThanhToan, chiTiets       
+                          maHoaDon, thoiGianLap, doiTac, diaChi, tienGiam, phuongThucThanhToan, soTienThanhToan, chiTiets
                     );
             }
             else
@@ -506,7 +514,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     );
             }
 
-            //Thêm vật liệu mới vào database của đơn nhập
+            // Thêm vật liệu mới vào database của đơn nhập
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
             List<ChiTiet> chiTietsNhapMoi = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi);
@@ -519,13 +527,13 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.vatLieuService.insertVatLieu(vatLieu);
                 }
             }
-            
-            //Thêm hóa đơn vào cơ sở dữ liệu
+
+            // Thêm hóa đơn vào cơ sở dữ liệu
             if (this.hoaDonService.insertHoaDon(hoaDon))
             {
                 MessageBox.Show("Tạo hóa đơn thành công!", "Nofitication", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                //Thực hiện cập nhật lại số lượng vật liệu
+                // Thực hiện cập nhật lại số lượng vật liệu
                 if (this.radioButtonXuatHang.Checked)
                 {
                     VatLieu vatLieu = null;
@@ -537,14 +545,30 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     }
                 }
 
-                //Thực hiện ghi nợ cho hóa đơn có phương thức thanh toán là trả trước và ghi nợ
+                // Thực hiện ghi nợ cho hóa đơn có phương thức thanh toán là trả trước và ghi nợ
                 if (hoaDon.PhuongThucThanhToan == 2 || hoaDon.PhuongThucThanhToan == 3)
                 {
                     string maPhieuGhiNo = this.stringUtility.GenerateRandomString(10);
-                    //Cần bổ sung đối tượng phiếu ghi nợ service mới làm được
+                    while (this.phieuGhiNoService.findByMaPhieu(maPhieuGhiNo) != null)
+                    {
+                        maPhieuGhiNo = this.stringUtility.GenerateRandomString(10);
+                    }
+                    DateTime thoiGianTra = DateTime.Now.AddDays(540);
+                    double tienNo = hoaDon.tinhTongTien() - hoaDon.TienThanhToan;
+
+                    if (this.radioButtonXuatHang.Checked && doiTac is KhachHang khachHang && hoaDon is HoaDonXuat hoaDonXuat)
+                    {
+                        PhieuGhiNo phieuGhiNo = new PhieuNoKhachHang(maPhieuGhiNo, hoaDon.ThoiGianLap, thoiGianTra, tienNo, false, khachHang, hoaDonXuat);
+                        this.phieuGhiNoService.insertPhieuGhiNo(phieuGhiNo);
+                    }
+                    else if (this.radioButtonNhapHang.Checked && doiTac is NhaCungCap nhaCungCap && hoaDon is HoaDonNhap hoaDonNhap)
+                    {
+                        PhieuGhiNo phieuGhiNo = new PhieuNoCuaHang(maPhieuGhiNo, hoaDon.ThoiGianLap, thoiGianTra, tienNo, false, nhaCungCap, hoaDonNhap);
+                        this.phieuGhiNoService.insertPhieuGhiNo(phieuGhiNo);
+                    }
                 }
 
-                //Thực hiện xóa các file temp
+                // Thực hiện xóa các file temp
                 List<string> filePaths = new List<string>();
                 if (this.radioButtonXuatHang.Checked)
                 {
@@ -563,11 +587,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 this.resetPanelHoaDon();
                 this.ShowVatLieus();
+
+                //Thực hiện in hóa đơn
+                Form_ReportHoaDon form_ReportHoaDon = new Form_ReportHoaDon();
+                form_ReportHoaDon.HoaDon = hoaDon;
+                form_ReportHoaDon.ShowDialog();
             }
             else
             {
                 MessageBox.Show("Tạo hóa đơn thất bại!", "Nofitication", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }
