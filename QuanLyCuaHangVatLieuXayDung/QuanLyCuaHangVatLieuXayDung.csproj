@@ -117,14 +117,15 @@
   <ItemGroup>
     <Compile Include="config\FormApp.cs" />
     <Compile Include="model\ChiTiet.cs" />
+    <Compile Include="service\IBienLaiTraNoService.cs" />
     <Compile Include="service\IChiPhiPhatSinhService.cs" />
     <Compile Include="service\IChiTietService.cs" />
     <Compile Include="service\IHoaDonService.cs" />
+    <Compile Include="service\impl\BienLaiTraNoService.cs" />
     <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\ChiTietService.cs" />
     <Compile Include="service\impl\HoaDonService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
-    <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\TaiKhoanService.cs" />
     <Compile Include="service\IPhieuGhiNoService.cs" />
     <Compile Include="service\impl\PhieuGhiNoService.cs" />
@@ -157,7 +158,6 @@
     <Compile Include="service\IDoiTacService.cs" />
     <Compile Include="service\IVatLieuService.cs" />
     <Compile Include="service\impl\VatLieuService.cs" />
-    <Compile Include="service\impl\PhieuTraHangService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="utilities\StringUtility.cs" />
     <Compile Include="views\Form_BienLaiTraNo.cs">
@@ -165,6 +165,12 @@
     </Compile>
     <Compile Include="views\Form_BienLaiTraNo.Designer.cs">
       <DependentUpon>Form_BienLaiTraNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_BienLaiTraNoSingle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_BienLaiTraNoSingle.Designer.cs">
+      <DependentUpon>Form_BienLaiTraNoSingle.cs</DependentUpon>
     </Compile>
     <Compile Include="views\Form_ChiPhiPhatSinh.cs">
       <SubType>Form</SubType>
@@ -274,6 +280,9 @@
     </Compile>
     <EmbeddedResource Include="views\Form_BienLaiTraNo.resx">
       <DependentUpon>Form_BienLaiTraNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_BienLaiTraNoSingle.resx">
+      <DependentUpon>Form_BienLaiTraNoSingle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_ChiPhiPhatSinh.resx">
       <DependentUpon>Form_ChiPhiPhatSinh.cs</DependentUpon>

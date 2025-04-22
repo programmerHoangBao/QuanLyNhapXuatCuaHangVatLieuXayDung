@@ -8,24 +8,13 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal class BienLaiTraNo
     {
-        private string maBienLai;
-        private DateTime thoiGianLap;
-        private double tienTra;
-        private PhieuGhiNo phieuGhiNo;
-        public BienLaiTraNo()
-        {
-        }
-        public BienLaiTraNo(string maBienLai, DateTime thoiGianLap, double tienTra, PhieuGhiNo phieuGhiNo)
-        {
-            this.MaBienLai = maBienLai;
-            this.ThoiGianLap = thoiGianLap;
-            this.TienTra = tienTra;
-            this.PhieuGhiNo = phieuGhiNo;
-        }
-
-        public string MaBienLai { get => maBienLai; set => maBienLai = value; }
-        public DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
-        public double TienTra { get => tienTra; set => tienTra = value; }
-        internal PhieuGhiNo PhieuGhiNo { get => phieuGhiNo; set => phieuGhiNo = value; }
+        public string MaBienLai { get; set; }
+        public DateTime ThoiGianTra { get; set; }
+        public double TienTra { get; set; }
+        public string MaPhieuGhiNo { get; set; }
+        public string TenDoiTac { get; set; }
+        public string SoDienThoai { get; set; }
+        public string DiaChi { get; set; }
+        public byte LoaiPhieu { get; set; } // 1: Khách hàng, 2: Cửa hàng
     }
 }
