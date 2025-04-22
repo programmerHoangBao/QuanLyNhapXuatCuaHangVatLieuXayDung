@@ -25,6 +25,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
             this.maHoaDon = maHoaDon;
             this.thoiGianLap = thoiGianLap;
+            this.doiTac = doiTac;
             this.diaChi = diaChi;
             this.tienGiam = tienGiam;
             this.phuongThucThanhToan = phuongThucThanhToan;

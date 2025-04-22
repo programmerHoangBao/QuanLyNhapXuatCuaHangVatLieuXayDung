@@ -1,6 +1,6 @@
 ﻿namespace QuanLyCuaHangVatLieuXayDung.views
 {
-    partial class Form_TaoVatLieuMoi
+    partial class Form_ChiTietVatlieu
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_TaoVatLieuMoi));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_ChiTietVatlieu));
             this.panelTitle = new System.Windows.Forms.Panel();
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelInputVatLieu = new System.Windows.Forms.Panel();
-            this.btnXoaAnh = new System.Windows.Forms.Button();
-            this.btnThemAnh = new System.Windows.Forms.Button();
+            this.btnLeftArrow = new System.Windows.Forms.Button();
             this.btnRightArrow = new System.Windows.Forms.Button();
             this.pictureBoxShowImage = new System.Windows.Forms.PictureBox();
-            this.comboBoxNhaCungCap = new System.Windows.Forms.ComboBox();
-            this.btnMinus = new System.Windows.Forms.Button();
-            this.btnPlus = new System.Windows.Forms.Button();
             this.txtSoLuong = new System.Windows.Forms.TextBox();
+            this.txtNhaCungCap = new System.Windows.Forms.TextBox();
             this.txtDonVi = new System.Windows.Forms.TextBox();
             this.txtGiaXuat = new System.Windows.Forms.TextBox();
             this.txtGiaNhap = new System.Windows.Forms.TextBox();
@@ -53,8 +50,7 @@
             this.labelTenVatLieu = new System.Windows.Forms.Label();
             this.labelMa = new System.Windows.Forms.Label();
             this.panelBtnTao = new System.Windows.Forms.Panel();
-            this.btnTaoVatLieu = new System.Windows.Forms.Button();
-            this.btnLeftArrow = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.panelTitle.SuspendLayout();
             this.panelInputVatLieu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShowImage)).BeginInit();
@@ -68,7 +64,7 @@
             this.panelTitle.Location = new System.Drawing.Point(0, 0);
             this.panelTitle.Name = "panelTitle";
             this.panelTitle.Size = new System.Drawing.Size(678, 60);
-            this.panelTitle.TabIndex = 0;
+            this.panelTitle.TabIndex = 1;
             // 
             // labelTitle
             // 
@@ -79,20 +75,16 @@
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(678, 60);
             this.labelTitle.TabIndex = 0;
-            this.labelTitle.Text = "Tạo vật liệu mới";
+            this.labelTitle.Text = "Chi Tiết Vật Liệu";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelInputVatLieu
             // 
-            this.panelInputVatLieu.Controls.Add(this.btnXoaAnh);
-            this.panelInputVatLieu.Controls.Add(this.btnThemAnh);
             this.panelInputVatLieu.Controls.Add(this.btnLeftArrow);
             this.panelInputVatLieu.Controls.Add(this.btnRightArrow);
             this.panelInputVatLieu.Controls.Add(this.pictureBoxShowImage);
-            this.panelInputVatLieu.Controls.Add(this.comboBoxNhaCungCap);
-            this.panelInputVatLieu.Controls.Add(this.btnMinus);
-            this.panelInputVatLieu.Controls.Add(this.btnPlus);
             this.panelInputVatLieu.Controls.Add(this.txtSoLuong);
+            this.panelInputVatLieu.Controls.Add(this.txtNhaCungCap);
             this.panelInputVatLieu.Controls.Add(this.txtDonVi);
             this.panelInputVatLieu.Controls.Add(this.txtGiaXuat);
             this.panelInputVatLieu.Controls.Add(this.txtGiaNhap);
@@ -105,33 +97,23 @@
             this.panelInputVatLieu.Controls.Add(this.labelGiaNhap);
             this.panelInputVatLieu.Controls.Add(this.labelTenVatLieu);
             this.panelInputVatLieu.Controls.Add(this.labelMa);
-            this.panelInputVatLieu.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelInputVatLieu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelInputVatLieu.Location = new System.Drawing.Point(0, 60);
             this.panelInputVatLieu.Name = "panelInputVatLieu";
-            this.panelInputVatLieu.Size = new System.Drawing.Size(678, 724);
-            this.panelInputVatLieu.TabIndex = 1;
+            this.panelInputVatLieu.Size = new System.Drawing.Size(678, 734);
+            this.panelInputVatLieu.TabIndex = 2;
             // 
-            // btnXoaAnh
+            // btnLeftArrow
             // 
-            this.btnXoaAnh.BackColor = System.Drawing.Color.Red;
-            this.btnXoaAnh.Location = new System.Drawing.Point(200, 669);
-            this.btnXoaAnh.Name = "btnXoaAnh";
-            this.btnXoaAnh.Size = new System.Drawing.Size(136, 47);
-            this.btnXoaAnh.TabIndex = 8;
-            this.btnXoaAnh.Text = "Xóa ảnh";
-            this.btnXoaAnh.UseVisualStyleBackColor = false;
-            this.btnXoaAnh.Click += new System.EventHandler(this.btnXoaAnh_Click);
-            // 
-            // btnThemAnh
-            // 
-            this.btnThemAnh.BackColor = System.Drawing.Color.Magenta;
-            this.btnThemAnh.Location = new System.Drawing.Point(364, 669);
-            this.btnThemAnh.Name = "btnThemAnh";
-            this.btnThemAnh.Size = new System.Drawing.Size(136, 47);
-            this.btnThemAnh.TabIndex = 8;
-            this.btnThemAnh.Text = "Thêm ảnh";
-            this.btnThemAnh.UseVisualStyleBackColor = false;
-            this.btnThemAnh.Click += new System.EventHandler(this.btnThemAnh_Click);
+            this.btnLeftArrow.BackgroundImage = global::QuanLyCuaHangVatLieuXayDung.Properties.Resources.left_arrow;
+            this.btnLeftArrow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnLeftArrow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLeftArrow.Location = new System.Drawing.Point(116, 484);
+            this.btnLeftArrow.Name = "btnLeftArrow";
+            this.btnLeftArrow.Size = new System.Drawing.Size(78, 92);
+            this.btnLeftArrow.TabIndex = 7;
+            this.btnLeftArrow.UseVisualStyleBackColor = true;
+            this.btnLeftArrow.Click += new System.EventHandler(this.btnLeftArrow_Click);
             // 
             // btnRightArrow
             // 
@@ -151,48 +133,25 @@
             this.pictureBoxShowImage.Location = new System.Drawing.Point(200, 413);
             this.pictureBoxShowImage.Name = "pictureBoxShowImage";
             this.pictureBoxShowImage.Size = new System.Drawing.Size(300, 250);
+            this.pictureBoxShowImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxShowImage.TabIndex = 6;
             this.pictureBoxShowImage.TabStop = false;
             // 
-            // comboBoxNhaCungCap
-            // 
-            this.comboBoxNhaCungCap.FormattingEnabled = true;
-            this.comboBoxNhaCungCap.Location = new System.Drawing.Point(200, 281);
-            this.comboBoxNhaCungCap.Name = "comboBoxNhaCungCap";
-            this.comboBoxNhaCungCap.Size = new System.Drawing.Size(421, 37);
-            this.comboBoxNhaCungCap.TabIndex = 5;
-            // 
-            // btnMinus
-            // 
-            this.btnMinus.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnMinus.BackgroundImage")));
-            this.btnMinus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnMinus.Location = new System.Drawing.Point(171, 334);
-            this.btnMinus.Name = "btnMinus";
-            this.btnMinus.Size = new System.Drawing.Size(50, 37);
-            this.btnMinus.TabIndex = 4;
-            this.btnMinus.UseVisualStyleBackColor = true;
-            this.btnMinus.Click += new System.EventHandler(this.btnMinus_Click);
-            // 
-            // btnPlus
-            // 
-            this.btnPlus.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPlus.BackgroundImage")));
-            this.btnPlus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPlus.Location = new System.Drawing.Point(569, 334);
-            this.btnPlus.Name = "btnPlus";
-            this.btnPlus.Size = new System.Drawing.Size(50, 37);
-            this.btnPlus.TabIndex = 3;
-            this.btnPlus.UseVisualStyleBackColor = true;
-            this.btnPlus.Click += new System.EventHandler(this.btnPlus_Click);
-            // 
             // txtSoLuong
             // 
-            this.txtSoLuong.Location = new System.Drawing.Point(225, 334);
+            this.txtSoLuong.Location = new System.Drawing.Point(200, 334);
             this.txtSoLuong.Name = "txtSoLuong";
-            this.txtSoLuong.Size = new System.Drawing.Size(338, 37);
+            this.txtSoLuong.Size = new System.Drawing.Size(421, 37);
             this.txtSoLuong.TabIndex = 1;
             this.txtSoLuong.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtSoLuong.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSoLuong_KeyPress);
-            this.txtSoLuong.Leave += new System.EventHandler(this.txtSoLuong_Leave);
+            // 
+            // txtNhaCungCap
+            // 
+            this.txtNhaCungCap.Location = new System.Drawing.Point(200, 281);
+            this.txtNhaCungCap.Name = "txtNhaCungCap";
+            this.txtNhaCungCap.Size = new System.Drawing.Size(421, 37);
+            this.txtNhaCungCap.TabIndex = 1;
+            this.txtNhaCungCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtDonVi
             // 
@@ -209,8 +168,6 @@
             this.txtGiaXuat.Size = new System.Drawing.Size(450, 37);
             this.txtGiaXuat.TabIndex = 1;
             this.txtGiaXuat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtGiaXuat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtGiaXuat_KeyPress);
-            this.txtGiaXuat.Leave += new System.EventHandler(this.txtGiaXuat_Leave);
             // 
             // txtGiaNhap
             // 
@@ -219,8 +176,6 @@
             this.txtGiaNhap.Size = new System.Drawing.Size(450, 37);
             this.txtGiaNhap.TabIndex = 1;
             this.txtGiaNhap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtGiaNhap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtGiaNhap_KeyPress);
-            this.txtGiaNhap.Leave += new System.EventHandler(this.txtGiaNhap_Leave);
             // 
             // labelSoLuong
             // 
@@ -303,52 +258,41 @@
             // 
             // panelBtnTao
             // 
-            this.panelBtnTao.Controls.Add(this.btnTaoVatLieu);
-            this.panelBtnTao.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelBtnTao.Location = new System.Drawing.Point(0, 784);
+            this.panelBtnTao.Controls.Add(this.btnCancel);
+            this.panelBtnTao.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelBtnTao.Location = new System.Drawing.Point(0, 736);
             this.panelBtnTao.Name = "panelBtnTao";
             this.panelBtnTao.Size = new System.Drawing.Size(678, 58);
-            this.panelBtnTao.TabIndex = 2;
+            this.panelBtnTao.TabIndex = 3;
             // 
-            // btnTaoVatLieu
+            // btnCancel
             // 
-            this.btnTaoVatLieu.BackColor = System.Drawing.Color.Orange;
-            this.btnTaoVatLieu.Location = new System.Drawing.Point(524, 6);
-            this.btnTaoVatLieu.Name = "btnTaoVatLieu";
-            this.btnTaoVatLieu.Size = new System.Drawing.Size(142, 42);
-            this.btnTaoVatLieu.TabIndex = 0;
-            this.btnTaoVatLieu.Text = "Tạo";
-            this.btnTaoVatLieu.UseVisualStyleBackColor = false;
-            this.btnTaoVatLieu.Click += new System.EventHandler(this.btnTaoVatLieu_Click);
+            this.btnCancel.BackColor = System.Drawing.Color.Red;
+            this.btnCancel.Location = new System.Drawing.Point(524, 6);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(142, 42);
+            this.btnCancel.TabIndex = 0;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // btnLeftArrow
-            // 
-            this.btnLeftArrow.BackgroundImage = global::QuanLyCuaHangVatLieuXayDung.Properties.Resources.left_arrow;
-            this.btnLeftArrow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnLeftArrow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLeftArrow.Location = new System.Drawing.Point(116, 484);
-            this.btnLeftArrow.Name = "btnLeftArrow";
-            this.btnLeftArrow.Size = new System.Drawing.Size(78, 92);
-            this.btnLeftArrow.TabIndex = 7;
-            this.btnLeftArrow.UseVisualStyleBackColor = true;
-            this.btnLeftArrow.Click += new System.EventHandler(this.btnLeftArrow_Click);
-            // 
-            // Form_TaoVatLieuMoi
+            // Form_ChiTietVatlieu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(678, 842);
+            this.ClientSize = new System.Drawing.Size(678, 794);
             this.Controls.Add(this.panelBtnTao);
             this.Controls.Add(this.panelInputVatLieu);
             this.Controls.Add(this.panelTitle);
             this.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.Name = "Form_TaoVatLieuMoi";
+            this.MaximumSize = new System.Drawing.Size(700, 850);
+            this.Name = "Form_ChiTietVatlieu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form_TaoVatLieuMoi";
-            this.Load += new System.EventHandler(this.Form_TaoVatLieuMoi_Load);
+            this.Text = "Form_ChiTietVatlieu";
+            this.Load += new System.EventHandler(this.Form_ChiTietVatlieu_Load);
             this.panelTitle.ResumeLayout(false);
             this.panelInputVatLieu.ResumeLayout(false);
             this.panelInputVatLieu.PerformLayout();
@@ -363,28 +307,24 @@
         private System.Windows.Forms.Panel panelTitle;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Panel panelInputVatLieu;
-        private System.Windows.Forms.Label labelMa;
-        private System.Windows.Forms.Panel panelBtnTao;
-        private System.Windows.Forms.TextBox txtMaVatLieu;
-        private System.Windows.Forms.TextBox txtTenVatlieu;
-        private System.Windows.Forms.Label labelTenVatLieu;
-        private System.Windows.Forms.TextBox txtGiaXuat;
-        private System.Windows.Forms.TextBox txtGiaNhap;
-        private System.Windows.Forms.Label labelGiaXuat;
-        private System.Windows.Forms.Label labelGiaNhap;
+        private System.Windows.Forms.Button btnLeftArrow;
+        private System.Windows.Forms.Button btnRightArrow;
+        private System.Windows.Forms.PictureBox pictureBoxShowImage;
         private System.Windows.Forms.TextBox txtSoLuong;
         private System.Windows.Forms.TextBox txtDonVi;
+        private System.Windows.Forms.TextBox txtGiaXuat;
+        private System.Windows.Forms.TextBox txtGiaNhap;
         private System.Windows.Forms.Label labelSoLuong;
-        private System.Windows.Forms.Label labelDonVi;
-        private System.Windows.Forms.Button btnPlus;
-        private System.Windows.Forms.Button btnMinus;
-        private System.Windows.Forms.ComboBox comboBoxNhaCungCap;
         private System.Windows.Forms.Label labelNhaCungCap;
-        private System.Windows.Forms.PictureBox pictureBoxShowImage;
-        private System.Windows.Forms.Button btnRightArrow;
-        private System.Windows.Forms.Button btnXoaAnh;
-        private System.Windows.Forms.Button btnThemAnh;
-        private System.Windows.Forms.Button btnTaoVatLieu;
-        private System.Windows.Forms.Button btnLeftArrow;
+        private System.Windows.Forms.TextBox txtTenVatlieu;
+        private System.Windows.Forms.Label labelDonVi;
+        private System.Windows.Forms.Label labelGiaXuat;
+        private System.Windows.Forms.TextBox txtMaVatLieu;
+        private System.Windows.Forms.Label labelGiaNhap;
+        private System.Windows.Forms.Label labelTenVatLieu;
+        private System.Windows.Forms.Label labelMa;
+        private System.Windows.Forms.Panel panelBtnTao;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox txtNhaCungCap;
     }
 }

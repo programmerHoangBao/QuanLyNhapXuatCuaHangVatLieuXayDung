@@ -114,86 +114,88 @@
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.WriteObjectJsonFile``1(``0,System.String)">
             <summary>
-            Writes an object of any type to a JSON file at the specified path.
+            Overwrites a JSON file with a single object wrapped in a "Data" property.
             </summary>
-            <typeparam name="T">The type of the object to be written.</typeparam>
-            <param name="obj">The object instance to serialize and write to the file.</param>
-            <param name="filePath">The full file path where the JSON file will be saved, including the file name and extension.</param>
+            <typeparam name="T">The type of the object to be serialized and written to the JSON file.</typeparam>
+            <param name="obj">The object instance to serialize and write to the JSON file.</param>
+            <param name="filePath">The full path of the JSON file to be written, including the file name and extension.</param>
             <returns>
-            Returns <c>true</c> if the operation succeeds; otherwise, returns <c>false</c> if an error occurs.
+            Returns <c>true</c> if the operation completes successfully; otherwise, <c>false</c> if an error occurs.
             </returns>
             <remarks>
-            If the directory does not exist, it will be automatically created. 
+            If the directory does not exist, it will be created automatically.
+            The object will be serialized as a JSON array containing one item with a "Data" property.
+            The method will overwrite the entire file content regardless of any existing data.
+            The resulting JSON is formatted with indentation for readability.
+            </remarks>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.AppendObjectJsonFile``1(``0,System.String)">
+            <summary>
+            Appends an object to a JSON file at the specified path, or creates a new file if it doesn't exist.
+            </summary>
+            <typeparam name="T">The type of the object to be serialized and written to the JSON file.</typeparam>
+            <param name="obj">The object instance to serialize and add to the JSON file.</param>
+            <param name="filePath">The full file path where the JSON file will be saved, including the file name and extension.</param>
+            <returns>
+            Returns <c>true</c> if the operation is successful; otherwise, returns <c>false</c> if an error occurs.
+            </returns>
+            <remarks>
+            If the directory of the file does not exist, it will be created automatically.
             The object will be wrapped in a parent object with a "Data" property before being serialized.
+            If the file already exists and contains a valid JSON array, the object will be added to the array.
+            If the file is empty or invalid, it will be overwritten with the new object.
             The JSON output will be indented for readability.
             </remarks>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.AppendObjectToJsonFile``1(``0,System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.RemoveObjectFromJsonFile``1(System.String,System.Func{System.Text.Json.JsonElement,System.Boolean})">
             <summary>
-            Appends a new object to an existing JSON file that contains an array of objects.
+            Removes objects from a JSON file based on a specified condition defined by a predicate.
             </summary>
-            <typeparam name="T">The type of the object to be appended.</typeparam>
-            <param name="obj">The object instance to serialize and append to the JSON file.</param>
-            <param name="filePath">The full path to the JSON file, including the file name and extension.</param>
+            <typeparam name="T">The type of the object that is being removed.</typeparam>
+            <param name="filePath">The full path to the JSON file from which objects will be removed.</param>
+            <param name="matchPredicate">A delegate (Func) that defines the condition to match objects for removal. It is applied to the "Data" property of each object.</param>
             <returns>
-            Returns <c>true</c> if the object is successfully appended; 
-            returns <c>false</c> if the file doesn't exist, is not a valid JSON array, or if an error occurs.
+            Returns <c>true</c> if matching objects were removed successfully; otherwise, returns <c>false</c> if no objects were removed or an error occurred.
             </returns>
             <remarks>
-            The object will be wrapped in an anonymous object with a "Data" property before being added to the JSON array.
-            If the JSON file is not a valid array, the method will log an error and return false.
+            This method reads the JSON file, deserializes it into a list of JSON elements, and removes entries that satisfy the provided predicate.
+            If no matching entries are found, a warning is logged. The updated JSON content is then written back to the file.
             </remarks>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.RemoveObjectFromJsonFile``1(``0,System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.UpdateObjectInJsonFileById``1(``0,System.String,System.Func{System.Text.Json.JsonElement,System.Boolean})">
             <summary>
-            Removes all matching objects from a JSON file containing an array of objects wrapped in a "Data" property.
-            </summary>
-            <typeparam name="T">The type of the object to be removed.</typeparam>
-            <param name="objToRemove">The object to find and remove from the JSON file.</param>
-            <param name="filePath">The full path to the JSON file, including the file name and extension.</param>
-            <returns>
-            Returns <c>true</c> if one or more matching entries were successfully removed; 
-            otherwise, returns <c>false</c> if no match was found, the file does not exist, or an error occurred.
-            </returns>
-            <remarks>
-            This method assumes that each item in the JSON file is an object containing a "Data" property.
-            The object to remove is serialized to JSON, and comparison is made using raw JSON string matching against the "Data" values.
-            The updated JSON is written back to the file after removal.
-            </remarks>
-        </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.UpdateObjectInJsonFile``1(``0,System.String)">
-            <summary>
-            Updates an existing object inside a JSON file where each object is wrapped in a "Data" property.
+            Updates an object inside a JSON file based on a custom matching condition.
             </summary>
             <typeparam name="T">The type of the object to be updated.</typeparam>
-            <param name="objToUpdate">The object to update in the JSON file.</param>
-            <param name="filePath">The full path to the JSON file, including file name and extension.</param>
+            <param name="objToUpdate">The new object that will replace the existing matching object in the file.</param>
+            <param name="filePath">The path to the JSON file containing a list of objects.</param>
+            <param name="matchPredicate">
+            A delegate function that defines the matching condition. 
+            It takes a <see cref="T:System.Text.Json.JsonElement"/> representing the "Data" object from each entry in the JSON array.
+            Returns <c>true</c> if the entry matches the object to update.
+            </param>
             <returns>
-            Returns <c>true</c> if the object was found and updated; 
-            <c>false</c> if no matching entry was found, the file does not exist, or an error occurred.
+            Returns <c>true</c> if the object was found and successfully updated; otherwise, returns <c>false</c>.
             </returns>
             <remarks>
-            This method assumes each item in the JSON file is an object containing a "Data" property.
-            It matches the object to update by comparing the serialized JSON string of the "Data" property.
-            If a match is found, the entry is replaced with the updated object and written back to the file.
+            The JSON file is expected to contain an array of objects, where each object has a property named <c>"Data"</c>.
+            The method deserializes the JSON array, searches for the entry where the <paramref name="matchPredicate"/> returns true,
+            and replaces that entry with the updated object.
+            Uses <see cref="N:System.Text.Json"/> for serialization and deserialization.
             </remarks>
         </member>
-        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.ExistsObjectInJsonFile``1(``0,System.String)">
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.IsExistsObjectInJsonFile``1(System.String,System.Func{System.Text.Json.JsonElement,System.Boolean})">
             <summary>
-            Checks whether a specific object exists in a JSON file, 
-            where each entry is wrapped in a "Data" property.
+            Checks if an object exists in a JSON file based on a specified predicate for the object's properties.
             </summary>
-            <typeparam name="T">The type of the object to check.</typeparam>
-            <param name="objToCheck">The object to search for in the JSON file.</param>
-            <param name="filePath">The full path to the JSON file.</param>
+            <param name="filePath">The full path of the JSON file to check.</param>
+            <param name="matchPredicate">A function that defines the condition to match against properties inside the "Data" field of each entry.</param>
             <returns>
-            Returns <c>true</c> if the object exists in the file; 
-            otherwise, returns <c>false</c>. Also returns <c>false</c> 
-            if the file doesn't exist or if a read/parse error occurs.
+            Returns <c>true</c> if the object matching the predicate is found in the JSON file; otherwise, returns <c>false</c> if not found or an error occurs.
             </returns>
             <remarks>
-            The method deserializes the JSON file into a list of elements,
-            then checks each element's "Data" property for a match with the serialized form of <paramref name="objToCheck"/>.
+            This method deserializes the JSON file into a list of objects, checks each object’s "Data" property against the provided predicate, 
+            and returns <c>true</c> if a match is found. If no match is found, it returns <c>false</c>.
             </remarks>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.ReadObjectsFromJsonFile``1(System.String)">
@@ -262,6 +264,18 @@
             <param name="folderPath">The full path of the folder to check.</param>
             <returns>True if the folder exists; otherwise, false.</returns>
         </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.utilities.FileUtility.CopyAndRenameFile(System.String,System.String,System.String)">
+            <summary>
+            Copies a file to a specified destination folder and renames it with a new file name.
+            </summary>
+            <param name="sourceFilePath">The full path to the source file that needs to be copied.</param>
+            <param name="destinationFolder">The full path to the destination folder where the file will be copied.</param>
+            <param name="newFileName">The new name for the copied file, including the file extension (e.g., "newfile.txt").</param>
+            <returns>
+            Returns the full path to the newly copied and renamed file if successful.
+            Returns an empty string if the copy or rename operation fails.
+            </returns>
+        </member>
         <member name="T:QuanLyCuaHangVatLieuXayDung.utilities.MyDatabase">
             <summary>
             Perform connection with your database
@@ -298,6 +312,74 @@
             The main entry point for the application.
             </summary>
         </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_BienLaiTraNo.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_BienLaiTraNo.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_BienLaiTraNo.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ChiPhiPhatSinh.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChiPhiPhatSinh.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChiPhiPhatSinh.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ChiTietVatlieu.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChiTietVatlieu.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChiTietVatlieu.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ChonDoiTac.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChonDoiTac.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChonDoiTac.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ChonSoLuongVatLieu.components">
             <summary>
             Required designer variable.
@@ -310,6 +392,74 @@
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ChonSoLuongVatLieu.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_DoiTac.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_DoiTac.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_DoiTac.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_LichSuGiaoDich.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_LichSuGiaoDich.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_LichSuGiaoDich.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_NhanVien.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_NhanVien.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_NhanVien.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_PhieuGhiNo.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_PhieuGhiNo.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_PhieuGhiNo.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -332,6 +482,23 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_TaoDoiTacMoi.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TaoDoiTacMoi.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TaoDoiTacMoi.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_TaoVatLieuMoi.components">
             <summary>
             Required designer variable.
@@ -344,6 +511,23 @@
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TaoVatLieuMoi.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_TraHang.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TraHang.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_TraHang.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -378,6 +562,23 @@
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_GiaoDich.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_VatLieu.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_VatLieu.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_VatLieu.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.

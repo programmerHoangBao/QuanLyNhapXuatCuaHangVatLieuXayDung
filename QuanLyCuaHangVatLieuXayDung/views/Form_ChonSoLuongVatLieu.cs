@@ -8,8 +8,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace QuanLyCuaHangVatLieuXayDung.views
 {
@@ -33,18 +35,19 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         public void ShowSoLuongVatLieu()
         {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = "";
             if (this.loaiHoaDon == 1)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
             }
             else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
             float soLuong = 0;
             FileUtility fileUtility = new FileUtility();
@@ -160,62 +163,69 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = "";
             if (this.loaiHoaDon == 1)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                filePath = Path.Combine(projectDirectory, "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
             }
             else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
+
+            //Ghi dữ liệu vào file json chitietphieutrahang.json
             FileUtility fileUtility = new FileUtility();
-            VatLieu vatLieu = this.vatLieu;
-            if (!fileUtility.IsFileExists(filePath))
+            ChiTiet chiTiet = new ChiTiet(this.vatLieu, this.GetSoLuong());
+            Func<JsonElement, bool> matchPredicate = (ChiTiet) =>
             {
-                fileUtility.WriteObjectJsonFile(vatLieu, filePath);
+                if (ChiTiet.TryGetProperty("VatLieu", out var vatLieuProperty))
+                {
+                    return vatLieuProperty.GetProperty("MaVatLieu").ToString() == this.vatLieu.MaVatLieu;
+                }
+                return false;
+            };
+
+
+            if (!fileUtility.IsExistsObjectInJsonFile<ChiTiet>(filePath, matchPredicate))
+            {
+                fileUtility.AppendObjectJsonFile(chiTiet, filePath);
             }
             else
             {
-                if (!fileUtility.ExistsObjectInJsonFile(vatLieu, filePath))
-                {
-                    fileUtility.AppendObjectToJsonFile(vatLieu, filePath);
-                }
-                else
-                {
-                    fileUtility.UpdateObjectInJsonFile(vatLieu, filePath);
-                }
+                fileUtility.UpdateObjectInJsonFileById(chiTiet, filePath, matchPredicate);
             }
             this.Close();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = "";
             if (this.loaiHoaDon == 1)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonxuat.json");
+                filePath = Path.Combine(projectDirectory,"temp", "hoadon", "chitiethoadonxuat.json");
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "hoadon", "chitiethoadonnhap.json");
+                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
             }
             else if (this.loaiHoaDon == 0 && this.MaxSoLuongTra <= 0)
             {
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
             }
             FileUtility fileUtility = new FileUtility();
+            Func<JsonElement, bool> matchPredicate = (VatLieu) =>
+            {
+                return VatLieu.GetProperty("MaVatLieu").ToString() == this.vatLieu.MaVatLieu;
+            };
             if (fileUtility.IsFileExists(filePath))
             {
-                if (fileUtility.ExistsObjectInJsonFile(this.vatLieu, filePath))
-                {
-                    fileUtility.RemoveObjectFromJsonFile(this.vatLieu, filePath);
-                }
-                else
+                if (!fileUtility.RemoveObjectFromJsonFile<VatLieu>(filePath, matchPredicate))
                 {
                     MessageBox.Show("Không tìm thấy vật liệu trong danh sách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }

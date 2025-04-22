@@ -7,171 +7,130 @@ using System.Windows.Forms;
 
 namespace QuanLyCuaHangVatLieuXayDung.service.impl
 {
+    //Khác phục các hoạt động liên quan đến ChiTietPhieuTraHang thì thực hiện code trong ChiTietService
+    // Chinh sưa lại các method cho PhieuTraHangService cần thiết kết lại code transaction cho phù hợp có thể tham khảo VatLieuServicce
     internal class PhieuTraHangService : IPhieuTraHangService
     {
         private MyDatabase myDatabase = new MyDatabase();
-        private IChiTietService chiTietTraHangService = new ChiTietService();
+        private IVatLieuService vatLieuService = new VatLieuService();
 
-        public bool insertPhieuTraHang(PhieuTraHang phieu)
+        public bool insertphieuTraHang(PhieuTraHang phieu)
         {
-            string query = @"INSERT INTO PhieuTraHang (MaPhieu, ThoiGianLap, MaHoaDon, LyDo, LoaiPhieu, TongTien)
-                             VALUES (@MaPhieu, @ThoiGianLap, @MaHoaDon, @LyDo, @LoaiPhieu, @TongTien)";
-            SqlTransaction transaction = null;
-            int affectedRows = 0;
-
+            string query = "INSERT INTO PhieuTraHang (MaPhieu, ThoiGianLap, LyDo, TongTien, LoaiPhieu) " +
+                           "VALUES (@MaPhieu, @ThoiGianLap, @LyDo, @TongTien, @LoaiPhieu)";
+            string chiTietQuery = "INSERT INTO ChiTietPhieuTraHang (MaPhieu, MaVatLieu, SoLuong) " +
+                                  "VALUES (@MaPhieu, @MaVatLieu, @SoLuong)";
             try
             {
                 myDatabase.OpenConnection();
-                transaction = myDatabase.Connection.BeginTransaction();
 
-                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection, transaction);
-                cmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
-                cmd.Parameters.AddWithValue("@ThoiGianLap", phieu.ThoiGianLap);
-                cmd.Parameters.AddWithValue("@MaHoaDon", phieu.MaHoaDon);
-                cmd.Parameters.AddWithValue("@LyDo", phieu.LyDo);
-                cmd.Parameters.AddWithValue("@LoaiPhieu", phieu.loaiPhieu_toByte());
-                cmd.Parameters.AddWithValue("@TongTien", phieu.TongTien);
+                using (SqlTransaction transaction = myDatabase.Connection.BeginTransaction())
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
+                        cmd.Parameters.AddWithValue("@ThoiGianLap", phieu.ThoiGianLap);
+                        cmd.Parameters.AddWithValue("@LyDo", phieu.LyDo);
+                        cmd.Parameters.AddWithValue("@TongTien", phieu.TongTien);
+                        cmd.Parameters.AddWithValue("@LoaiPhieu", phieu.loaiPhieu_toByte());
+                        cmd.ExecuteNonQuery();
+                    }
 
-                affectedRows = cmd.ExecuteNonQuery();
-                transaction.Commit();
+                    foreach (var ct in phieu.ChiTiets)
+                    {
+                        using (SqlCommand chiTietCmd = new SqlCommand(chiTietQuery, myDatabase.Connection, transaction))
+                        {
+                            chiTietCmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
+                            chiTietCmd.Parameters.AddWithValue("@MaVatLieu", ct.VatLieu.MaVatLieu);
+                            chiTietCmd.Parameters.AddWithValue("@SoLuong", ct.SoLuong);
+                            chiTietCmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    transaction.Commit();
+                    return true;
+                }
             }
             catch (Exception ex)
             {
-                transaction?.Rollback();
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Lỗi khi thêm phiếu trả hàng: " + ex.Message);
             }
             finally
             {
                 myDatabase.CloseConnection();
-            }
-
-            if (affectedRows > 0)
-            {
-                foreach (ChiTiet ct in phieu.ChiTiets)
-                {
-                    if (!chiTietTraHangService.insertChiTietTraHang(phieu.MaPhieu, ct))
-                    {
-                        deletePhieuTraHang(phieu.MaPhieu);
-                        return false;
-                    }
-                }
-                return true;
             }
 
             return false;
         }
 
-        public bool deletePhieuTraHang(string maPhieu)
+        public bool deletephieuTraHang(string maPhieu)
         {
-            SqlTransaction transaction = null;
-            int affectedRows = 0;
-
             try
             {
+                string deleteChiTiet = "DELETE FROM ChiTietPhieuTraHang WHERE MaPhieu = @MaPhieu";
+                string deletePhieu = "DELETE FROM PhieuTraHang WHERE MaPhieu = @MaPhieu";
+
                 myDatabase.OpenConnection();
-                transaction = myDatabase.Connection.BeginTransaction();
 
-                string query = "DELETE FROM PhieuTraHang WHERE MaPhieu = @MaPhieu";
-                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection, transaction);
-                cmd.Parameters.AddWithValue("@MaPhieu", maPhieu);
+                using (SqlTransaction transaction = myDatabase.Connection.BeginTransaction())
+                {
+                    SqlCommand cmd1 = new SqlCommand(deleteChiTiet, myDatabase.Connection, transaction);
+                    cmd1.Parameters.AddWithValue("@MaPhieu", maPhieu);
+                    cmd1.ExecuteNonQuery();
 
-                affectedRows = cmd.ExecuteNonQuery();
+                    SqlCommand cmd2 = new SqlCommand(deletePhieu, myDatabase.Connection, transaction);
+                    cmd2.Parameters.AddWithValue("@MaPhieu", maPhieu);
+                    int result = cmd2.ExecuteNonQuery();
 
-                transaction.Commit();
+                    transaction.Commit();
+
+                    return result > 0;
+                }
             }
             catch (Exception ex)
             {
-                transaction?.Rollback();
-                MessageBox.Show("Lỗi khi xóa phiếu trả hàng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi xóa phiếu trả hàng: " + ex.Message);
             }
             finally
             {
                 myDatabase.CloseConnection();
             }
 
-            return affectedRows > 0;
+            return false;
         }
 
-        public bool updatePhieuTraHang(PhieuTraHang phieu)
+        public List<PhieuTraHang> findallphieuTraHang()
         {
-            if (!deletePhieuTraHang(phieu.MaPhieu))
-            {
-                MessageBox.Show("Không thể xóa phiếu cũ trước khi cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            return insertPhieuTraHang(phieu);
-        }
-        public List<PhieuTraHang> findAll()
-        {
-            string query = "SELECT * FROM PhieuTraHang";
             List<PhieuTraHang> list = new List<PhieuTraHang>();
+            string query = "SELECT * FROM PhieuTraHang";
 
             try
             {
                 myDatabase.OpenConnection();
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
                 SqlDataReader reader = cmd.ExecuteReader();
-                PhieuTraHang phieu = null;
-                byte loaiPhieu;
+                PhieuTraHang phieu;
                 while (reader.Read())
                 {
-                    
-                    loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
+                    byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
                     if (loaiPhieu == 1)
                         phieu = new PhieuTraHangTuKhachHang();
-                    else if (loaiPhieu == 2)
+                    else
                         phieu = new PhieuTraHangChoNhaCungCap();
 
-                    if (phieu != null)
-                    {
-                        phieu.MaPhieu = reader["MaPhieu"].ToString();
-                        phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
-                        phieu.MaHoaDon = reader["MaHoaDon"].ToString();
-                        phieu.LyDo = reader["LyDo"].ToString();
-                        phieu.TongTien = double.Parse(reader["TongTien"].ToString());
-                        phieu.ChiTiets = chiTietTraHangService.getChiTietTraHangByPhieu(phieu.MaPhieu);
+                    phieu.MaPhieu = reader["MaPhieu"].ToString();
+                    phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
+                    phieu.LyDo = reader["LyDo"].ToString();
+                    phieu.TongTien = double.Parse(reader["TongTien"].ToString());
+                    phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
 
-                        list.Add(phieu);
-                    }
-                }
-
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-            finally
-            {
-                myDatabase.CloseConnection();
-            }
-
-            return list;
-        }
-
-        public List<PhieuTraHang> searchByKey(string key)
-        {
-            string query = "SELECT * FROM PhieuTraHang WHERE MaPhieu LIKE @Key OR LyDo LIKE @Key";
-            List<PhieuTraHang> list = new List<PhieuTraHang>();
-
-            try
-            {
-                myDatabase.OpenConnection();
-                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
-                cmd.Parameters.AddWithValue("@Key", "%" + key + "%");
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    PhieuTraHang phieu = createPhieuFromReader(reader);
                     list.Add(phieu);
                 }
                 reader.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
             }
             finally
             {
@@ -181,90 +140,38 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return list;
         }
 
-        public List<PhieuTraHang> findByDateRange(DateTime startDate, DateTime endDate)
+        public PhieuTraHang findbyMaPhieu(string maPhieu)
         {
-            string query = "SELECT * FROM PhieuTraHang WHERE ThoiGianLap BETWEEN @StartDate AND @EndDate";
-            List<PhieuTraHang> list = new List<PhieuTraHang>();
-
-            try
-            {
-                myDatabase.OpenConnection();
-                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
-                cmd.Parameters.AddWithValue("@StartDate", startDate);
-                cmd.Parameters.AddWithValue("@EndDate", endDate);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    PhieuTraHang phieu = createPhieuFromReader(reader);
-                    list.Add(phieu);
-                }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-            finally
-            {
-                myDatabase.CloseConnection();
-            }
-
-            return list;
-        }
-
-        public List<PhieuTraHang> findByLoaiPhieu(byte loaiPhieu)
-        {
-            string query = "SELECT * FROM PhieuTraHang WHERE LoaiPhieu = @LoaiPhieu";
-            List<PhieuTraHang> list = new List<PhieuTraHang>();
-
-            try
-            {
-                myDatabase.OpenConnection();
-                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
-                cmd.Parameters.AddWithValue("@LoaiPhieu", loaiPhieu);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    PhieuTraHang phieu = createPhieuFromReader(reader);
-                    list.Add(phieu);
-                }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-            finally
-            {
-                myDatabase.CloseConnection();
-            }
-
-            return list;
-        }
-
-        public PhieuTraHang findByMaPhieu(string maPhieu)
-        {
-            string query = "SELECT * FROM PhieuTraHang WHERE MaPhieu = @MaPhieu";
             PhieuTraHang phieu = null;
+            string query = "SELECT * FROM PhieuTraHang WHERE MaPhieu = @MaPhieu";
 
             try
             {
                 myDatabase.OpenConnection();
                 SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
                 cmd.Parameters.AddWithValue("@MaPhieu", maPhieu);
-
                 SqlDataReader reader = cmd.ExecuteReader();
+
                 if (reader.Read())
                 {
-                    phieu = createPhieuFromReader(reader);
+                    byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
+                    if (loaiPhieu == 1)
+                        phieu = new PhieuTraHangTuKhachHang();
+                    else
+                        phieu = new PhieuTraHangChoNhaCungCap();
+
+                    phieu.MaPhieu = reader["MaPhieu"].ToString();
+                    phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
+                    phieu.LyDo = reader["LyDo"].ToString();
+                    phieu.TongTien = double.Parse(reader["TongTien"].ToString());
+                    phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
             }
             finally
             {
@@ -274,26 +181,178 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return phieu;
         }
 
-        private PhieuTraHang createPhieuFromReader(SqlDataReader reader)
+        public bool updatephieuTraHang(PhieuTraHang phieu)
         {
-            PhieuTraHang phieu = null;
-            byte loai = byte.Parse(reader["LoaiPhieu"].ToString());
-            if (loai == 1)
-                phieu = new PhieuTraHangTuKhachHang();
-            else if (loai == 2)
-                phieu = new PhieuTraHangChoNhaCungCap();
-
-            if (phieu != null)
+            try
             {
-                phieu.MaPhieu = reader["MaPhieu"].ToString();
-                phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
-                phieu.MaHoaDon = reader["MaHoaDon"].ToString();
-                phieu.LyDo = reader["LyDo"].ToString();
-                phieu.TongTien = double.Parse(reader["TongTien"].ToString());
-                phieu.ChiTiets = chiTietTraHangService.getChiTietTraHangByPhieu(phieu.MaPhieu);
+                myDatabase.OpenConnection();
+                SqlTransaction transaction = myDatabase.Connection.BeginTransaction();
+
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM ChiTietPhieuTraHang WHERE MaPhieu = @MaPhieu", myDatabase.Connection, transaction);
+                cmd1.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
+                cmd1.ExecuteNonQuery();
+
+                SqlCommand cmd2 = new SqlCommand("DELETE FROM PhieuTraHang WHERE MaPhieu = @MaPhieu", myDatabase.Connection, transaction);
+                cmd2.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
+                cmd2.ExecuteNonQuery();
+
+                SqlCommand insertCmd = new SqlCommand("INSERT INTO PhieuTraHang (MaPhieu, ThoiGianLap, LyDo, TongTien, LoaiPhieu) VALUES (@MaPhieu, @ThoiGianLap, @LyDo, @TongTien, @LoaiPhieu)", myDatabase.Connection, transaction);
+                insertCmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
+                insertCmd.Parameters.AddWithValue("@ThoiGianLap", phieu.ThoiGianLap);
+                insertCmd.Parameters.AddWithValue("@LyDo", phieu.LyDo);
+                insertCmd.Parameters.AddWithValue("@TongTien", phieu.TongTien);
+                insertCmd.Parameters.AddWithValue("@LoaiPhieu", phieu.loaiPhieu_toByte());
+                insertCmd.ExecuteNonQuery();
+
+                foreach (var ct in phieu.ChiTiets)
+                {
+                    SqlCommand chiTietCmd = new SqlCommand("INSERT INTO ChiTietPhieuTraHang (MaPhieu, MaVatLieu, SoLuong) VALUES (@MaPhieu, @MaVatLieu, @SoLuong)", myDatabase.Connection, transaction);
+                    chiTietCmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
+                    chiTietCmd.Parameters.AddWithValue("@MaVatLieu", ct.VatLieu.MaVatLieu);
+                    chiTietCmd.Parameters.AddWithValue("@SoLuong", ct.SoLuong);
+                    chiTietCmd.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Update error: " + ex.Message);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
             }
 
-            return phieu;
+            return false;
+        }
+
+        public List<PhieuTraHang> findphieuTraHangByDay(DateTime tuNgay, DateTime denNgay)
+        {
+            List<PhieuTraHang> list = new List<PhieuTraHang>();
+            string query = "SELECT * FROM PhieuTraHang WHERE ThoiGianLap >= @TuNgay AND ThoiGianLap < @NgayHomSau";
+
+            try
+            {
+                myDatabase.OpenConnection();
+                DateTime ngayHomSau = denNgay.Date.AddDays(1);
+
+                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@TuNgay", tuNgay.Date);
+                cmd.Parameters.AddWithValue("@NgayHomSau", ngayHomSau);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                PhieuTraHang phieu;
+                while (reader.Read())
+                {
+                    byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
+                    if (loaiPhieu == 1)
+                        phieu = new PhieuTraHangTuKhachHang();
+                    else
+                        phieu = new PhieuTraHangChoNhaCungCap();
+
+                    phieu.MaPhieu = reader["MaPhieu"].ToString();
+                    phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
+                    phieu.LyDo = reader["LyDo"].ToString();
+                    phieu.TongTien = double.Parse(reader["TongTien"].ToString());
+                    phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
+
+                    list.Add(phieu);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+
+            return list;
+        }
+
+        public List<PhieuTraHang> searchByKey(string keyword)
+        {
+            List<PhieuTraHang> list = new List<PhieuTraHang>();
+            string query = @"SELECT * FROM PhieuTraHang 
+                             WHERE MaPhieu LIKE @keyword 
+                                OR LyDo LIKE @keyword 
+                                OR CONVERT(VARCHAR(10), ThoiGianLap, 120) = @ngayKeyword";
+
+            try
+            {
+                myDatabase.OpenConnection();
+                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@keyword", "%" + keyword + "%");
+
+                if (DateTime.TryParse(keyword, out DateTime ngayParsed))
+                    cmd.Parameters.AddWithValue("@ngayKeyword", ngayParsed.ToString("yyyy-MM-dd"));
+                else
+                    cmd.Parameters.AddWithValue("@ngayKeyword", "0000-00-00");
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                PhieuTraHang phieu;
+                while (reader.Read())
+                {
+                    byte loaiPhieu = byte.Parse(reader["LoaiPhieu"].ToString());
+                    if (loaiPhieu == 1)
+                        phieu = new PhieuTraHangTuKhachHang();
+                    else
+                        phieu = new PhieuTraHangChoNhaCungCap();
+
+                    phieu.MaPhieu = reader["MaPhieu"].ToString();
+                    phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
+                    phieu.LyDo = reader["LyDo"].ToString();
+                    phieu.TongTien = double.Parse(reader["TongTien"].ToString());
+                    phieu.ChiTiets = loaddanhSachVatLieu(phieu.MaPhieu);
+
+                    list.Add(phieu);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+
+            return list;
+        }
+
+        private List<ChiTiet> loaddanhSachVatLieu(string maPhieu)
+        {
+            List<ChiTiet> list = new List<ChiTiet>();
+            string query = "SELECT MaVatLieu, SoLuong FROM ChiTietTraHang WHERE MaPhieu = @MaPhieu";
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@MaPhieu", maPhieu);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    VatLieu vatLieu = vatLieuService.findByMaVatLieu(reader["MaVatLieu"].ToString());
+                    float soLuong = float.Parse(reader["SoLuong"].ToString());
+                    list.Add(new ChiTiet(vatLieu, soLuong));
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            return list;
         }
     }
 }
