@@ -342,7 +342,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 {
                     VatLieu vatLieu = vatLieuService.findByMaVatLieu(reader["MaVatLieu"].ToString());
                     float soLuong = float.Parse(reader["SoLuong"].ToString());
-                    list.Add(new ChiTiet(soLuong, vatLieu));
+                    list.Add(new ChiTiet(vatLieu, soLuong));
                 }
 
                 reader.Close();

@@ -18,14 +18,14 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public ChiTiet()
         {
         }
-        public ChiTiet(float soLuong, VatLieu vatLieu)
+        public ChiTiet(VatLieu vatLieu, float soLuong)
         {
             SoLuong = soLuong;
             VatLieu = vatLieu;
         }
 
         public float SoLuong { get => soLuong; set => soLuong = value; }
-        internal VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }
+        public VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }
 
     }
 }
