@@ -637,6 +637,7 @@
             // 
             // flowLayoutPanelShowVatLieu
             // 
+            this.flowLayoutPanelShowVatLieu.AutoScroll = true;
             this.flowLayoutPanelShowVatLieu.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.flowLayoutPanelShowVatLieu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelShowVatLieu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
