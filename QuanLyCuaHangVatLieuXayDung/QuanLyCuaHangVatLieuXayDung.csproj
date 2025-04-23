@@ -242,11 +242,23 @@
     <Compile Include="views\Form_PhieuGhiNo.Designer.cs">
       <DependentUpon>Form_PhieuGhiNo.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_ReportBienLaiTraNo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_ReportBienLaiTraNo.Designer.cs">
+      <DependentUpon>Form_ReportBienLaiTraNo.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_ReportHoaDon.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="views\Form_ReportHoaDon.Designer.cs">
       <DependentUpon>Form_ReportHoaDon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_ReportPhieuGhiNo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_ReportPhieuGhiNo.Designer.cs">
+      <DependentUpon>Form_ReportPhieuGhiNo.cs</DependentUpon>
     </Compile>
     <Compile Include="views\Form_ReportTraHang.cs">
       <SubType>Form</SubType>
@@ -351,8 +363,14 @@
     <EmbeddedResource Include="views\Form_PhieuGhiNo.resx">
       <DependentUpon>Form_PhieuGhiNo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_ReportBienLaiTraNo.resx">
+      <DependentUpon>Form_ReportBienLaiTraNo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_ReportHoaDon.resx">
       <DependentUpon>Form_ReportHoaDon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_ReportPhieuGhiNo.resx">
+      <DependentUpon>Form_ReportPhieuGhiNo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_ReportTraHang.resx">
       <DependentUpon>Form_ReportTraHang.cs</DependentUpon>
@@ -379,7 +397,9 @@
       <DependentUpon>Form_VatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\report\ReportHoaDon.rdlc" />
+    <EmbeddedResource Include="views\report\ReportPhieuGhiNo.rdlc" />
     <EmbeddedResource Include="views\report\ReportPhieuTraHang.rdlc" />
+    <EmbeddedResource Include="views\report\Report_BienLaiTraNo.rdlc" />
     <EmbeddedResource Include="views\UserControlShowVatLieu.resx">
       <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>
     </EmbeddedResource>
