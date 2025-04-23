@@ -239,7 +239,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.comboBoxPhuongThucThanhToan.SelectedIndex = 0;
             this.txtTienThanhToan.Text = "0";
             this.txtTienGiam.Text = "0";
-            this.labelNoCu.Text = "Nợ cũ:";
             this.labelTongHoaDon.Text = "Tổng hóa đơn:";
             this.labelTienThanhToan.Text = "Tiền thanh toán:";
             this.dataGridViewShowVatLieu.Rows.Clear(); // Xóa tất cả các hàng trong DataGridView
@@ -514,20 +513,21 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     );
             }
 
-            // Thêm vật liệu mới vào database của đơn nhập
+            // Lấy đường dẫn chi tiết hóa đơn xuất và nhập
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
-            List<ChiTiet> chiTietsNhapMoi = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi);
-            if (chiTietsNhapMoi.Count > 0)
-            {
-                foreach (ChiTiet chiTiet in chiTietsNhapMoi)
-                {
-                    VatLieu vatLieu = chiTiet.VatLieu;
-                    vatLieu.SoLuong = chiTiet.SoLuong;
-                    this.vatLieuService.insertVatLieu(vatLieu);
-                }
-            }
+            string chiTietXuatJson = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+            string chiTietNhapCuJson  = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+            string chiTietNhapMoiJson = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
 
+            //Hóa đơn thực hiện thêm vật liệu mới
+            VatLieu vatLieu = null;
+            List<ChiTiet> chiTietNhapMois = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoiJson);
+            foreach (ChiTiet chiTiet in chiTietNhapMois)
+            {
+                vatLieu = chiTiet.VatLieu;
+                vatLieu.SoLuong = chiTiet.SoLuong;
+                this.vatLieuService.insertVatLieu(vatLieu);
+            }
             // Thêm hóa đơn vào cơ sở dữ liệu
             if (this.hoaDonService.insertHoaDon(hoaDon))
             {
@@ -536,11 +536,23 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 // Thực hiện cập nhật lại số lượng vật liệu
                 if (this.radioButtonXuatHang.Checked)
                 {
-                    VatLieu vatLieu = null;
-                    foreach (ChiTiet chiTiet in chiTiets)
+                    //Hóa đơn xuất thực hiện cập nhật số lượng vật liệu
+                    List<ChiTiet> chiTietXuats = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietXuatJson);
+                    foreach (ChiTiet chiTiet in chiTietXuats)
                     {
                         vatLieu = chiTiet.VatLieu;
                         vatLieu.SoLuong = vatLieu.SoLuong - chiTiet.SoLuong;
+                        this.vatLieuService.updateVatLieu(vatLieu);
+                    }
+                }
+                else
+                {
+                    //Hóa đơn nhập thực hiện cập nhật số lượng vât liệu cũ
+                    List<ChiTiet> chiTietNhapCus = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapCuJson);
+                    foreach (ChiTiet chiTiet in chiTietNhapCus)
+                    {
+                        vatLieu = chiTiet.VatLieu;
+                        vatLieu.SoLuong = vatLieu.SoLuong + chiTiet.SoLuong;
                         this.vatLieuService.updateVatLieu(vatLieu);
                     }
                 }
@@ -599,5 +611,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
         }
 
+        private void comboBoxPhuongThucThanhToan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.comboBoxPhuongThucThanhToan.SelectedIndex == 3)
+            {
+                this.txtTienThanhToan.Text = "0";
+                List<ChiTiet> chiTiets = this.GetChiTetHoaDon();
+                this.SetCacGiaTriTienTe(chiTiets);
+            }
+        }
     }
 }
