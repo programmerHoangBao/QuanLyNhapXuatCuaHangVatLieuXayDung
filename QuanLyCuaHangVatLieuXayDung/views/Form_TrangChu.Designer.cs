@@ -110,6 +110,7 @@
             this.btnDoanhThu.TabIndex = 1;
             this.btnDoanhThu.Text = "Doanh thu";
             this.btnDoanhThu.UseVisualStyleBackColor = true;
+            this.btnDoanhThu.Click += new System.EventHandler(this.btnDoanhThu_Click);
             // 
             // btnLichSuGiaoDich
             // 
