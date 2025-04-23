@@ -37,7 +37,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         /// <summary>
         /// Hiển thị thông tin về vật liệu lên giao diện người dùng.
         /// </summary>
-        /// <param name="loaiVatLieu">
+        /// <param name="loaiHoaDon">
         /// Loại vật liệu cần hiển thị: 
         /// - 1: Hiển thị giá xuất.
         /// - 2: Hiển thị giá nhập.
@@ -48,16 +48,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         /// - Số lượng tồn kho (TonKhos, nếu có).
         /// - Giá xuất hoặc giá nhập, tùy thuộc vào tham số loaiVatLieu.
         /// </remarks>
-        public void ShowVatLieu(byte loaiVatLieu = 1)
+        public void ShowVatLieu(byte loaiHoaDon = 1)
         {
-            if (loaiVatLieu < 1 || loaiVatLieu > 2)
+            if (loaiHoaDon < 1 || loaiHoaDon > 2)
             {
                 MessageBox.Show("Loại vật liệu không hợp lệ!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             this.labelId.Text = "Mã: " + this.VatLieu.MaVatLieu;
             this.labelName.Text = "Tên: " + this.VatLieu.Ten;
             this.labelQuantity.Text = "Số lượng: " + this.VatLieu.SoLuong.ToString() + " " + this.VatLieu.DonVi;
-            if (loaiVatLieu == 1)
+            if (loaiHoaDon == 1)
             {
                 this.labelPrice.Text = "Giá xuất: " + new StringUtility().ConvertToVietnameseCurrency(this.VatLieu.GiaXuat)
                     + "/" + this.VatLieu.DonVi;

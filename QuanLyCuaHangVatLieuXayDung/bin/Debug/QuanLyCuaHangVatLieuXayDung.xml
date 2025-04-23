@@ -643,7 +643,7 @@
             <summary>
             Hiển thị thông tin về vật liệu lên giao diện người dùng.
             </summary>
-            <param name="loaiVatLieu">
+            <param name="loaiHoaDon">
             Loại vật liệu cần hiển thị: 
             - 1: Hiển thị giá xuất.
             - 2: Hiển thị giá nhập.
