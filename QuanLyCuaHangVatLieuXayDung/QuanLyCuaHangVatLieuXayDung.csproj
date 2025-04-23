@@ -248,6 +248,12 @@
     <Compile Include="views\Form_ReportHoaDon.Designer.cs">
       <DependentUpon>Form_ReportHoaDon.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_ReportTraHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_ReportTraHang.Designer.cs">
+      <DependentUpon>Form_ReportTraHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_SelectVatLieu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -348,6 +354,9 @@
     <EmbeddedResource Include="views\Form_ReportHoaDon.resx">
       <DependentUpon>Form_ReportHoaDon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_ReportTraHang.resx">
+      <DependentUpon>Form_ReportTraHang.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_SelectVatLieu.resx">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
     </EmbeddedResource>
@@ -370,6 +379,7 @@
       <DependentUpon>Form_VatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\report\ReportHoaDon.rdlc" />
+    <EmbeddedResource Include="views\report\ReportPhieuTraHang.rdlc" />
     <EmbeddedResource Include="views\UserControlShowVatLieu.resx">
       <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>
     </EmbeddedResource>

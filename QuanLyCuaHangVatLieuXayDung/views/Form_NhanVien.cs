@@ -62,6 +62,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 MessageBox.Show("Thêm nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            btnRefresh_Click(sender, e);
         }
 
         private void btnUpdateNhanVien_Click(object sender, EventArgs e)
@@ -83,6 +84,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 MessageBox.Show("Cập nhật nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            btnRefresh_Click(sender, e);
         }
 
         private void btnDeleteNhanVien_Click(object sender, EventArgs e)
@@ -103,6 +105,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            btnRefresh_Click(sender, e);
         }
         private void LoadNhanVien()
         {

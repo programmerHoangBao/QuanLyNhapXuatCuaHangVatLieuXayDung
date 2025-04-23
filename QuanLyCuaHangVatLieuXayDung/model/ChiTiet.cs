@@ -26,6 +26,5 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 
         public float SoLuong { get => soLuong; set => soLuong = value; }
         public VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }
-
     }
 }

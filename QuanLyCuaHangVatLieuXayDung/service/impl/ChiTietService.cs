@@ -143,8 +143,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@GiaXuat", chiTiet.VatLieu.GiaXuat);
                 cmd.Parameters.AddWithValue("@DonVi", chiTiet.VatLieu.DonVi);
                 cmd.Parameters.AddWithValue("@NgayNhap", chiTiet.VatLieu.NgayNhap);
-                cmd.Parameters.AddWithValue("@NhaCungCap", chiTiet.VatLieu.NhaCungCap);
-                cmd.Parameters.AddWithValue("@DirHinhAnh", chiTiet.VatLieu.DirHinhAnh);
+                cmd.Parameters.AddWithValue("@NhaCungCap", chiTiet.VatLieu.NhaCungCap != null ? (object)chiTiet.VatLieu.NhaCungCap.MaDoiTac : DBNull.Value);
+                cmd.Parameters.AddWithValue("@DirHinhAnh", chiTiet.VatLieu.DirHinhAnh ?? (object)DBNull.Value);
 
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -155,7 +155,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 {
                     transaction.Rollback();
                 }
-                MessageBox.Show("Lỗi: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
