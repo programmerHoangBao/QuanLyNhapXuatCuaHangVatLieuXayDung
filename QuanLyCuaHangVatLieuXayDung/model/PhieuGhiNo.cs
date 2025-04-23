@@ -13,22 +13,28 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         protected DateTime thoiGianTra;
         protected double tienNo;
         protected bool trangThai;
+        private DoiTac doiTac;
+        private HoaDon hoaDon;
         protected PhieuGhiNo()
         {
         }
-        protected PhieuGhiNo(string maPhieu, DateTime thoiGianLap, DateTime thoiGianTra, double tienNo, bool trangThai)
+        protected PhieuGhiNo(string maPhieu, DateTime thoiGianLap, DateTime thoiGianTra, double tienNo, bool trangThai, DoiTac doiTac, HoaDon hoaDon)
         {
-            this.MaPhieu = maPhieu;
-            this.ThoiGianLap = thoiGianLap;
-            this.ThoiGianTra = thoiGianTra;
-            this.TienNo = tienNo;
-            this.TrangThai = trangThai;
+            this.maPhieu = maPhieu;
+            this.thoiGianLap = thoiGianLap;
+            this.thoiGianTra = thoiGianTra;
+            this.tienNo = tienNo;
+            this.trangThai = trangThai;
+            this.doiTac = doiTac;
+            this.hoaDon = hoaDon;
         }
         public string MaPhieu { get => maPhieu; set => maPhieu = value; }
         public DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
         public DateTime ThoiGianTra { get => thoiGianTra; set => thoiGianTra = value; }
         public double TienNo { get => tienNo; set => tienNo = value; }
         public bool TrangThai { get => trangThai; set => trangThai = value; }
+        public DoiTac DoiTac { get => doiTac; set => doiTac = value; }
+        public HoaDon HoaDon { get => hoaDon; set => hoaDon = value; }
 
         public abstract byte loaiPhieu_toByte();
         public abstract string loaiPhieu_toString();

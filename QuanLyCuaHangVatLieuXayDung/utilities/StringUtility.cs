@@ -61,7 +61,5 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
 
             return result.ToString();
         }
-
-
     }
 }

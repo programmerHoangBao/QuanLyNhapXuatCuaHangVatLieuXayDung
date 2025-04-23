@@ -29,6 +29,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private void Form_PhieuGhiNo_Load(object sender, EventArgs e)
         {
             LoadPhieuGhiNoData();
+            this.radioButtonKhachHang.Checked = true; // Mặc định chọn radioButtonKhachHang
         }
 
         private void LoadPhieuGhiNoData(List<PhieuGhiNo> phieuGhiNos = null)
@@ -45,7 +46,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 if (phieuGhiNos == null || !phieuGhiNos.Any())
                 {
                     dataGridViewShowPhieuNo.Rows.Clear();
-                    MessageBox.Show("Không có dữ liệu phiếu ghi nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("Không có dữ liệu phiếu ghi nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -57,12 +58,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     dataGridViewShowPhieuNo.Rows.Add(
                         phieu.MaPhieu, // Mã phiếu
-                        phieu is PhieuNoKhachHang khachHang ? khachHang.KhachHang?.Ten ?? string.Empty
-                            : phieu is PhieuNoCuaHang cuaHang ? cuaHang.NhaCungCap?.Ten ?? string.Empty : string.Empty, // Tên đối tác
-                        phieu is PhieuNoKhachHang kh ? kh.KhachHang?.SoDienThoai ?? string.Empty
-                            : phieu is PhieuNoCuaHang ch ? ch.NhaCungCap?.SoDienThoai ?? string.Empty : string.Empty, // Số điện thoại
-                        phieu is PhieuNoKhachHang kh1 ? kh1.KhachHang?.DiaChi ?? string.Empty
-                            : phieu is PhieuNoCuaHang ch1 ? ch1.NhaCungCap?.DiaChi ?? string.Empty : string.Empty, // Địa chỉ
+                        phieu.DoiTac.Ten,
+                        phieu.DoiTac.SoDienThoai,
+                        phieu.DoiTac.DiaChi,
                         phieu.ThoiGianLap.ToString("dd/MM/yyyy HH:mm"), // Thời gian lập
                         phieu.ThoiGianTra.ToString("dd/MM/yyyy HH:mm"), // Thời gian trả
                         phieu.TienNo.ToString("N0"), // Tiền nợ
@@ -128,28 +126,10 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         // Bật/tắt nút Trả nợ dựa trên TrangThai
                         btnTra.Enabled = !phieu.TrangThai; // Bật nếu chưa trả, tắt nếu đã trả
 
-                        // Điền thông tin đối tác
-                        if (phieu is PhieuNoKhachHang khachHang && khachHang.KhachHang != null)
-                        {
-                            txtDoiTac.Text = khachHang.KhachHang.Ten;
-                            textBox2.Text = khachHang.KhachHang.SoDienThoai;
-                            txtDiaChi.Text = khachHang.KhachHang.DiaChi;
-                            txtMaHoaDon.Text = khachHang.HoaDonXuat?.MaHoaDon ?? string.Empty;
-                        }
-                        else if (phieu is PhieuNoCuaHang cuaHang && cuaHang.NhaCungCap != null)
-                        {
-                            txtDoiTac.Text = cuaHang.NhaCungCap.Ten;
-                            textBox2.Text = cuaHang.NhaCungCap.SoDienThoai;
-                            txtDiaChi.Text = cuaHang.NhaCungCap.DiaChi;
-                            txtMaHoaDon.Text = cuaHang.HoaDonNhap?.MaHoaDon ?? string.Empty;
-                        }
-                        else
-                        {
-                            txtDoiTac.Text = string.Empty;
-                            textBox2.Text = string.Empty;
-                            txtDiaChi.Text = string.Empty;
-                            txtMaHoaDon.Text = string.Empty;
-                        }
+                        txtDoiTac.Text = phieu.DoiTac.Ten;
+                        textBox2.Text = phieu.DoiTac.SoDienThoai;
+                        txtDiaChi.Text = phieu.DoiTac.DiaChi;
+                        txtMaHoaDon.Text = phieu.HoaDon.MaHoaDon;
                     }
                     else
                     {
@@ -278,6 +258,21 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 MessageBox.Show("Lỗi khi mở form biên lai trả nợ: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnIn_Click(object sender, EventArgs e)
+        {
+            string maPhieu = textBox1.Text.Trim();
+            if (string.IsNullOrEmpty(maPhieu))
+            {
+                MessageBox.Show("Vui lòng chọn một phiếu ghi nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            PhieuGhiNo phieu = phieuGhiNoService.findByMaPhieu(maPhieu);
+            Form_ReportPhieuGhiNo formReport = new Form_ReportPhieuGhiNo();
+            formReport.PhieuGhiNo = phieu;
+            formReport.ShowDialog();
         }
     }
 }

@@ -468,6 +468,23 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ReportBienLaiTraNo.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportBienLaiTraNo.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportBienLaiTraNo.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ReportHoaDon.components">
             <summary>
             Required designer variable.
@@ -480,6 +497,23 @@
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
         <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportHoaDon.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:QuanLyCuaHangVatLieuXayDung.views.Form_ReportPhieuGhiNo.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportPhieuGhiNo.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:QuanLyCuaHangVatLieuXayDung.views.Form_ReportPhieuGhiNo.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.

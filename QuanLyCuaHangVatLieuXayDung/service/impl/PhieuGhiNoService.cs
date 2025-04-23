@@ -14,6 +14,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
     {
         private MyDatabase myDatabase = new MyDatabase();
         private IDoiTacService doiTacService = new DoiTacService();
+        private HoaDonService hoaDonService = new HoaDonService();
 
         public List<PhieuGhiNo> findAll()
         {
@@ -43,21 +44,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        // Gán thông tin đối tác và hóa đơn
-                        string maDoiTac = reader["MaDoiTac"].ToString();
-                        if (!string.IsNullOrEmpty(maDoiTac))
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            if (phieu is PhieuNoKhachHang khachHang)
-                            {
-                                khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
-                            }
-                            else if (phieu is PhieuNoCuaHang cuaHang)
-                            {
-                                cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
-                            }
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
-
+                        else if (reader["LoaiPhieu"].ToString() == "2")
+                        {
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
+                        }
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
                         phieuGhiNos.Add(phieu);
                     }
                 }
@@ -70,6 +68,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                for(int i = 0; i <  phieuGhiNos.Count; i++)
+                {
+                    phieuGhiNos[i].DoiTac = this.doiTacService.findByMaDoiTac(phieuGhiNos[i].DoiTac.MaDoiTac);
+                    phieuGhiNos[i].HoaDon = this.hoaDonService.findByMaHoaDon(phieuGhiNos[i].HoaDon.MaHoaDon);
+                }
             }
             return phieuGhiNos;
         }
@@ -107,19 +110,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        string maDoiTac = reader["MaDoiTac"].ToString();
-                        if (!string.IsNullOrEmpty(maDoiTac))
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            if (phieu is PhieuNoKhachHang khachHang)
-                            {
-                                khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
-                            }
-                            else if (phieu is PhieuNoCuaHang cuaHang)
-                            {
-                                cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
-                            }
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
+                        else if (reader["LoaiPhieu"].ToString() == "2")
+                        {
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
+                        }
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
                     }
                 }
                 reader.Close();
@@ -131,6 +133,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                if (phieu != null)
+                {
+                    phieu.DoiTac = this.doiTacService.findByMaDoiTac(phieu.DoiTac.MaDoiTac);
+                    phieu.HoaDon = this.hoaDonService.findByMaHoaDon(phieu.HoaDon.MaHoaDon);
+                }
             }
             return phieu;
         }
@@ -161,31 +168,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@TienNo", phieuGhiNo.TienNo);
                 cmd.Parameters.AddWithValue("@TrangThai", phieuGhiNo.TrangThai);
                 cmd.Parameters.AddWithValue("@LoaiPhieu", phieuGhiNo.loaiPhieu_toByte());
-
-                if (phieuGhiNo is PhieuNoKhachHang khachHang && khachHang.KhachHang != null)
-                {
-                    cmd.Parameters.AddWithValue("@MaDoiTac", khachHang.KhachHang.MaDoiTac);
-                    cmd.Parameters.AddWithValue("@TenDoiTac", khachHang.KhachHang.Ten);
-                    cmd.Parameters.AddWithValue("@SoDienThoai", khachHang.KhachHang.SoDienThoai);
-                    cmd.Parameters.AddWithValue("@DiaChi", khachHang.KhachHang.DiaChi);
-                    cmd.Parameters.AddWithValue("@MaHoaDon", khachHang.HoaDonXuat?.MaHoaDon ?? (object)DBNull.Value);
-                }
-                else if (phieuGhiNo is PhieuNoCuaHang cuaHang && cuaHang.NhaCungCap != null)
-                {
-                    cmd.Parameters.AddWithValue("@MaDoiTac", cuaHang.NhaCungCap.MaDoiTac);
-                    cmd.Parameters.AddWithValue("@TenDoiTac", cuaHang.NhaCungCap.Ten);
-                    cmd.Parameters.AddWithValue("@SoDienThoai", cuaHang.NhaCungCap.SoDienThoai);
-                    cmd.Parameters.AddWithValue("@DiaChi", cuaHang.NhaCungCap.DiaChi);
-                    cmd.Parameters.AddWithValue("@MaHoaDon", cuaHang.HoaDonNhap?.MaHoaDon ?? (object)DBNull.Value);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@MaDoiTac", (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@TenDoiTac", string.Empty);
-                    cmd.Parameters.AddWithValue("@SoDienThoai", string.Empty);
-                    cmd.Parameters.AddWithValue("@DiaChi", string.Empty);
-                    cmd.Parameters.AddWithValue("@MaHoaDon", (object)DBNull.Value);
-                }
+                cmd.Parameters.AddWithValue("@MaDoiTac", phieuGhiNo.DoiTac.MaDoiTac);
+                cmd.Parameters.AddWithValue("@TenDoiTac", phieuGhiNo.DoiTac.Ten);
+                cmd.Parameters.AddWithValue("@SoDienThoai", phieuGhiNo.DoiTac.SoDienThoai);
+                cmd.Parameters.AddWithValue("@DiaChi", phieuGhiNo.DoiTac.DiaChi);
+                cmd.Parameters.AddWithValue("@MaHoaDon", phieuGhiNo.HoaDon.MaHoaDon);    
 
                 int affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -275,20 +262,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        string maDoiTac = reader["MaDoiTac"].ToString();
-                        if (!string.IsNullOrEmpty(maDoiTac))
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            if (phieu is PhieuNoKhachHang khachHang)
-                            {
-                                khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
-                            }
-                            else if (phieu is PhieuNoCuaHang cuaHang)
-                            {
-                                cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
-                            }
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
-
+                        else if (reader["LoaiPhieu"].ToString() == "2")
+                        {
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
+                        }
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
                         phieuGhiNos.Add(phieu);
                     }
                 }
@@ -301,6 +286,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                for (int i = 0; i < phieuGhiNos.Count; i++)
+                {
+                    phieuGhiNos[i].DoiTac = this.doiTacService.findByMaDoiTac(phieuGhiNos[i].DoiTac.MaDoiTac);
+                    phieuGhiNos[i].HoaDon = this.hoaDonService.findByMaHoaDon(phieuGhiNos[i].HoaDon.MaHoaDon);
+                }
             }
             return phieuGhiNos;
         }
@@ -334,20 +324,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        string maDoiTac = reader["MaDoiTac"].ToString();
-                        if (!string.IsNullOrEmpty(maDoiTac))
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            if (phieu is PhieuNoKhachHang khachHang)
-                            {
-                                khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
-                            }
-                            else if (phieu is PhieuNoCuaHang cuaHang)
-                            {
-                                cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
-                            }
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
-
+                        else if (reader["LoaiPhieu"].ToString() == "2")
+                        {
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
+                        }
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
                         phieuGhiNos.Add(phieu);
                     }
                 }
@@ -360,6 +348,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                for (int i = 0; i < phieuGhiNos.Count; i++)
+                {
+                    phieuGhiNos[i].DoiTac = this.doiTacService.findByMaDoiTac(phieuGhiNos[i].DoiTac.MaDoiTac);
+                    phieuGhiNos[i].HoaDon = this.hoaDonService.findByMaHoaDon(phieuGhiNos[i].HoaDon.MaHoaDon);
+                }
             }
             return phieuGhiNos;
         }
@@ -400,19 +393,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        string maDoiTac = reader["MaDoiTac"].ToString();
-                        if (!string.IsNullOrEmpty(maDoiTac))
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            if (phieu is PhieuNoKhachHang khachHang)
-                            {
-                                khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
-                            }
-                            else if (phieu is PhieuNoCuaHang cuaHang)
-                            {
-                                cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
-                            }
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
+                        else if (reader["LoaiPhieu"].ToString() == "2")
+                        {
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
+                        }
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
 
                         phieuGhiNos.Add(phieu);
                     }
@@ -426,6 +418,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                for (int i = 0; i < phieuGhiNos.Count; i++)
+                {
+                    phieuGhiNos[i].DoiTac = this.doiTacService.findByMaDoiTac(phieuGhiNos[i].DoiTac.MaDoiTac);
+                    phieuGhiNos[i].HoaDon = this.hoaDonService.findByMaHoaDon(phieuGhiNos[i].HoaDon.MaHoaDon);
+                }
             }
             return phieuGhiNos;
         }
@@ -464,16 +461,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        if (phieu is PhieuNoKhachHang khachHang)
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
-                        else if (phieu is PhieuNoCuaHang cuaHang)
+                        else if (reader["LoaiPhieu"].ToString() == "2")
                         {
-                            cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
                         }
-
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
                         phieuGhiNos.Add(phieu);
                     }
                 }
@@ -486,6 +485,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                for (int i = 0; i < phieuGhiNos.Count; i++)
+                {
+                    phieuGhiNos[i].DoiTac = this.doiTacService.findByMaDoiTac(phieuGhiNos[i].DoiTac.MaDoiTac);
+                    phieuGhiNos[i].HoaDon = this.hoaDonService.findByMaHoaDon(phieuGhiNos[i].HoaDon.MaHoaDon);
+                }
             }
             return phieuGhiNos;
         }
@@ -519,20 +523,18 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
                         phieu.TrangThai = bool.Parse(reader["TrangThai"].ToString());
-
-                        string maDoiTac = reader["MaDoiTac"].ToString();
-                        if (!string.IsNullOrEmpty(maDoiTac))
+                        if (reader["LoaiPhieu"].ToString() == "1")
                         {
-                            if (phieu is PhieuNoKhachHang khachHang)
-                            {
-                                khachHang.KhachHang = this.doiTacService.findByMaDoiTac(maDoiTac) as KhachHang;
-                            }
-                            else if (phieu is PhieuNoCuaHang cuaHang)
-                            {
-                                cuaHang.NhaCungCap = this.doiTacService.findByMaDoiTac(maDoiTac) as NhaCungCap;
-                            }
+                            phieu.DoiTac = new KhachHang();
+                            phieu.HoaDon = new HoaDonXuat();
                         }
-
+                        else if (reader["LoaiPhieu"].ToString() == "2")
+                        {
+                            phieu.DoiTac = new NhaCungCap();
+                            phieu.HoaDon = new HoaDonNhap();
+                        }
+                        phieu.DoiTac.MaDoiTac = reader["MaDoiTac"].ToString();
+                        phieu.HoaDon.MaHoaDon = reader["MaHoaDon"].ToString();
                         phieuGhiNos.Add(phieu);
                     }
                 }
@@ -545,6 +547,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                for (int i = 0; i < phieuGhiNos.Count; i++)
+                {
+                    phieuGhiNos[i].DoiTac = this.doiTacService.findByMaDoiTac(phieuGhiNos[i].DoiTac.MaDoiTac);
+                    phieuGhiNos[i].HoaDon = this.hoaDonService.findByMaHoaDon(phieuGhiNos[i].HoaDon.MaHoaDon);
+                }
             }
             return phieuGhiNos;
         }

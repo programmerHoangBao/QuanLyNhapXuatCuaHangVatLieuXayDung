@@ -54,30 +54,52 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                                                             , phieu.ThoiGianLap, phieu.LyDo, phieu.TongTien);
             }
         }
+
         private void ShowChiTietPhieuTraHang(List<ChiTiet> chiTiets)
         {
             this.dataGridViewChiTiet.Rows.Clear();
             DataGridViewRow row;
+
+            // Lấy danh sách ChiTietVatLieuConLaiCuaHoaDon từ HoaDonService, truyền vào maHoaDon và vật liệu từ chiTiets
             foreach (ChiTiet chiTiet in chiTiets)
             {
-                row = new DataGridViewRow();
-                row.CreateCells(this.dataGridViewChiTiet);
-                row.Cells[1].Value = chiTiet.VatLieu.MaVatLieu;
-                row.Cells[2].Value = chiTiet.VatLieu.Ten;
-                if (this.radioButtonTraHangTuKhach.Checked)
+                // Gọi phương thức chiTietVatLieuConLaiCuaHoaDon để lấy chi tiết vật liệu còn lại sau khi trừ đi số lượng trả hàng
+                ChiTiet chiTietConLai = this.hoaDonService.chiTietVatLieuConLaiCuaHoaDon(this.comboBoxMaHoaDon.Text.Trim(), chiTiet.VatLieu);
+
+                if (chiTietConLai.SoLuong > 0) // Chỉ hiển thị nếu còn vật liệu
                 {
-                    row.Cells[3].Value = chiTiet.VatLieu.GiaXuat;
+                    row = new DataGridViewRow();
+                    row.CreateCells(this.dataGridViewChiTiet);
+
+                    // Hiển thị mã vật liệu, tên vật liệu
+                    row.Cells[1].Value = chiTietConLai.VatLieu.MaVatLieu;
+                    row.Cells[2].Value = chiTietConLai.VatLieu.Ten;
+
+                    // Nếu là trả hàng từ khách, lấy giá xuất; ngược lại, lấy giá nhập
+                    if (this.radioButtonTraHangTuKhach.Checked)
+                    {
+                        row.Cells[3].Value = chiTietConLai.VatLieu.GiaXuat;
+                    }
+                    else
+                    {
+                        row.Cells[3].Value = chiTietConLai.VatLieu.GiaNhap;
+                    }
+
+                    // Hiển thị đơn vị tính và số lượng còn lại
+                    row.Cells[4].Value = chiTietConLai.VatLieu.DonVi;
+                    row.Cells[5].Value = chiTietConLai.SoLuong;
+
+                    // Tính tổng tiền cho chi tiết trả hàng
+                    double giaTien = (this.radioButtonTraHangTuKhach.Checked) ? chiTietConLai.VatLieu.GiaXuat : chiTietConLai.VatLieu.GiaNhap;
+                    row.Cells[6].Value = giaTien * chiTietConLai.SoLuong;
+
+                    // Thêm dòng vào DataGridView
+                    this.dataGridViewChiTiet.Rows.Add(row);
                 }
-                else
-                {
-                    row.Cells[3].Value = chiTiet.VatLieu.GiaNhap;
-                }
-                row.Cells[4].Value = chiTiet.VatLieu.DonVi;
-                row.Cells[5].Value = chiTiet.SoLuong;
-                row.Cells[6].Value = chiTiet.VatLieu.GiaXuat * chiTiet.SoLuong;
-                this.dataGridViewChiTiet.Rows.Add(row);
             }
         }
+
+
         private void SetUpComboBoxHoaDon()
         {
             this.comboBoxMaHoaDon.Items.Clear();
