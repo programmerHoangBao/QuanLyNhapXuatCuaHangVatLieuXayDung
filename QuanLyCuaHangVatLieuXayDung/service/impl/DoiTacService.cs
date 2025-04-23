@@ -31,16 +31,23 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 affectedRows = cmd.ExecuteNonQuery();
                 if (affectedRows > 0)
                 {
-                    if (new FileUtility().DeleteFile(doiTac.QR))
+                    result = true;
+                    if (!string.IsNullOrEmpty(doiTac.QR))
                     {
-                        result = true;
-                        transaction.Commit();
+                        if (new FileUtility().DeleteFile(doiTac.QR))
+                        {
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show("Failed to delete the file.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
-                        transaction.Rollback();
-                        MessageBox.Show("Failed to delete the file.", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }   
+                        transaction.Commit();
+                    }
                 }
             }
             catch (Exception ex)
@@ -96,6 +103,10 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
         public DoiTac findByMaDoiTac(string maDoiTac)
         {
+            if (string.IsNullOrEmpty(maDoiTac))
+            {
+                return null;
+            }
             string query = @"SELECT * FROM DoiTac WHERE MaDoiTac = @MaDoiTac";
             DoiTac doiTac = null;
             try
@@ -157,6 +168,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     nhaCungCap.NganHang = reader["NganHang"].ToString();
                     nhaCungCap.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
                     nhaCungCap.QR = reader["QR"].ToString();
+                    nhaCungCaps.Add(nhaCungCap);
                 }
                 reader.Close();
             }
@@ -187,11 +199,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
-                cmd.Parameters.AddWithValue("@Email", doiTac.Email);
+                cmd.Parameters.AddWithValue("@Email", (object)doiTac.Email ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
-                cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
-                cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
-                cmd.Parameters.AddWithValue("@QR", doiTac.QR);
+                cmd.Parameters.AddWithValue("@NganHang", (object)doiTac.NganHang ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoTaiKhoan", (object)doiTac.SoTaiKhoan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@QR", (object)doiTac.QR ?? DBNull.Value);
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
@@ -281,11 +293,11 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@Ten", doiTac.Ten);
                 cmd.Parameters.AddWithValue("@SoDienThoai", doiTac.SoDienThoai);
                 cmd.Parameters.AddWithValue("@DiaChi", doiTac.DiaChi);
-                cmd.Parameters.AddWithValue("@Email", doiTac.Email);
+                cmd.Parameters.AddWithValue("@Email", (object)doiTac.Email ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@LoaiDoiTac", doiTac.loaiDoiTac_toByte());
-                cmd.Parameters.AddWithValue("@NganHang", doiTac.NganHang);
-                cmd.Parameters.AddWithValue("@SoTaiKhoan", doiTac.SoTaiKhoan);
-                cmd.Parameters.AddWithValue("@QR", doiTac.QR);
+                cmd.Parameters.AddWithValue("@NganHang", (object)doiTac.NganHang ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoTaiKhoan", (object)doiTac.SoTaiKhoan ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@QR", (object)doiTac.QR ?? DBNull.Value);
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
@@ -302,6 +314,90 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.CloseConnection();
             }
             return affectedRows > 0;
+        }
+
+        public List<KhachHang> searchKhachHangByKey(string key)
+        {
+            string query = @"SELECT *
+                                FROM DoiTac
+                                WHERE LoaiDoiTac = 1 
+                                                AND (MaDoiTac LIKE @key
+                                                    OR Ten LIKE @key
+                                                    OR SoDienThoai LIKE @key)";
+            List<KhachHang> khachHangs = new List<KhachHang>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@key", "%" + key + "%");
+                this.myDatabase.OpenConnection();
+                SqlDataReader reader = cmd.ExecuteReader();
+                KhachHang khachHang;
+                while (reader.Read())
+                {
+                    khachHang = new KhachHang();
+                    khachHang.MaDoiTac = reader["MaDoiTac"].ToString();
+                    khachHang.Ten = reader["Ten"].ToString();
+                    khachHang.SoDienThoai = reader["SoDienThoai"].ToString();
+                    khachHang.DiaChi = reader["DiaChi"].ToString();
+                    khachHang.Email = reader["Email"].ToString();
+                    khachHang.NganHang = reader["NganHang"].ToString();
+                    khachHang.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
+                    khachHang.QR = reader["QR"].ToString();
+                    khachHangs.Add(khachHang);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return khachHangs;
+        }
+
+        public List<NhaCungCap> searchNhaCungCapByKey(string key)
+        {
+            string query = @"SELECT *
+                                FROM DoiTac
+                                WHERE LoaiDoiTac = 2
+                                                AND (MaDoiTac LIKE @key
+                                                    OR Ten LIKE @key
+                                                    OR SoDienThoai LIKE @key)";
+            List<NhaCungCap> nhaCungCaps = new List<NhaCungCap>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@key", "%" + key + "%");
+                this.myDatabase.OpenConnection();
+                SqlDataReader reader = cmd.ExecuteReader();
+                NhaCungCap nhaCungCap;
+                while (reader.Read())
+                {
+                    nhaCungCap = new NhaCungCap();
+                    nhaCungCap.MaDoiTac = reader["MaDoiTac"].ToString();
+                    nhaCungCap.Ten = reader["Ten"].ToString();
+                    nhaCungCap.SoDienThoai = reader["SoDienThoai"].ToString();
+                    nhaCungCap.DiaChi = reader["DiaChi"].ToString();
+                    nhaCungCap.Email = reader["Email"].ToString();
+                    nhaCungCap.NganHang = reader["NganHang"].ToString();
+                    nhaCungCap.SoTaiKhoan = reader["SoTaiKhoan"].ToString();
+                    nhaCungCap.QR = reader["QR"].ToString();
+                    nhaCungCaps.Add(nhaCungCap);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+            return nhaCungCaps;
         }
     }
 }

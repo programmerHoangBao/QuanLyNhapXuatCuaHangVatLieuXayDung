@@ -16,7 +16,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     {
         private VatLieu vatLieu;
         public event EventHandler btnTransactionClick;
-        public event EventHandler btnDetailClick;
         public UserControlShowVatLieu()
         {
             InitializeComponent();
@@ -25,10 +24,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.btnTransaction.Click += (s, e) =>
             {
                 this.btnTransactionClick?.Invoke(s, e);
-            };
-            this.btnDetail.Click += (s, e) =>
-            {
-                this.btnDetailClick?.Invoke(s, e);
             };
         }
 
@@ -76,6 +71,13 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 this.pictureBoxImage.ImageLocation = this.VatLieu.GetDanhSachHinhAnhVatLieus()[0];
             }
+        }
+
+        private void btnDetail_Click(object sender, EventArgs e)
+        {
+            Form_ChiTietVatlieu form_ChiTietVatlieu = new Form_ChiTietVatlieu();
+            form_ChiTietVatlieu.VatLieu = this.VatLieu;
+            form_ChiTietVatlieu.ShowDialog();
         }
     }
 }

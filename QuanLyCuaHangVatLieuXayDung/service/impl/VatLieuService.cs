@@ -154,8 +154,9 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@GiaNhap", vatLieu.GiaNhap);
                 cmd.Parameters.AddWithValue("@GiaXuat", vatLieu.GiaXuat);
                 cmd.Parameters.AddWithValue("@NgayNhap", vatLieu.NgayNhap);
-                cmd.Parameters.AddWithValue("@DirHinhAnh", vatLieu.DirHinhAnh);
-                cmd.Parameters.AddWithValue("@NhaCungCap", vatLieu.NhaCungCap.MaDoiTac);
+                cmd.Parameters.AddWithValue("@DirHinhAnh", (object)vatLieu.DirHinhAnh ?? DBNull.Value);
+                //cmd.Parameters.AddWithValue("@NhaCungCap", vatLieu.NhaCungCap.MaDoiTac ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NhaCungCap", vatLieu.NhaCungCap != null ? (object)vatLieu.NhaCungCap.MaDoiTac : DBNull.Value);
                 cmd.Parameters.AddWithValue("@Soluong", vatLieu.SoLuong);
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -231,7 +232,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@GiaNhap", vatLieu.GiaNhap);   
                 cmd.Parameters.AddWithValue("@GiaXuat", vatLieu.GiaXuat);
                 cmd.Parameters.AddWithValue("@NgayNhap", vatLieu.NgayNhap);
-                cmd.Parameters.AddWithValue("@NhaCungCap", vatLieu.NhaCungCap.MaDoiTac);
+                cmd.Parameters.AddWithValue("@NhaCungCap",
+                    vatLieu.NhaCungCap != null ? (object)vatLieu.NhaCungCap.MaDoiTac : DBNull.Value);
                 cmd.Parameters.AddWithValue("@DirHinhAnh", vatLieu.DirHinhAnh);
                 cmd.Parameters.AddWithValue("@SoLuong", vatLieu.SoLuong);  
                 affectedRows = cmd.ExecuteNonQuery();

@@ -16,5 +16,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         bool updateDoiTac(DoiTac doiTac);
         bool deleteDoiTac(DoiTac doiTac);
         List<DoiTac> searchByKey(string key);
+        List<KhachHang> searchKhachHangByKey(string key);
+        List<NhaCungCap> searchNhaCungCapByKey(string key);
     }
 }

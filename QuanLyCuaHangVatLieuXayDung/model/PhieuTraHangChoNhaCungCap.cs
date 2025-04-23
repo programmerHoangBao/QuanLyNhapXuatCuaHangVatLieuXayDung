@@ -11,9 +11,9 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         {
         }
 
-        public PhieuTraHangChoNhaCungCap(string maPhieu, DateTime thoiGianLap, string lyDo,
+        public PhieuTraHangChoNhaCungCap(string maPhieu, DateTime thoiGianLap,string maHoaDon, string lyDo,
             double tongTien, List<ChiTiet> chiTiets, HoaDonNhap hoaDonNhap)
-            : base(maPhieu, thoiGianLap, lyDo, tongTien, chiTiets)
+            : base(maPhieu, thoiGianLap, maHoaDon, lyDo, tongTien, chiTiets)
         {
             this.hoaDonNhap = hoaDonNhap;
         }
