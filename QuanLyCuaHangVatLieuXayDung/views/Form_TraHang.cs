@@ -21,6 +21,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     {
         private IPhieuTraHangService phieuTraHangService = new PhieuTraHangService();
         private IHoaDonService hoaDonService = new HoaDonService();
+        private IVatLieuService vatLieuService = new VatLieuService();
         private FileUtility fileUtility = new FileUtility();
         private StringUtility stringUtility = new StringUtility();
         public Form_TraHang()
@@ -124,7 +125,15 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 this.ShowDanhSachPhieuTraHangChoNhaCungCap();
             }
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
+            string filePath = "";
+            if (this.radioButtonTraHangTuKhach.Checked)
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
+            }
+            else
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
+            }
             this.fileUtility.DeleteFile(filePath);
         }
         private PhieuTraHang CreatePhieuTraHangInput()
@@ -136,8 +145,27 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             string lyDo = this.txtLyDo.Text.Trim();
             double tongTien = 0;
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
+            string filePath = "";
+            if (this.radioButtonTraHangTuKhach.Checked)
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
+            }
+            else
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
+            }
             List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
+            foreach (ChiTiet chiTiet in chiTiets)
+            {
+                if (this.radioButtonTraHangTuKhach.Checked)
+                {
+                    tongTien += chiTiet.SoLuong * chiTiet.VatLieu.GiaXuat;
+                }
+                else
+                {
+                    tongTien += chiTiet.SoLuong * chiTiet.VatLieu.GiaNhap;
+                }
+            }
             if (this.radioButtonTraHangTuKhach.Checked)
             {
                 PhieuTraHangTuKhachHang phieuTraHangTuKhach = new PhieuTraHangTuKhachHang(maPhieuTraHang, thoiGianLap, hoaDon, lyDo, tongTien, chiTiets);
@@ -173,7 +201,31 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
             }
         }
-
+        private void comboBoxMaHoaDon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string filePath = "";
+            if (this.radioButtonTraHangTuKhach.Checked)
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
+            }
+            else
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
+            }
+            this.fileUtility.DeleteFile(filePath);
+            string maHoaDon = this.comboBoxMaHoaDon.Text.Trim();
+            HoaDon hoaDon = this.hoaDonService.findByMaHoaDon(maHoaDon);
+            if (hoaDon != null)
+            {
+                this.ShowChiTietPhieuTraHang(hoaDon.ChiTiets);
+                foreach (ChiTiet chiTiet in hoaDon.ChiTiets)
+                {
+                    this.fileUtility.AppendObjectJsonFile(chiTiet, filePath);
+                }
+                this.labelTongTienHoaDon.Text = "Tổng tiền hóa đơn: " + this.stringUtility.ConvertToVietnameseCurrency(hoaDon.TienThanhToan);
+            }
+        }
         private void dataGridViewShowPhieuTraHang_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -194,8 +246,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.txtThoiGianLap.Text = phieuTraHang.ThoiGianLap.ToString("dd/MM/yyyy");
                     this.txtLyDo.Text = phieuTraHang.LyDo;
                     this.ShowChiTietPhieuTraHang(phieuTraHang.ChiTiets);
-                    this.labelTongTienHoaDon.Text = "Tổng hóa đơn: " + phieuTraHang.HoaDon.TienThanhToan.ToString();
-                    this.labelTongTienTraHang.Text = "Tổng tiền trả hàng " + phieuTraHang.TongTien.ToString();
+                    this.labelTongTienHoaDon.Text = "Tổng hóa đơn: " + stringUtility.ConvertToVietnameseCurrency(phieuTraHang.HoaDon.TienThanhToan);
+                    this.labelTongTienTraHang.Text = "Tổng tiền trả hàng " + stringUtility.ConvertToVietnameseCurrency(phieuTraHang.TongTien);
                 }
             }
             catch
@@ -210,42 +262,50 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
+                    string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+                    string filePath = "";
+                    if (this.radioButtonTraHangTuKhach.Checked)
+                    {
+                        filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
+                    }
+                    else
+                    {
+                        filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
+                    }
+                    List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
                     string maVatLieu = this.dataGridViewChiTiet.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    HoaDon hoaDon = this.hoaDonService.findByMaHoaDon(this.comboBoxMaHoaDon.Text.Trim());
-                    VatLieu vatLieu = null;
-                    foreach (ChiTiet chiTiet in hoaDon.ChiTiets)
+                    foreach (ChiTiet chiTiet in chiTiets)
                     {
                         if (chiTiet.VatLieu.MaVatLieu == maVatLieu)
                         {
-                            vatLieu = chiTiet.VatLieu;
-                            break;
-                        }
-                    }
-                    if (vatLieu != null)
-                    {
-                        float soLuong = float.Parse(this.dataGridViewChiTiet.Rows[e.RowIndex].Cells[5].Value.ToString().Trim());
-                        Form_ChonSoLuongVatLieu form_ChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
-                        form_ChonSoLuongVatLieu.VatLieu = vatLieu;
-                        form_ChonSoLuongVatLieu.SetSoLuong(soLuong);
-                        form_ChonSoLuongVatLieu.ShowDialog();
-                        string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-                        string filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
-                        List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
-                        this.ShowChiTietPhieuTraHang(chiTiets);
-                        double tongTien = 0;
-                        foreach (ChiTiet chiTiet in chiTiets)
-                        {
+                            Form_ChonSoLuongVatLieu form_ChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                            form_ChonSoLuongVatLieu.VatLieu = chiTiet.VatLieu;
                             if (this.radioButtonTraHangTuKhach.Checked)
                             {
-                                tongTien += chiTiet.SoLuong * chiTiet.VatLieu.GiaXuat;
+                                form_ChonSoLuongVatLieu.LoaiPhieuTraHang = 1;
                             }
                             else
                             {
-                                tongTien += chiTiet.SoLuong * chiTiet.VatLieu.GiaNhap;
+                                form_ChonSoLuongVatLieu.LoaiPhieuTraHang = 2;
                             }
+                            form_ChonSoLuongVatLieu.ShowDialog();
                         }
-                        this.labelTongTienTraHang.Text = "Tổng tiền trả hàng: " + this.stringUtility.ConvertToVietnameseCurrency(tongTien);
                     }
+                    chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
+                    this.ShowChiTietPhieuTraHang(chiTiets);
+                    double tongTien = 0;
+                    foreach (ChiTiet chiTiet in chiTiets)
+                    {
+                        if (this.radioButtonTraHangTuKhach.Checked)
+                        {
+                            tongTien += chiTiet.SoLuong * chiTiet.VatLieu.GiaXuat;
+                        }
+                        else
+                        {
+                            tongTien += chiTiet.SoLuong * chiTiet.VatLieu.GiaNhap;
+                        }
+                    }
+                    this.labelTongTienTraHang.Text = "Tổng tiền trả hàng: " + this.stringUtility.ConvertToVietnameseCurrency(tongTien);
                 }
             }
             catch
@@ -253,25 +313,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 return;
             }
         }
-
-        private void comboBoxMaHoaDon_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
-            this.fileUtility.DeleteFile(filePath);
-            string maHoaDon = this.comboBoxMaHoaDon.Text.Trim();
-            HoaDon hoaDon = this.hoaDonService.findByMaHoaDon(maHoaDon);
-            if (hoaDon != null)
-            {
-                this.ShowChiTietPhieuTraHang(hoaDon.ChiTiets);
-                foreach (ChiTiet chiTiet in hoaDon.ChiTiets)
-                {
-                    this.fileUtility.AppendObjectJsonFile(chiTiet, filePath);
-                }
-                this.labelTongTienHoaDon.Text = "Tổng tiền hóa đơn: " + this.stringUtility.ConvertToVietnameseCurrency(hoaDon.TienThanhToan);
-            }
-        }
-
         private void dataGridViewChiTiet_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             int stt = 1; // Bắt đầu từ 1
@@ -321,11 +362,40 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     MessageBox.Show("Xuất phiếu trả hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.resetForm();
+                    if (phieuTraHang is PhieuTraHangTuKhachHang)
+                    {
+                        VatLieu vatLieu = null;
+                        foreach (ChiTiet chiTiet in phieuTraHang.ChiTiets)
+                        {
+                            vatLieu = chiTiet.VatLieu;
+                            vatLieu.SoLuong = chiTiet.VatLieu.SoLuong + chiTiet.SoLuong;
+                            this.vatLieuService.updateVatLieu(vatLieu);
+                        }
+                    }
+                    else
+                    {
+                        VatLieu vatLieu = null;
+                        foreach (ChiTiet chiTiet in phieuTraHang.ChiTiets)
+                        {
+                            vatLieu = chiTiet.VatLieu;
+                            vatLieu.SoLuong = chiTiet.VatLieu.SoLuong - chiTiet.SoLuong;
+                            this.vatLieuService.updateVatLieu(vatLieu);
+                        }
+                    }
+                    Form_ReportTraHang form_ReportTraHang = new Form_ReportTraHang();
+                    form_ReportTraHang.PhieuTraHang = phieuTraHang;
+                    form_ReportTraHang.ShowDialog();
                 }
                 else
                 {
                     MessageBox.Show("Xuất phiếu trả hàng thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else
+            {
+                Form_ReportTraHang form_ReportTraHang = new Form_ReportTraHang();
+                form_ReportTraHang.PhieuTraHang = phieuTraHang;
+                form_ReportTraHang.ShowDialog();
             }
         }
     }
