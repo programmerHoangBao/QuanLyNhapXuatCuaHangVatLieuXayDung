@@ -66,6 +66,10 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     userControl.ShowVatLieu(2);
                 }
+                else
+                {
+                    continue;
+                }
                 if (userControl != null)
                 {
                     userControl.btnTransactionClick += (s, ev) =>
