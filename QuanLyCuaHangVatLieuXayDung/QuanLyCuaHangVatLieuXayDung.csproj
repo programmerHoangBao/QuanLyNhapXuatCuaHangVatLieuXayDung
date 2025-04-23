@@ -370,10 +370,14 @@
       <DependentUpon>Form_VatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\report\ReportHoaDon.rdlc" />
+    <EmbeddedResource Include="views\report\Report_PhieuGhiNo.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\UserControlShowVatLieu.resx">
       <DependentUpon>UserControlShowVatLieu.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="config\config.json" />
+    <None Include="Properties\DataSources\QuanLyCuaHangVatLieuXayDung.model.PhieuGhiNo.datasource" />
     <None Include="Properties\DataSources\QuanLyCuaHangVatLieuXayDung.views.report.model_report.ChiTietHoaDonReport.datasource" />
     <None Include="template\layout.xlsx" />
     <None Include="packages.config" />

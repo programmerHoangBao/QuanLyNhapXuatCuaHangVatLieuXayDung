@@ -45,13 +45,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     hoaDons = hoaDonService.findAll();
                 }
 
-                if (hoaDons == null || !hoaDons.Any())
-                {
-                    dataGridViewShowHoaDon.Rows.Clear();
-                    MessageBox.Show("Không có dữ liệu hóa đơn.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
                 dataGridViewShowHoaDon.Rows.Clear();
 
                 foreach (var hoaDon in hoaDons)
@@ -210,135 +203,16 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnInHoaDon_Click(object sender, EventArgs e)
         {
-            if (selectedHoaDon == null)
+            string maHoaDon = this.txtMaHoaDon.Text;
+            if (!string.IsNullOrEmpty(maHoaDon))
             {
-                MessageBox.Show("Vui lòng chọn một hóa đơn để in.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                HoaDon hoaDon = this.hoaDonService.findByMaHoaDon(maHoaDon);
+                Form_ReportHoaDon form_ReportHoaDon = new Form_ReportHoaDon();
+                form_ReportHoaDon.HoaDon = hoaDon;
+                form_ReportHoaDon.ShowDialog(); 
             }
-
-            PrintDocument printDoc = new PrintDocument();
-            printDoc.PrintPage += new PrintPageEventHandler(PrintHoaDon);
-
-            // Hiển thị cửa sổ xem trước
-            PrintPreviewDialog previewDialog = new PrintPreviewDialog();
-            previewDialog.Document = printDoc;
-            previewDialog.ShowDialog();
 
         }
 
-        private void PrintHoaDon(object sender, PrintPageEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            float yPos = 50; // Vị trí Y bắt đầu
-            float leftMargin = e.MarginBounds.Left;
-            float rightMargin = e.MarginBounds.Right;
-            float pageWidth = e.MarginBounds.Width;
-
-            // Font chữ cho tiêu đề và nội dung
-            Font titleFont = new Font("Times New Roman", 16, FontStyle.Bold);
-            Font contentFont = new Font("Times New Roman", 12);
-            Font boldFont = new Font("Times New Roman", 12, FontStyle.Bold);
-
-            // Tiêu đề hóa đơn
-            string title = "HÓA ĐƠN GIAO DỊCH";
-            float titleWidth = g.MeasureString(title, titleFont).Width;
-            g.DrawString(title, titleFont, Brushes.Black, (pageWidth - titleWidth) / 2 + leftMargin, yPos);
-            yPos += 40;
-
-            // Thông tin hóa đơn
-            g.DrawString($"Mã hóa đơn: {selectedHoaDon.MaHoaDon}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-            g.DrawString($"Thời gian lập: {selectedHoaDon.ThoiGianLap:dd/MM/yyyy HH:mm}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-            g.DrawString($"Phương thức thanh toán: {selectedHoaDon.phuongThucThanhToan_toString()}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-            g.DrawString($"Số tiền thanh toán: {selectedHoaDon.TienThanhToan:N0}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 40;
-
-            // Thông tin đối tác
-            g.DrawString("Thông tin đối tác", boldFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-            g.DrawString($"Tên: {selectedHoaDon.DoiTac?.Ten ?? "N/A"}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-            g.DrawString($"Số điện thoại: {selectedHoaDon.DoiTac?.SoDienThoai ?? "N/A"}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-            g.DrawString($"Địa chỉ: {selectedHoaDon.DoiTac?.DiaChi ?? "N/A"}", contentFont, Brushes.Black, leftMargin, yPos);
-            yPos += 40;
-
-            // Tiêu đề bảng danh sách vật liệu
-            g.DrawString("Danh sách vật liệu", boldFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-
-            // Vẽ tiêu đề cột
-            float[] columnWidths = { 50, 100, 150, 100, 100, 100, 100 }; // Độ rộng các cột
-            string[] headers = { "STT", "Mã VL", "Tên vật liệu", "Giá xuất", "Đơn vị", "Số lượng", "Tổng tiền" };
-            float xPos = leftMargin;
-            for (int i = 0; i < headers.Length; i++)
-            {
-                g.DrawString(headers[i], boldFont, Brushes.Black, xPos, yPos);
-                xPos += columnWidths[i];
-            }
-            yPos += 30;
-
-            // Vẽ đường kẻ ngang dưới tiêu đề
-            g.DrawLine(Pens.Black, leftMargin, yPos, rightMargin, yPos);
-            yPos += 5;
-
-            // In danh sách vật liệu
-            bool hasMorePages = false;
-            if (selectedHoaDon.ChiTiets != null && selectedHoaDon.ChiTiets.Any())
-            {
-                int rowsPerPage = 20; // Số hàng tối đa mỗi trang
-                int startIndex = currentRowIndex;
-                int endIndex = Math.Min(startIndex + rowsPerPage, selectedHoaDon.ChiTiets.Count);
-
-                for (int i = startIndex; i < endIndex; i++)
-                {
-                    var chiTiet = selectedHoaDon.ChiTiets[i];
-                    double tongTien = chiTiet.VatLieu.GiaXuat * chiTiet.SoLuong;
-                    xPos = leftMargin;
-
-                    // In từng cột
-                    g.DrawString((i + 1).ToString(), contentFont, Brushes.Black, xPos, yPos);
-                    xPos += columnWidths[0];
-                    g.DrawString(chiTiet.VatLieu.MaVatLieu, contentFont, Brushes.Black, xPos, yPos);
-                    xPos += columnWidths[1];
-                    g.DrawString(chiTiet.VatLieu.Ten, contentFont, Brushes.Black, xPos, yPos);
-                    xPos += columnWidths[2];
-                    g.DrawString(chiTiet.VatLieu.GiaXuat.ToString("N0"), contentFont, Brushes.Black, xPos, yPos);
-                    xPos += columnWidths[3];
-                    g.DrawString(chiTiet.VatLieu.DonVi, contentFont, Brushes.Black, xPos, yPos);
-                    xPos += columnWidths[4];
-                    g.DrawString(chiTiet.SoLuong.ToString(), contentFont, Brushes.Black, xPos, yPos);
-                    xPos += columnWidths[5];
-                    g.DrawString(tongTien.ToString("N0"), contentFont, Brushes.Black, xPos, yPos);
-
-                    yPos += 25;
-
-                    // Kiểm tra nếu vượt quá trang
-                    if (yPos > e.MarginBounds.Bottom - 100)
-                    {
-                        currentRowIndex = i + 1;
-                        hasMorePages = currentRowIndex < selectedHoaDon.ChiTiets.Count;
-                        break;
-                    }
-                }
-            }
-
-            // Nếu không còn hàng để in, hiển thị tổng hợp
-            if (!hasMorePages)
-            {
-                yPos += 20;
-                g.DrawString($"Tiền giảm: {selectedHoaDon.TienGiam:N0}", contentFont, Brushes.Black, leftMargin, yPos);
-                yPos += 25;
-                g.DrawString($"Tổng hóa đơn: {selectedHoaDon.tinhTongTien():N0}", contentFont, Brushes.Black, leftMargin, yPos);
-                yPos += 25;
-                g.DrawString($"Tiền thanh toán: {selectedHoaDon.TienThanhToan:N0}", contentFont, Brushes.Black, leftMargin, yPos);
-                yPos += 25;
-                g.DrawString($"Nợ cũ: {(selectedHoaDon.tinhTongTien() - selectedHoaDon.TienThanhToan):N0}", contentFont, Brushes.Black, leftMargin, yPos);
-            }
-
-            e.HasMorePages = hasMorePages; // Xác định nếu cần in trang tiếp theo
-        }
     }
 }

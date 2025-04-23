@@ -48,14 +48,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     bienLaiTraNos = bienLaiTraNoService.FindAll();
                 }
 
-                // Kiểm tra danh sách rỗng hoặc null
-                if (bienLaiTraNos == null || !bienLaiTraNos.Any())
-                {
-                    dataGridView1.Rows.Clear();
-                    MessageBox.Show("Không có dữ liệu biên lai trả nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
                 // Xóa các hàng hiện tại trong DataGridView
                 dataGridView1.Rows.Clear();
 

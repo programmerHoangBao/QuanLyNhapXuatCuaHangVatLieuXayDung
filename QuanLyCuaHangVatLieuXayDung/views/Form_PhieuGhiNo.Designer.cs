@@ -72,6 +72,7 @@
             this.ThoiGianTra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TienNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TrangThai = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.panelTop.SuspendLayout();
             this.panelTimKiem.SuspendLayout();
             this.panelRadioButton.SuspendLayout();
@@ -369,6 +370,7 @@
             this.btnIn.TabIndex = 5;
             this.btnIn.Text = "In";
             this.btnIn.UseVisualStyleBackColor = false;
+            this.btnIn.Click += new System.EventHandler(this.btnIn_Click);
             // 
             // btnAn
             // 
@@ -503,6 +505,15 @@
             this.TrangThai.MinimumWidth = 8;
             this.TrangThai.Name = "TrangThai";
             // 
+            // reportViewer1
+            // 
+            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
+            this.reportViewer1.Name = "reportViewer1";
+            this.reportViewer1.ServerReport.BearerToken = null;
+            this.reportViewer1.Size = new System.Drawing.Size(400, 300);
+            this.reportViewer1.TabIndex = 0;
+            this.reportViewer1.Visible = false;
+            // 
             // Form_PhieuGhiNo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -511,6 +522,7 @@
             this.Controls.Add(this.panelShowPhieuGhiNo);
             this.Controls.Add(this.panelPhieuGhiNo);
             this.Controls.Add(this.panelTop);
+            this.Controls.Add(this.reportViewer1);
             this.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Form_PhieuGhiNo";
@@ -578,5 +590,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ThoiGianTra;
         private System.Windows.Forms.DataGridViewTextBoxColumn TienNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn TrangThai;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
     }
 }
