@@ -18,6 +18,7 @@ namespace QuanLyCuaHangVatLieuXayDung.utilities
         private SqlConnection connection;
         public SqlConnection Connection { get => connection; set => connection = value; }
 
+
         public MyDatabase()
         {
             this.connection = new SqlConnection(new FormApp().GetConnectionString());
