@@ -301,7 +301,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             //Ghi đối tượng vật liệu mới vào file json
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
-            if (this.fileUtility.WriteObjectJsonFile(new ChiTiet(vatLieu, vatLieu.SoLuong), filePath))
+            if (this.fileUtility.AppendObjectJsonFile(new ChiTiet(vatLieu, vatLieu.SoLuong), filePath))
             {
                 MessageBox.Show("Tạo vật liệu mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

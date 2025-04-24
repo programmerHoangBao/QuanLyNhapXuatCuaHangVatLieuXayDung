@@ -122,7 +122,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         {
             this.SetCollorAllButton();
             this.btnDangXuat.BackColor = Color.FromArgb(255, 165, 0);
-            this.Close();           
+            this.Hide();
+            Form_DangNhap form_DangNhap = new Form_DangNhap();
+            form_DangNhap.ShowDialog();
         }
 
         private void btnTaiKhoan_Click(object sender, EventArgs e)

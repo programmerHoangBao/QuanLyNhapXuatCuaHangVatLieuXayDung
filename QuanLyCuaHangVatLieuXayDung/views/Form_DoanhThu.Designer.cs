@@ -54,41 +54,47 @@
             // 
             // dtpTuNgay
             // 
-            this.dtpTuNgay.Location = new System.Drawing.Point(114, 21);
+            this.dtpTuNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpTuNgay.Location = new System.Drawing.Point(159, 29);
             this.dtpTuNgay.Name = "dtpTuNgay";
-            this.dtpTuNgay.Size = new System.Drawing.Size(228, 22);
+            this.dtpTuNgay.Size = new System.Drawing.Size(283, 30);
             this.dtpTuNgay.TabIndex = 0;
             // 
             // dtpDenNgay
             // 
-            this.dtpDenNgay.Location = new System.Drawing.Point(441, 21);
+            this.dtpDenNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpDenNgay.Location = new System.Drawing.Point(159, 72);
             this.dtpDenNgay.Name = "dtpDenNgay";
-            this.dtpDenNgay.Size = new System.Drawing.Size(228, 22);
+            this.dtpDenNgay.Size = new System.Drawing.Size(283, 30);
             this.dtpDenNgay.TabIndex = 1;
             // 
             // comboBoxLocThoiGian
             // 
             this.comboBoxLocThoiGian.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLocThoiGian.Location = new System.Drawing.Point(790, 21);
+            this.comboBoxLocThoiGian.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxLocThoiGian.Location = new System.Drawing.Point(727, 21);
             this.comboBoxLocThoiGian.Name = "comboBoxLocThoiGian";
-            this.comboBoxLocThoiGian.Size = new System.Drawing.Size(171, 24);
+            this.comboBoxLocThoiGian.Size = new System.Drawing.Size(171, 33);
             this.comboBoxLocThoiGian.TabIndex = 2;
             this.comboBoxLocThoiGian.SelectedIndexChanged += new System.EventHandler(this.comboBoxLocThoiGian_SelectedIndexChanged);
             // 
             // comboBoxLoaiBieuDo
             // 
             this.comboBoxLoaiBieuDo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLoaiBieuDo.Location = new System.Drawing.Point(1074, 21);
+            this.comboBoxLoaiBieuDo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxLoaiBieuDo.Location = new System.Drawing.Point(727, 72);
             this.comboBoxLoaiBieuDo.Name = "comboBoxLoaiBieuDo";
-            this.comboBoxLoaiBieuDo.Size = new System.Drawing.Size(171, 24);
+            this.comboBoxLoaiBieuDo.Size = new System.Drawing.Size(171, 33);
             this.comboBoxLoaiBieuDo.TabIndex = 3;
             // 
             // btnXemDoanhThu
             // 
-            this.btnXemDoanhThu.BackColor = System.Drawing.Color.Orange;
-            this.btnXemDoanhThu.Location = new System.Drawing.Point(1269, 21);
+            this.btnXemDoanhThu.BackColor = System.Drawing.Color.Green;
+            this.btnXemDoanhThu.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXemDoanhThu.ForeColor = System.Drawing.Color.White;
+            this.btnXemDoanhThu.Location = new System.Drawing.Point(958, 39);
             this.btnXemDoanhThu.Name = "btnXemDoanhThu";
-            this.btnXemDoanhThu.Size = new System.Drawing.Size(137, 37);
+            this.btnXemDoanhThu.Size = new System.Drawing.Size(173, 54);
             this.btnXemDoanhThu.TabIndex = 4;
             this.btnXemDoanhThu.Text = "Xem doanh thu";
             this.btnXemDoanhThu.UseVisualStyleBackColor = false;
@@ -97,36 +103,40 @@
             // lblTuNgay
             // 
             this.lblTuNgay.AutoSize = true;
+            this.lblTuNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTuNgay.Location = new System.Drawing.Point(23, 26);
             this.lblTuNgay.Name = "lblTuNgay";
-            this.lblTuNgay.Size = new System.Drawing.Size(59, 16);
+            this.lblTuNgay.Size = new System.Drawing.Size(98, 25);
             this.lblTuNgay.TabIndex = 5;
             this.lblTuNgay.Text = "Từ ngày:";
             // 
             // lblDenNgay
             // 
             this.lblDenNgay.AutoSize = true;
-            this.lblDenNgay.Location = new System.Drawing.Point(361, 26);
+            this.lblDenNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDenNgay.Location = new System.Drawing.Point(23, 75);
             this.lblDenNgay.Name = "lblDenNgay";
-            this.lblDenNgay.Size = new System.Drawing.Size(67, 16);
+            this.lblDenNgay.Size = new System.Drawing.Size(111, 25);
             this.lblDenNgay.TabIndex = 6;
             this.lblDenNgay.Text = "Đến ngày:";
             // 
             // lblLocThoiGian
             // 
             this.lblLocThoiGian.AutoSize = true;
-            this.lblLocThoiGian.Location = new System.Drawing.Point(686, 26);
+            this.lblLocThoiGian.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLocThoiGian.Location = new System.Drawing.Point(564, 21);
             this.lblLocThoiGian.Name = "lblLocThoiGian";
-            this.lblLocThoiGian.Size = new System.Drawing.Size(85, 16);
+            this.lblLocThoiGian.Size = new System.Drawing.Size(142, 25);
             this.lblLocThoiGian.TabIndex = 7;
             this.lblLocThoiGian.Text = "Lọc thời gian:";
             // 
             // lblLoaiBieuDo
             // 
             this.lblLoaiBieuDo.AutoSize = true;
-            this.lblLoaiBieuDo.Location = new System.Drawing.Point(983, 26);
+            this.lblLoaiBieuDo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoaiBieuDo.Location = new System.Drawing.Point(565, 75);
             this.lblLoaiBieuDo.Name = "lblLoaiBieuDo";
-            this.lblLoaiBieuDo.Size = new System.Drawing.Size(84, 16);
+            this.lblLoaiBieuDo.Size = new System.Drawing.Size(137, 25);
             this.lblLoaiBieuDo.TabIndex = 8;
             this.lblLoaiBieuDo.Text = "Loại biểu đồ:";
             // 
@@ -134,7 +144,7 @@
             // 
             this.lblTongDoanhThu.AutoSize = true;
             this.lblTongDoanhThu.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblTongDoanhThu.Location = new System.Drawing.Point(23, 75);
+            this.lblTongDoanhThu.Location = new System.Drawing.Point(21, 114);
             this.lblTongDoanhThu.Name = "lblTongDoanhThu";
             this.lblTongDoanhThu.Size = new System.Drawing.Size(186, 28);
             this.lblTongDoanhThu.TabIndex = 9;
@@ -151,7 +161,7 @@
             // 
             // chartDoanhThu
             // 
-            this.chartDoanhThu.Location = new System.Drawing.Point(23, 107);
+            this.chartDoanhThu.Location = new System.Drawing.Point(23, 159);
             this.chartDoanhThu.Name = "chartDoanhThu";
             this.chartDoanhThu.Size = new System.Drawing.Size(1383, 480);
             this.chartDoanhThu.TabIndex = 11;
@@ -159,6 +169,8 @@
             // 
             // panelMetrics
             // 
+            this.panelMetrics.Angle = 90F;
+            this.panelMetrics.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(160)))), ((int)(((byte)(133)))));
             this.panelMetrics.Controls.Add(this.lblTongHoaDonNhap);
             this.panelMetrics.Controls.Add(this.lblTongHoaDonXuat);
             this.panelMetrics.Controls.Add(this.lblSoBienLaiTraNo);
@@ -166,17 +178,18 @@
             this.panelMetrics.Controls.Add(this.lblTongGiaTriHoaDonNhap);
             this.panelMetrics.Controls.Add(this.lblTongGiaTriHoaDonXuat);
             this.panelMetrics.Controls.Add(this.lblTongGiaTriNoChuaTra);
-            this.panelMetrics.Location = new System.Drawing.Point(23, 607);
+            this.panelMetrics.Location = new System.Drawing.Point(23, 654);
             this.panelMetrics.Name = "panelMetrics";
             this.panelMetrics.Size = new System.Drawing.Size(1383, 80);
             this.panelMetrics.TabIndex = 12;
+            this.panelMetrics.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             // 
             // lblTongHoaDonNhap
             // 
             this.lblTongHoaDonNhap.AutoSize = true;
-            this.lblTongHoaDonNhap.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongHoaDonNhap.BackColor = System.Drawing.Color.Transparent;
             this.lblTongHoaDonNhap.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTongHoaDonNhap.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongHoaDonNhap.ForeColor = System.Drawing.Color.White;
             this.lblTongHoaDonNhap.Location = new System.Drawing.Point(30, 15);
             this.lblTongHoaDonNhap.Name = "lblTongHoaDonNhap";
             this.lblTongHoaDonNhap.Size = new System.Drawing.Size(0, 29);
@@ -185,9 +198,9 @@
             // lblTongHoaDonXuat
             // 
             this.lblTongHoaDonXuat.AutoSize = true;
-            this.lblTongHoaDonXuat.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongHoaDonXuat.BackColor = System.Drawing.Color.Transparent;
             this.lblTongHoaDonXuat.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTongHoaDonXuat.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongHoaDonXuat.ForeColor = System.Drawing.Color.White;
             this.lblTongHoaDonXuat.Location = new System.Drawing.Point(380, 15);
             this.lblTongHoaDonXuat.Name = "lblTongHoaDonXuat";
             this.lblTongHoaDonXuat.Size = new System.Drawing.Size(0, 29);
@@ -196,9 +209,9 @@
             // lblSoBienLaiTraNo
             // 
             this.lblSoBienLaiTraNo.AutoSize = true;
-            this.lblSoBienLaiTraNo.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblSoBienLaiTraNo.BackColor = System.Drawing.Color.Transparent;
             this.lblSoBienLaiTraNo.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblSoBienLaiTraNo.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblSoBienLaiTraNo.ForeColor = System.Drawing.Color.White;
             this.lblSoBienLaiTraNo.Location = new System.Drawing.Point(730, 15);
             this.lblSoBienLaiTraNo.Name = "lblSoBienLaiTraNo";
             this.lblSoBienLaiTraNo.Size = new System.Drawing.Size(0, 29);
@@ -207,9 +220,9 @@
             // lblSoNoChuaTra
             // 
             this.lblSoNoChuaTra.AutoSize = true;
-            this.lblSoNoChuaTra.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblSoNoChuaTra.BackColor = System.Drawing.Color.Transparent;
             this.lblSoNoChuaTra.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblSoNoChuaTra.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblSoNoChuaTra.ForeColor = System.Drawing.Color.White;
             this.lblSoNoChuaTra.Location = new System.Drawing.Point(1080, 15);
             this.lblSoNoChuaTra.Name = "lblSoNoChuaTra";
             this.lblSoNoChuaTra.Size = new System.Drawing.Size(0, 29);
@@ -218,9 +231,9 @@
             // lblTongGiaTriHoaDonNhap
             // 
             this.lblTongGiaTriHoaDonNhap.AutoSize = true;
-            this.lblTongGiaTriHoaDonNhap.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongGiaTriHoaDonNhap.BackColor = System.Drawing.Color.Transparent;
             this.lblTongGiaTriHoaDonNhap.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTongGiaTriHoaDonNhap.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongGiaTriHoaDonNhap.ForeColor = System.Drawing.Color.White;
             this.lblTongGiaTriHoaDonNhap.Location = new System.Drawing.Point(30, 45);
             this.lblTongGiaTriHoaDonNhap.Name = "lblTongGiaTriHoaDonNhap";
             this.lblTongGiaTriHoaDonNhap.Size = new System.Drawing.Size(0, 29);
@@ -229,9 +242,9 @@
             // lblTongGiaTriHoaDonXuat
             // 
             this.lblTongGiaTriHoaDonXuat.AutoSize = true;
-            this.lblTongGiaTriHoaDonXuat.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongGiaTriHoaDonXuat.BackColor = System.Drawing.Color.Transparent;
             this.lblTongGiaTriHoaDonXuat.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTongGiaTriHoaDonXuat.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongGiaTriHoaDonXuat.ForeColor = System.Drawing.Color.White;
             this.lblTongGiaTriHoaDonXuat.Location = new System.Drawing.Point(480, 45);
             this.lblTongGiaTriHoaDonXuat.Name = "lblTongGiaTriHoaDonXuat";
             this.lblTongGiaTriHoaDonXuat.Size = new System.Drawing.Size(0, 29);
@@ -240,9 +253,9 @@
             // lblTongGiaTriNoChuaTra
             // 
             this.lblTongGiaTriNoChuaTra.AutoSize = true;
-            this.lblTongGiaTriNoChuaTra.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongGiaTriNoChuaTra.BackColor = System.Drawing.Color.Transparent;
             this.lblTongGiaTriNoChuaTra.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTongGiaTriNoChuaTra.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongGiaTriNoChuaTra.ForeColor = System.Drawing.Color.White;
             this.lblTongGiaTriNoChuaTra.Location = new System.Drawing.Point(930, 45);
             this.lblTongGiaTriNoChuaTra.Name = "lblTongGiaTriNoChuaTra";
             this.lblTongGiaTriNoChuaTra.Size = new System.Drawing.Size(0, 29);
@@ -252,7 +265,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1429, 721);
+            this.ClientSize = new System.Drawing.Size(1184, 675);
             this.Controls.Add(this.panelMetrics);
             this.Controls.Add(this.chartDoanhThu);
             this.Controls.Add(this.lblTongTienThanhToan);
@@ -273,6 +286,7 @@
             this.panelMetrics.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

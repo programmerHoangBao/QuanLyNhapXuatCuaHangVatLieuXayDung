@@ -351,6 +351,3 @@ GO
 /*Tạo INDEX cho thuộc tính MaNhanVien của quan hệ BangChamCong*/
 CREATE INDEX idx_bangchamcong_manhanvien ON BangChamCong(MaNhanVien);
 GO
-
-
-select * from PhieuGhiNo;
