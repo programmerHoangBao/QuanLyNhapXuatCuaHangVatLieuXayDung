@@ -88,7 +88,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         comboBoxPhuongThucThanhToan.SelectedItem = hoaDon.phuongThucThanhToan_toString();
                         txtTienThanhToan.Text = hoaDon.TienThanhToan.ToString("N0");
                         txtTienGiam.Text = hoaDon.TienGiam.ToString("N0");
-                        labelNoCu.Text = $"Nợ cũ: {(hoaDon.tinhTongTien() - hoaDon.TienThanhToan):N0}";
                         labelTongHoaDon.Text = $"Tổng hóa đơn: {hoaDon.tinhTongTien():N0}";
                         labelTienThanhToan.Text = $"Tiền thanh toán: {hoaDon.TienThanhToan:N0}";
 
@@ -195,7 +194,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             comboBoxPhuongThucThanhToan.SelectedIndex = -1;
             txtTienThanhToan.Text = string.Empty;
             txtTienGiam.Text = string.Empty;
-            labelNoCu.Text = "Nợ cũ: ";
             labelTongHoaDon.Text = "Tổng hóa đơn: ";
             labelTienThanhToan.Text = "Tiền thanh toán: ";
             dataGridViewShowVatLieu.Rows.Clear();
