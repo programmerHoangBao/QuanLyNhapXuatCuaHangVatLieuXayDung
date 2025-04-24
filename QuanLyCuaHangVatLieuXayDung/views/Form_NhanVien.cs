@@ -116,6 +116,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             // dataGridViewShowNhanVien.DataSource = null;
             dataGridViewShowNhanVien.DataSource = list;
 
+            dataGridViewShowNhanVien.Columns["MaNhanVien"].HeaderText = "Mã Nhân Viên";
+            dataGridViewShowNhanVien.Columns["Ten"].HeaderText = "Tên";
+            dataGridViewShowNhanVien.Columns["SoDienThoai"].HeaderText = "Số Điện Thoại";
+            dataGridViewShowNhanVien.Columns["DiaChi"].HeaderText = "Địa Chỉ";
+            dataGridViewShowNhanVien.Columns["VaiTro"].HeaderText = "Vai Trò";
+            dataGridViewShowNhanVien.Columns["Email"].HeaderText = "Email";
+            dataGridViewShowNhanVien.Columns["LuongTrenNgay"].HeaderText = "Lương Trên Ngày";
+
             // Cập nhật trạng thái checkbox (nếu bạn có thêm tay cột ChonChamCong)
             foreach (DataGridViewRow row in dataGridViewShowNhanVien.Rows)
             {
