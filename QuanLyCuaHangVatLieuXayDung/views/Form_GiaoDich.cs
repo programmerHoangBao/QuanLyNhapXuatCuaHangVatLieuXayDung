@@ -23,6 +23,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private IVatLieuService vatLieuService = new VatLieuService();
         private IHoaDonService hoaDonService = new HoaDonService();
         private IPhieuGhiNoService phieuGhiNoService = new PhieuGhiNoService();
+        private IDoiTacService doiTacService = new DoiTacService();
         private FileUtility fileUtility = new FileUtility();
         private StringUtility stringUtility = new StringUtility();
 
@@ -102,6 +103,15 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             return chiTiets;
         }
+        private string TaoMaDoiTacTuDong()
+        {
+            string maDoiTac = this.stringUtility.GenerateRandomString(10);
+            while (this.doiTacService.findByMaDoiTac(maDoiTac) != null)
+            {
+                maDoiTac = this.stringUtility.GenerateRandomString(10);
+            }
+            return maDoiTac;
+        }
         private DoiTac GetDoiTac()
         {
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
@@ -110,19 +120,43 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             if (this.radioButtonXuatHang.Checked)
             {
                 filePath = Path.Combine(projectDirectory, "temp", "hoadon", "khachhang.json");
-                List<KhachHang> khachHangs = this.fileUtility.ReadObjectsFromJsonFile<KhachHang>(filePath);
-                if (khachHangs.Count > 0)
+                if (this.fileUtility.IsFileExists(filePath))
                 {
-                    doiTac = khachHangs[0];
+                    List<KhachHang> khachHangs = this.fileUtility.ReadObjectsFromJsonFile<KhachHang>(filePath);
+                    if (khachHangs.Count > 0)
+                    {
+                        doiTac = khachHangs[0];
+                    }
+                }
+                else
+                {
+                    doiTac = new KhachHang();
+                    doiTac.MaDoiTac = this.TaoMaDoiTacTuDong();
+                    doiTac.Ten = this.txtNameDoiTac.Text.Trim();
+                    doiTac.SoDienThoai = this.txtSDT.Text.Trim();
+                    doiTac.DiaChi = this.txtAddress.Text.Trim();
+                    this.doiTacService.insertDoiTac(doiTac);
                 }
             }
             else
             {
                 filePath = Path.Combine(projectDirectory, "temp", "hoadon", "nhacungcap.json");
-                List<NhaCungCap> nhaCungCaps = this.fileUtility.ReadObjectsFromJsonFile<NhaCungCap>(filePath);
-                if (nhaCungCaps.Count > 0)
+                if (this.fileUtility.IsFileExists(filePath))
                 {
-                    doiTac = nhaCungCaps[0];
+                    List<NhaCungCap> nhaCungCaps = this.fileUtility.ReadObjectsFromJsonFile<NhaCungCap>(filePath);
+                    if (nhaCungCaps.Count > 0)
+                    {
+                        doiTac = nhaCungCaps[0];
+                    }
+                }
+                else
+                {
+                    doiTac = new NhaCungCap();
+                    doiTac.MaDoiTac = this.TaoMaDoiTacTuDong();
+                    doiTac.Ten = this.txtNameDoiTac.Text.Trim();
+                    doiTac.SoDienThoai = this.txtSDT.Text.Trim();
+                    doiTac.DiaChi = this.txtAddress.Text.Trim();
+                    this.doiTacService.insertDoiTac(doiTac);
                 }
             }
             return doiTac;
