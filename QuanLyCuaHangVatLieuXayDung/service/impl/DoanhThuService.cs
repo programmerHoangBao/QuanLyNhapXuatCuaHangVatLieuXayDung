@@ -335,5 +335,128 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
             return tongGiaTriNoChuaTra;
         }
+
+        public int TinhSoDonTraHang(DateTime tuNgay, DateTime denNgay)
+        {
+            int soDonTraHang = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                // Giả định rằng đơn trả hàng được lưu trong bảng PhieuTraHang
+                string query = @"SELECT COUNT(*) AS SoDonTraHang
+                                FROM PhieuTraHang
+                                WHERE ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        soDonTraHang = reader.GetInt32(reader.GetOrdinal("SoDonTraHang"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính số đơn trả hàng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return soDonTraHang;
+        }
+        public Dictionary<DateTime, decimal> TinhDoanhThuNhapTheoKhoangThoiGian(DateTime tuNgay, DateTime denNgay, string loaiThoiGian)
+        {
+            var doanhThuNhapTheoThoiGian = new Dictionary<DateTime, decimal>();
+            string query = string.Empty;
+
+            try
+            {
+                myDatabase.OpenConnection();
+
+                // Xác định truy vấn dựa trên loại thời gian (Ngày, Tháng, Năm)
+                switch (loaiThoiGian.ToLower())
+                {
+                    case "ngày":
+                        query = @"SELECT CAST(hd.ThoiGianLap AS DATE) AS Ngay, SUM(hd.TienThanhToan) AS DoanhThu
+                                 FROM HoaDon hd
+                                 WHERE hd.LoaiHoaDon = 2 AND hd.ThoiGianLap BETWEEN @TuNgay AND @DenNgay
+                                 GROUP BY CAST(hd.ThoiGianLap AS DATE)";
+                        break;
+                    case "tháng":
+                        DateTime startOfMonth = new DateTime(tuNgay.Year, tuNgay.Month, 1);
+                        DateTime endOfMonth = startOfMonth.AddMonths(1).AddSeconds(-1);
+                        query = @"SELECT DATEADD(MONTH, DATEDIFF(MONTH, 0, hd.ThoiGianLap), 0) AS Thang, SUM(hd.TienThanhToan) AS DoanhThu
+                                 FROM HoaDon hd
+                                 WHERE hd.LoaiHoaDon = 2 AND hd.ThoiGianLap BETWEEN @TuNgay AND @DenNgay
+                                 GROUP BY DATEADD(MONTH, DATEDIFF(MONTH, 0, hd.ThoiGianLap), 0)";
+                        break;
+                    case "năm":
+                        query = @"SELECT DATEADD(YEAR, DATEDIFF(YEAR, 0, hd.ThoiGianLap), 0) AS Nam, SUM(hd.TienThanhToan) AS DoanhThu
+                                 FROM HoaDon hd
+                                 WHERE hd.LoaiHoaDon = 2 AND hd.ThoiGianLap BETWEEN @TuNgay AND @DenNgay
+                                 GROUP BY DATEADD(YEAR, DATEDIFF(YEAR, 0, hd.ThoiGianLap), 0)";
+                        break;
+                    default:
+                        throw new ArgumentException("Loại thời gian không hợp lệ. Chỉ hỗ trợ 'Ngày', 'Tháng', 'Năm'.");
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        DateTime thoiGian = reader.GetDateTime(0);
+                        decimal doanhThu = reader.GetDecimal(reader.GetOrdinal("DoanhThu"));
+                        doanhThuNhapTheoThoiGian.Add(thoiGian, doanhThu);
+                    }
+                    reader.Close();
+                }
+
+                // Điền các khoảng thời gian bị thiếu bằng 0 và sắp xếp theo thời gian
+                var sortedDoanhThuNhap = new Dictionary<DateTime, decimal>();
+                if (loaiThoiGian.ToLower() == "ngày")
+                {
+                    for (DateTime date = tuNgay.Date; date <= denNgay.Date; date = date.AddDays(1))
+                    {
+                        sortedDoanhThuNhap.Add(date, doanhThuNhapTheoThoiGian.ContainsKey(date) ? doanhThuNhapTheoThoiGian[date] : 0);
+                    }
+                }
+                else if (loaiThoiGian.ToLower() == "tháng")
+                {
+                    DateTime startMonth = new DateTime(tuNgay.Year, tuNgay.Month, 1);
+                    sortedDoanhThuNhap.Add(startMonth, doanhThuNhapTheoThoiGian.ContainsKey(startMonth) ? doanhThuNhapTheoThoiGian[startMonth] : 0);
+                }
+                else if (loaiThoiGian.ToLower() == "năm")
+                {
+                    DateTime startYear = new DateTime(tuNgay.Year, 1, 1);
+                    DateTime endYear = new DateTime(denNgay.Year, 1, 1);
+                    for (DateTime date = startYear; date <= endYear; date = date.AddYears(1))
+                    {
+                        sortedDoanhThuNhap.Add(date, doanhThuNhapTheoThoiGian.ContainsKey(date) ? doanhThuNhapTheoThoiGian[date] : 0);
+                    }
+                    if (sortedDoanhThuNhap.Count == 0)
+                    {
+                        sortedDoanhThuNhap.Add(startYear, 0);
+                    }
+                }
+
+                return sortedDoanhThuNhap;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính doanh thu nhập theo thời gian: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new Dictionary<DateTime, decimal>();
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+        }
     }
 }
