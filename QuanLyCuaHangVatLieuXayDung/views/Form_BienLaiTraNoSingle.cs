@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms.VisualStyles;
 
 namespace QuanLyCuaHangVatLieuXayDung.views
 {
@@ -20,10 +21,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private readonly IPhieuGhiNoService phieuGhiNoService = new PhieuGhiNoService();
         private readonly MyDatabase myDatabase = new MyDatabase();
         private readonly PhieuGhiNo phieuGhiNo;
+        private readonly StringUtility stringUtility = new StringUtility();
         internal Form_BienLaiTraNoSingle(PhieuGhiNo phieu)
         {
             InitializeComponent();
-            this.phieuGhiNo = phieu ?? throw new ArgumentNullException(nameof(phieu));
+            this.phieuGhiNo = phieu;
             InitializeFormData();
         }
 
@@ -34,37 +36,15 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void InitializeFormData()
         {
-            try
+            this.txtMaBienLai.Text = stringUtility.GenerateRandomString(10);
+            while (this.phieuGhiNoService.findByMaPhieu(this.txtMaPhieu.Text) != null)
             {
-                // Điền thông tin phiếu ghi nợ (chỉ đọc)
-                txtMaPhieu.Text = phieuGhiNo.MaPhieu;
-                txtTenDoiTac.Text = phieuGhiNo is PhieuNoKhachHang khachHang ? khachHang.KhachHang?.Ten ?? string.Empty
-                    : phieuGhiNo is PhieuNoCuaHang cuaHang ? cuaHang.NhaCungCap?.Ten ?? string.Empty : string.Empty;
-                txtTienNo.Text = phieuGhiNo.TienNo.ToString("N0");
-
-                // Tạo mã biên lai tự động
-                txtMaBienLai.Text = GenerateMaBienLai();
-                txtMaBienLai.ReadOnly = true; // Không cho chỉnh sửa mã biên lai
-
-                // Đặt thời gian trả mặc định là hiện tại
-                dtpThoiGianTra.Value = DateTime.Now;
-
-                // Đặt số tiền trả mặc định bằng tiền nợ
-                txtTienTra.Text = phieuGhiNo.TienNo.ToString("N0");
+                this.txtMaBienLai.Text = stringUtility.GenerateRandomString(10);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi khởi tạo dữ liệu form: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-            }
-        }
-
-        private string GenerateMaBienLai()
-        {
-            // Tạo mã biên lai dựa trên số thứ tự
-            string prefix = "BLTN";
-            int nextId = GetNextBienLaiId();
-            return $"{prefix}{nextId:D6}"; // Định dạng: BLTN000001, BLTN000002, ...
+            this.txtMaPhieu.Text = phieuGhiNo.MaPhieu;
+            this.txtTenDoiTac.Text = phieuGhiNo.DoiTac.Ten;
+            this.txtTienNo.Text = phieuGhiNo.DoiTac.SoDienThoai;
+            this.txtTienTra.Text = phieuGhiNo.TienNo.ToString("N0");
         }
 
         private int GetNextBienLaiId()

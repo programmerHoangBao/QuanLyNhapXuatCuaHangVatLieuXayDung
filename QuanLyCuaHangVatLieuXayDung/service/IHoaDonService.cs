@@ -24,5 +24,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         List<HoaDon> findByDateRange(DateTime startDate, DateTime endDate);
 
         List<HoaDon> findByDoiTac(string maDoiTac);
+        //
+        ChiTiet chiTietVatLieuConLaiCuaHoaDon(string maHoaDon, VatLieu vatLieu);
     }
 }

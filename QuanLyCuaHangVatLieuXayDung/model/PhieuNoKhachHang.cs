@@ -8,19 +8,12 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal class PhieuNoKhachHang : PhieuGhiNo
     {
-        private KhachHang khachHang;
-        private HoaDonXuat hoaDonXuat;
         public PhieuNoKhachHang()
         {
         }
-        public PhieuNoKhachHang(string maPhieu, DateTime thoiGianLap, DateTime thoiGianTra, double tienNo, bool trangThai, KhachHang khachHang, HoaDonXuat hoaDonXuat) : base(maPhieu, thoiGianLap, thoiGianTra, tienNo, trangThai)
+        public PhieuNoKhachHang(string maPhieu, DateTime thoiGianLap, DateTime thoiGianTra, double tienNo, bool trangThai, DoiTac doiTac, HoaDon hoaDon) : base(maPhieu, thoiGianLap, thoiGianTra, tienNo, trangThai, doiTac, hoaDon)
         {
-            this.KhachHang = khachHang;
-            this.HoaDonXuat = hoaDonXuat;
         }
-
-        internal KhachHang KhachHang { get => khachHang; set => khachHang = value; }
-        internal HoaDonXuat HoaDonXuat { get => hoaDonXuat; set => hoaDonXuat = value; }
 
         public override byte loaiPhieu_toByte()
         {

@@ -40,7 +40,16 @@
             this.lblTongDoanhThu = new System.Windows.Forms.Label();
             this.lblTongTienThanhToan = new System.Windows.Forms.Label();
             this.chartDoanhThu = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.panelMetrics = new QuanLyCuaHangVatLieuXayDung.views.GradientPanel();
+            this.lblTongHoaDonNhap = new System.Windows.Forms.Label();
+            this.lblTongHoaDonXuat = new System.Windows.Forms.Label();
+            this.lblSoBienLaiTraNo = new System.Windows.Forms.Label();
+            this.lblSoNoChuaTra = new System.Windows.Forms.Label();
+            this.lblTongGiaTriHoaDonNhap = new System.Windows.Forms.Label();
+            this.lblTongGiaTriHoaDonXuat = new System.Windows.Forms.Label();
+            this.lblTongGiaTriNoChuaTra = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chartDoanhThu)).BeginInit();
+            this.panelMetrics.SuspendLayout();
             this.SuspendLayout();
             // 
             // dtpTuNgay
@@ -135,7 +144,7 @@
             // 
             this.lblTongTienThanhToan.AutoSize = true;
             this.lblTongTienThanhToan.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblTongTienThanhToan.Location = new System.Drawing.Point(23, 107);
+            this.lblTongTienThanhToan.Location = new System.Drawing.Point(373, 75);
             this.lblTongTienThanhToan.Name = "lblTongTienThanhToan";
             this.lblTongTienThanhToan.Size = new System.Drawing.Size(0, 28);
             this.lblTongTienThanhToan.TabIndex = 10;
@@ -148,11 +157,103 @@
             this.chartDoanhThu.TabIndex = 11;
             this.chartDoanhThu.Text = "chartDoanhThu";
             // 
+            // panelMetrics
+            // 
+            this.panelMetrics.Controls.Add(this.lblTongHoaDonNhap);
+            this.panelMetrics.Controls.Add(this.lblTongHoaDonXuat);
+            this.panelMetrics.Controls.Add(this.lblSoBienLaiTraNo);
+            this.panelMetrics.Controls.Add(this.lblSoNoChuaTra);
+            this.panelMetrics.Controls.Add(this.lblTongGiaTriHoaDonNhap);
+            this.panelMetrics.Controls.Add(this.lblTongGiaTriHoaDonXuat);
+            this.panelMetrics.Controls.Add(this.lblTongGiaTriNoChuaTra);
+            this.panelMetrics.Location = new System.Drawing.Point(23, 607);
+            this.panelMetrics.Name = "panelMetrics";
+            this.panelMetrics.Size = new System.Drawing.Size(1383, 80);
+            this.panelMetrics.TabIndex = 12;
+            // 
+            // lblTongHoaDonNhap
+            // 
+            this.lblTongHoaDonNhap.AutoSize = true;
+            this.lblTongHoaDonNhap.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongHoaDonNhap.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblTongHoaDonNhap.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongHoaDonNhap.Location = new System.Drawing.Point(30, 15);
+            this.lblTongHoaDonNhap.Name = "lblTongHoaDonNhap";
+            this.lblTongHoaDonNhap.Size = new System.Drawing.Size(0, 29);
+            this.lblTongHoaDonNhap.TabIndex = 0;
+            // 
+            // lblTongHoaDonXuat
+            // 
+            this.lblTongHoaDonXuat.AutoSize = true;
+            this.lblTongHoaDonXuat.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongHoaDonXuat.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblTongHoaDonXuat.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongHoaDonXuat.Location = new System.Drawing.Point(380, 15);
+            this.lblTongHoaDonXuat.Name = "lblTongHoaDonXuat";
+            this.lblTongHoaDonXuat.Size = new System.Drawing.Size(0, 29);
+            this.lblTongHoaDonXuat.TabIndex = 1;
+            // 
+            // lblSoBienLaiTraNo
+            // 
+            this.lblSoBienLaiTraNo.AutoSize = true;
+            this.lblSoBienLaiTraNo.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblSoBienLaiTraNo.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblSoBienLaiTraNo.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblSoBienLaiTraNo.Location = new System.Drawing.Point(730, 15);
+            this.lblSoBienLaiTraNo.Name = "lblSoBienLaiTraNo";
+            this.lblSoBienLaiTraNo.Size = new System.Drawing.Size(0, 29);
+            this.lblSoBienLaiTraNo.TabIndex = 2;
+            // 
+            // lblSoNoChuaTra
+            // 
+            this.lblSoNoChuaTra.AutoSize = true;
+            this.lblSoNoChuaTra.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblSoNoChuaTra.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblSoNoChuaTra.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblSoNoChuaTra.Location = new System.Drawing.Point(1080, 15);
+            this.lblSoNoChuaTra.Name = "lblSoNoChuaTra";
+            this.lblSoNoChuaTra.Size = new System.Drawing.Size(0, 29);
+            this.lblSoNoChuaTra.TabIndex = 3;
+            // 
+            // lblTongGiaTriHoaDonNhap
+            // 
+            this.lblTongGiaTriHoaDonNhap.AutoSize = true;
+            this.lblTongGiaTriHoaDonNhap.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongGiaTriHoaDonNhap.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblTongGiaTriHoaDonNhap.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongGiaTriHoaDonNhap.Location = new System.Drawing.Point(30, 45);
+            this.lblTongGiaTriHoaDonNhap.Name = "lblTongGiaTriHoaDonNhap";
+            this.lblTongGiaTriHoaDonNhap.Size = new System.Drawing.Size(0, 29);
+            this.lblTongGiaTriHoaDonNhap.TabIndex = 4;
+            // 
+            // lblTongGiaTriHoaDonXuat
+            // 
+            this.lblTongGiaTriHoaDonXuat.AutoSize = true;
+            this.lblTongGiaTriHoaDonXuat.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongGiaTriHoaDonXuat.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblTongGiaTriHoaDonXuat.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongGiaTriHoaDonXuat.Location = new System.Drawing.Point(480, 45);
+            this.lblTongGiaTriHoaDonXuat.Name = "lblTongGiaTriHoaDonXuat";
+            this.lblTongGiaTriHoaDonXuat.Size = new System.Drawing.Size(0, 29);
+            this.lblTongGiaTriHoaDonXuat.TabIndex = 5;
+            // 
+            // lblTongGiaTriNoChuaTra
+            // 
+            this.lblTongGiaTriNoChuaTra.AutoSize = true;
+            this.lblTongGiaTriNoChuaTra.BackColor = System.Drawing.Color.Transparent; // Đảm bảo nền trong suốt
+            this.lblTongGiaTriNoChuaTra.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblTongGiaTriNoChuaTra.ForeColor = System.Drawing.Color.White; // Chữ trắng
+            this.lblTongGiaTriNoChuaTra.Location = new System.Drawing.Point(930, 45);
+            this.lblTongGiaTriNoChuaTra.Name = "lblTongGiaTriNoChuaTra";
+            this.lblTongGiaTriNoChuaTra.Size = new System.Drawing.Size(0, 29);
+            this.lblTongGiaTriNoChuaTra.TabIndex = 6;
+            // 
             // Form_DoanhThu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1429, 640);
+            this.ClientSize = new System.Drawing.Size(1429, 721);
+            this.Controls.Add(this.panelMetrics);
             this.Controls.Add(this.chartDoanhThu);
             this.Controls.Add(this.lblTongTienThanhToan);
             this.Controls.Add(this.lblTongDoanhThu);
@@ -168,9 +269,10 @@
             this.Name = "Form_DoanhThu";
             this.Text = "Doanh thu cửa hàng";
             ((System.ComponentModel.ISupportInitialize)(this.chartDoanhThu)).EndInit();
+            this.panelMetrics.ResumeLayout(false);
+            this.panelMetrics.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -187,5 +289,13 @@
         private System.Windows.Forms.Label lblTongDoanhThu;
         private System.Windows.Forms.Label lblTongTienThanhToan;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartDoanhThu;
+        private QuanLyCuaHangVatLieuXayDung.views.GradientPanel panelMetrics;
+        private System.Windows.Forms.Label lblTongHoaDonNhap;
+        private System.Windows.Forms.Label lblTongHoaDonXuat;
+        private System.Windows.Forms.Label lblSoBienLaiTraNo;
+        private System.Windows.Forms.Label lblSoNoChuaTra;
+        private System.Windows.Forms.Label lblTongGiaTriHoaDonNhap;
+        private System.Windows.Forms.Label lblTongGiaTriHoaDonXuat;
+        private System.Windows.Forms.Label lblTongGiaTriNoChuaTra;
     }
 }

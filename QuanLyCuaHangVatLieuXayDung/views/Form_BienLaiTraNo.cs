@@ -35,6 +35,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         {
             LoadBienLaiTraNoData();
             panelBienLaiTraNo.Visible = false;
+            this.radioButtonKhachHang.Checked = false;
         }
 
 
@@ -46,6 +47,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 if (bienLaiTraNos == null)
                 {
                     bienLaiTraNos = bienLaiTraNoService.FindAll();
+                }
+
+                // Kiểm tra danh sách rỗng hoặc null
+                if (bienLaiTraNos == null || !bienLaiTraNos.Any())
+                {
+                    dataGridView1.Rows.Clear();
+                    
+                    return;
                 }
 
                 // Xóa các hàng hiện tại trong DataGridView
@@ -176,8 +185,16 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnInPhieu_Click(object sender, EventArgs e)
         {
-            // TODO: Thêm logic in biên lai trả nợ (sẽ được triển khai nếu cần)
-            MessageBox.Show("Chức năng in phiếu đang được phát triển.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string maBienLai = txtMaBienLai.Text.Trim();
+            if (string.IsNullOrEmpty(maBienLai))
+            {
+                MessageBox.Show("Vui lòng chọn biên lai để in.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            BienLaiTraNo bienLai = bienLaiTraNoService.FindByMaBienLai(maBienLai);
+            Form_ReportBienLaiTraNo reportForm = new Form_ReportBienLaiTraNo();
+            reportForm.BienLaiTraNo = bienLai;
+            reportForm.ShowDialog();
         }
     }
 }

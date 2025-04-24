@@ -143,8 +143,8 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 cmd.Parameters.AddWithValue("@GiaXuat", chiTiet.VatLieu.GiaXuat);
                 cmd.Parameters.AddWithValue("@DonVi", chiTiet.VatLieu.DonVi);
                 cmd.Parameters.AddWithValue("@NgayNhap", chiTiet.VatLieu.NgayNhap);
-                cmd.Parameters.AddWithValue("@NhaCungCap", chiTiet.VatLieu.NhaCungCap);
-                cmd.Parameters.AddWithValue("@DirHinhAnh", chiTiet.VatLieu.DirHinhAnh);
+                cmd.Parameters.AddWithValue("@NhaCungCap", chiTiet.VatLieu.NhaCungCap != null ? (object)chiTiet.VatLieu.NhaCungCap.MaDoiTac : DBNull.Value);
+                cmd.Parameters.AddWithValue("@DirHinhAnh", chiTiet.VatLieu.DirHinhAnh ?? (object)DBNull.Value);
 
                 affectedRows = cmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -155,7 +155,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 {
                     transaction.Rollback();
                 }
-                MessageBox.Show("Lỗi: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -164,6 +164,55 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
             return affectedRows > 0;
         }
+
+        public List<ChiTiet> GetChiTietTraHang(string maHoaDon)
+        {
+            List<ChiTiet> chiTietsTraHang = new List<ChiTiet>();
+
+            string query = @"
+        SELECT cth.MaVatLieu, cth.SoLuong, cth.TenVatLieu, cth.GiaNhap, cth.GiaXuat, 
+               cth.DonVi, cth.NgayNhap, cth.NhaCungCap, cth.DirHinhAnh
+        FROM ChiTietTraHang cth
+        INNER JOIN PhieuTraHang pth ON cth.MaPhieuTraHang = pth.MaPhieu
+        WHERE pth.MaHoaDon = @MaHoaDon"; // Lọc theo MaHoaDon
+
+            try
+            {
+                // Mở kết nối với cơ sở dữ liệu
+                this.myDatabase.OpenConnection();
+                SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
+                cmd.Parameters.AddWithValue("@MaHoaDon", maHoaDon); // Thêm tham số MaHoaDon
+
+                // Thực thi truy vấn và đọc dữ liệu trả về
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ChiTiet chiTiet = new ChiTiet
+                    {
+                        VatLieu = this.vatLieuService.findByMaVatLieu(reader["MaVatLieu"].ToString()),
+                        SoLuong = Convert.ToSingle(reader["SoLuong"])
+
+
+                    };
+                    chiTietsTraHang.Add(chiTiet);
+                }
+
+                reader.Close(); // Đóng SqlDataReader
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                MessageBox.Show("Lỗi: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Đảm bảo đóng kết nối
+                this.myDatabase.CloseConnection();
+            }
+
+            return chiTietsTraHang; // Trả về danh sách chi tiết trả hàng
+        }
+
 
     }
 }

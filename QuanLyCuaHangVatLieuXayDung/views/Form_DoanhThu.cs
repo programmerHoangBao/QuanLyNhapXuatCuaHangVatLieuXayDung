@@ -32,6 +32,57 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             // Đặt ngày mặc định cho DateTimePicker
             dtpTuNgay.Value = DateTime.Now.Date;
             dtpDenNgay.Value = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
+
+            // Hiển thị biểu đồ khi load form
+            LoadChartOnFormLoad();
+        }
+
+        private void LoadChartOnFormLoad()
+        {
+            // Gọi logic hiển thị biểu đồ ngay khi load form
+            DateTime tuNgay = dtpTuNgay.Value;
+            DateTime denNgay = dtpDenNgay.Value;
+
+            if (tuNgay > denNgay)
+            {
+                MessageBox.Show("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Tính tổng doanh thu và tổng tiền thanh toán
+            decimal tongDoanhThu = 0;
+            decimal tongTienThanhToan = 0;
+            var doanhThuTheoThoiGian = doanhThuService.TinhDoanhThuTheoKhoangThoiGian(tuNgay, denNgay, comboBoxLoaiBieuDo.SelectedItem.ToString());
+
+            foreach (var doanhThu in doanhThuTheoThoiGian.Values)
+            {
+                tongTienThanhToan += doanhThu;
+                tongDoanhThu += doanhThu;
+            }
+
+            // Hiển thị tổng quan
+            lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
+            lblTongTienThanhToan.Text = $"Tổng tiền đã thanh toán: {tongTienThanhToan:N0}";
+
+            // Tính và hiển thị các thông tin mới
+            int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
+            int tongHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
+            int soBienLaiTraNo = doanhThuService.TinhSoBienLaiTraNo(tuNgay, denNgay);
+            int soNoChuaTra = doanhThuService.TinhSoNoChuaTra(tuNgay, denNgay);
+            decimal tongGiaTriHoaDonNhap = doanhThuService.TinhTongGiaTriHoaDonNhap(tuNgay, denNgay);
+            decimal tongGiaTriHoaDonXuat = doanhThuService.TinhTongGiaTriHoaDonXuat(tuNgay, denNgay);
+            decimal tongGiaTriNoChuaTra = doanhThuService.TinhTongGiaTriNoChuaTra(tuNgay, denNgay);
+
+            lblTongHoaDonNhap.Text = $"Tổng hóa đơn nhập: {tongHoaDonNhap}";
+            lblTongHoaDonXuat.Text = $"Tổng hóa đơn xuất: {tongHoaDonXuat}";
+            lblSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
+            lblSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
+            lblTongGiaTriHoaDonNhap.Text = $"Tổng giá trị hóa đơn nhập: {tongGiaTriHoaDonNhap:N0}";
+            lblTongGiaTriHoaDonXuat.Text = $"Tổng giá trị hóa đơn xuất: {tongGiaTriHoaDonXuat:N0}";
+            lblTongGiaTriNoChuaTra.Text = $"Tổng giá trị nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
+
+            // Vẽ biểu đồ doanh thu
+            VeBieuDoDoanhThu(tuNgay, denNgay);
         }
         private void comboBoxLocThoiGian_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -84,6 +135,24 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
                 lblTongTienThanhToan.Text = $"Tổng tiền đã thanh toán: {tongTienThanhToan:N0}";
 
+                // Tính và hiển thị các thông tin mới
+                int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
+                int tongHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
+                int soBienLaiTraNo = doanhThuService.TinhSoBienLaiTraNo(tuNgay, denNgay);
+                int soNoChuaTra = doanhThuService.TinhSoNoChuaTra(tuNgay, denNgay);
+                decimal tongGiaTriHoaDonNhap = doanhThuService.TinhTongGiaTriHoaDonNhap(tuNgay, denNgay);
+                decimal tongGiaTriHoaDonXuat = doanhThuService.TinhTongGiaTriHoaDonXuat(tuNgay, denNgay);
+                decimal tongGiaTriNoChuaTra = doanhThuService.TinhTongGiaTriNoChuaTra(tuNgay, denNgay);
+
+
+                lblTongHoaDonNhap.Text = $"Tổng hóa đơn nhập: {tongHoaDonNhap}";
+                lblTongHoaDonXuat.Text = $"Tổng hóa đơn xuất: {tongHoaDonXuat}";
+                lblSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
+                lblSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
+                lblTongGiaTriHoaDonNhap.Text = $"Tổng giá trị hóa đơn nhập: {tongGiaTriHoaDonNhap:N0}";
+                lblTongGiaTriHoaDonXuat.Text = $"Tổng giá trị hóa đơn xuất: {tongGiaTriHoaDonXuat:N0}";
+                lblTongGiaTriNoChuaTra.Text = $"Tổng giá trị nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
+
                 // Vẽ biểu đồ doanh thu
                 VeBieuDoDoanhThu(tuNgay, denNgay);
             }
@@ -98,17 +167,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 string loaiThoiGian = comboBoxLoaiBieuDo.SelectedItem.ToString();
                 var doanhThuTheoThoiGian = doanhThuService.TinhDoanhThuTheoKhoangThoiGian(tuNgay, denNgay, loaiThoiGian);
-
-                // Debug dữ liệu trả về
-                StringBuilder debugMessage = new StringBuilder();
-                debugMessage.AppendLine($"Số lượng dữ liệu: {doanhThuTheoThoiGian.Count}");
-                debugMessage.AppendLine($"Thời gian đầu: {tuNgay:dd/MM/yyyy}");
-                debugMessage.AppendLine($"Thời gian cuối: {denNgay:dd/MM/yyyy}");
-                foreach (var kvp in doanhThuTheoThoiGian)
-                {
-                    debugMessage.AppendLine($"Thời gian: {kvp.Key:dd/MM/yyyy}, Doanh thu: {kvp.Value:N0}");
-                }
-                MessageBox.Show(debugMessage.ToString(), "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Kiểm tra dữ liệu trả về
                 if (doanhThuTheoThoiGian == null || doanhThuTheoThoiGian.Count == 0)

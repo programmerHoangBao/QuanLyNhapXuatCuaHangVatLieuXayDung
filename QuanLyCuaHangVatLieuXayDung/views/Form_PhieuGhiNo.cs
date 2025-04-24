@@ -10,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyCuaHangVatLieuXayDung.model;
-using Microsoft.Reporting.WinForms;
 
 namespace QuanLyCuaHangVatLieuXayDung.views
 {
@@ -30,6 +29,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private void Form_PhieuGhiNo_Load(object sender, EventArgs e)
         {
             LoadPhieuGhiNoData();
+            this.radioButtonKhachHang.Checked = true; // Mặc định chọn radioButtonKhachHang
         }
 
         private void LoadPhieuGhiNoData(List<PhieuGhiNo> phieuGhiNos = null)
@@ -41,6 +41,15 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     phieuGhiNos = phieuGhiNoService.findAll();
                 }
+
+                // Kiểm tra danh sách rỗng hoặc null
+                if (phieuGhiNos == null || !phieuGhiNos.Any())
+                {
+                    dataGridViewShowPhieuNo.Rows.Clear();
+                    //MessageBox.Show("Không có dữ liệu phiếu ghi nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 // Xóa các hàng hiện tại trong DataGridView
                 dataGridViewShowPhieuNo.Rows.Clear();
 
@@ -49,12 +58,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 {
                     dataGridViewShowPhieuNo.Rows.Add(
                         phieu.MaPhieu, // Mã phiếu
-                        phieu is PhieuNoKhachHang khachHang ? khachHang.KhachHang?.Ten ?? string.Empty
-                            : phieu is PhieuNoCuaHang cuaHang ? cuaHang.NhaCungCap?.Ten ?? string.Empty : string.Empty, // Tên đối tác
-                        phieu is PhieuNoKhachHang kh ? kh.KhachHang?.SoDienThoai ?? string.Empty
-                            : phieu is PhieuNoCuaHang ch ? ch.NhaCungCap?.SoDienThoai ?? string.Empty : string.Empty, // Số điện thoại
-                        phieu is PhieuNoKhachHang kh1 ? kh1.KhachHang?.DiaChi ?? string.Empty
-                            : phieu is PhieuNoCuaHang ch1 ? ch1.NhaCungCap?.DiaChi ?? string.Empty : string.Empty, // Địa chỉ
+                        phieu.DoiTac.Ten,
+                        phieu.DoiTac.SoDienThoai,
+                        phieu.DoiTac.DiaChi,
                         phieu.ThoiGianLap.ToString("dd/MM/yyyy HH:mm"), // Thời gian lập
                         phieu.ThoiGianTra.ToString("dd/MM/yyyy HH:mm"), // Thời gian trả
                         phieu.TienNo.ToString("N0"), // Tiền nợ
@@ -89,7 +95,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             panelPhieuGhiNo.Visible = false;
         }
 
-        PhieuGhiNo selectedPhieuGhiNo = null;
         private void dataGridViewShowPhieuNo_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -103,8 +108,9 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         MessageBox.Show("Mã phiếu không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
+
+                    // Tìm phiếu ghi nợ theo mã phiếu
                     PhieuGhiNo phieu = phieuGhiNoService.findByMaPhieu(maPhieu);
-                    selectedPhieuGhiNo=phieu;
                     if (phieu != null)
                     {
                         // Hiển thị panelPhieuGhiNo
@@ -117,40 +123,24 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         txtSoTienNo.Text = phieu.TienNo.ToString("N0");
                         txtTrangThai.Text = phieu.TrangThai ? "Đã trả" : "Chưa trả";
 
+                        // Bật/tắt nút Trả nợ dựa trên TrangThai
                         btnTra.Enabled = !phieu.TrangThai; // Bật nếu chưa trả, tắt nếu đã trả
 
-                        if (phieu is PhieuNoKhachHang khachHang && khachHang.KhachHang != null)
-                        {
-                            txtDoiTac.Text = khachHang.KhachHang.Ten;
-                            textBox2.Text = khachHang.KhachHang.SoDienThoai;
-                            txtDiaChi.Text = khachHang.KhachHang.DiaChi;
-                            txtMaHoaDon.Text = phieu.MaHoaDon;
-                        }
-                        else if (phieu is PhieuNoCuaHang cuaHang && cuaHang.NhaCungCap != null)
-                        {
-                            txtDoiTac.Text = cuaHang.NhaCungCap.Ten;
-                            textBox2.Text = cuaHang.NhaCungCap.SoDienThoai;
-                            txtDiaChi.Text = cuaHang.NhaCungCap.DiaChi;
-                            txtMaHoaDon.Text = cuaHang.HoaDonNhap?.MaHoaDon ?? "Hiếu đẹp trai";
-                        }
-                        else
-                        {
-                            txtDoiTac.Text = string.Empty;
-                            textBox2.Text = string.Empty;
-                            txtDiaChi.Text = string.Empty;
-                            txtMaHoaDon.Text = string.Empty;
-                        }
+                        txtDoiTac.Text = phieu.DoiTac.Ten;
+                        textBox2.Text = phieu.DoiTac.SoDienThoai;
+                        txtDiaChi.Text = phieu.DoiTac.DiaChi;
+                        txtMaHoaDon.Text = phieu.HoaDon.MaHoaDon;
                     }
                     else
                     {
                         MessageBox.Show("Không tìm thấy thông tin phiếu ghi nợ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        btnTra.Enabled = false; 
+                        btnTra.Enabled = false; // Tắt nút Trả nợ nếu không tìm thấy phiếu
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi khi hiển thị thông tin phiếu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    btnTra.Enabled = false; 
+                    btnTra.Enabled = false; // Tắt nút Trả nợ nếu có lỗi
                 }
             }
         }
@@ -272,76 +262,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void btnIn_Click(object sender, EventArgs e)
         {
-            if (selectedPhieuGhiNo == null)
+            string maPhieu = textBox1.Text.Trim();
+            if (string.IsNullOrEmpty(maPhieu))
             {
-                MessageBox.Show("Vui lòng chọn một phiếu ghi nợ để in.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn một phiếu ghi nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            try
-            {
-                // Tạo form mới để hiển thị báo cáo
-                Form reportForm = new Form
-                {
-                    Text = "Xem trước phiếu ghi nợ",
-                    Size = new System.Drawing.Size(800, 600),
-                    StartPosition = FormStartPosition.CenterScreen
-                };
-
-                ReportViewer reportViewer = new ReportViewer
-                {
-                    Dock = DockStyle.Fill,
-                    Location = new System.Drawing.Point(0, 0)
-                };
-                reportForm.Controls.Add(reportViewer);
-
-                // Thiết lập báo cáo
-                reportViewer.LocalReport.ReportEmbeddedResource = "QuanLyCuaHangVatLieuXayDung.views.report.Report_PhieuGhiNo.rdlc";
-                MessageBox.Show($"Report path: {reportViewer.LocalReport.ReportEmbeddedResource}", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                reportViewer.LocalReport.DataSources.Clear();
-
-                // Chuẩn bị dữ liệu cho báo cáo
-                var reportData = new List<PhieuGhiNoReportData>
-        {
-            new PhieuGhiNoReportData
-            {
-                MaPhieu = selectedPhieuGhiNo.MaPhieu ?? "N/A",
-                ThoiGianLap = selectedPhieuGhiNo.ThoiGianLap,
-                ThoiGianTra = selectedPhieuGhiNo.ThoiGianTra,
-                TienNo = selectedPhieuGhiNo.TienNo,
-                TrangThai = selectedPhieuGhiNo.TrangThai,
-                MaHoaDon = selectedPhieuGhiNo is PhieuNoKhachHang khachHang ? khachHang.HoaDonXuat?.MaHoaDon ?? "Không có hóa đơn" : selectedPhieuGhiNo is PhieuNoCuaHang cuaHang ? cuaHang.HoaDonNhap?.MaHoaDon ?? "Không có hóa đơn" : "Không có hóa đơn",
-                TenDoiTac = selectedPhieuGhiNo is PhieuNoKhachHang kh ? kh.KhachHang?.Ten ?? "N/A" : selectedPhieuGhiNo is PhieuNoCuaHang ch ? ch.NhaCungCap?.Ten ?? "N/A" : "N/A",
-                SoDienThoai = selectedPhieuGhiNo is PhieuNoKhachHang kh1 ? kh1.KhachHang?.SoDienThoai ?? "N/A" : selectedPhieuGhiNo is PhieuNoCuaHang ch1 ? ch1.NhaCungCap?.SoDienThoai ?? "N/A" : "N/A",
-                DiaChi = selectedPhieuGhiNo is PhieuNoKhachHang kh2 ? kh2.KhachHang?.DiaChi ?? "N/A" : selectedPhieuGhiNo is PhieuNoCuaHang ch2 ? ch2.NhaCungCap?.DiaChi ?? "N/A" : "N/A"
-            }
-        };
-
-                // Debug dữ liệu
-                MessageBox.Show($"Loaded {reportData.Count} record(s)\nMaPhieu: {reportData[0].MaPhieu}\nThoiGianLap: {reportData[0].ThoiGianLap}\nMaHoaDon: {reportData[0].MaHoaDon}", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PhieuGhiNoData", reportData));
-                reportViewer.RefreshReport();
-
-                // Hiển thị form báo cáo
-                reportForm.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi in phiếu ghi nợ: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        public class PhieuGhiNoReportData
-        {
-            public string MaPhieu { get; set; }
-            public string MaHoaDon { get; set; }
-            public DateTime ThoiGianLap { get; set; }
-            public DateTime ThoiGianTra { get; set; }
-            public double TienNo { get; set; }
-            public bool TrangThai { get; set; }
-            public string TenDoiTac { get; set; }
-            public string SoDienThoai { get; set; }
-            public string DiaChi { get; set; }
+            PhieuGhiNo phieu = phieuGhiNoService.findByMaPhieu(maPhieu);
+            Form_ReportPhieuGhiNo formReport = new Form_ReportPhieuGhiNo();
+            formReport.PhieuGhiNo = phieu;
+            formReport.ShowDialog();
         }
     }
 }

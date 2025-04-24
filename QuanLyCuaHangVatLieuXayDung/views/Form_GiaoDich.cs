@@ -58,18 +58,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 userControl = new UserControlShowVatLieu();
                 userControl.VatLieu = vatLieu;
                 userControl.Size = new Size(200, 280);
-                if (this.radioButtonXuatHang.Checked && vatLieu.SoLuong > 0)
-                {
-                    userControl.ShowVatLieu(1);
-                }
-                else if (this.radioButtonNhapHang.Checked)
-                {
-                    userControl.ShowVatLieu(2);
-                }
-                else
-                {
-                    continue;
-                }
+                //Thêm sự kiện click
                 if (userControl != null)
                 {
                     userControl.btnTransactionClick += (s, ev) =>
@@ -82,7 +71,16 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         formChonSoLuongVatLieu.ShowDialog();
                         this.loadVatLieuInHoaDon();
                     };
-                    this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
+                    if (this.radioButtonXuatHang.Checked && vatLieu.SoLuong > 0)
+                    {
+                        userControl.ShowVatLieu(1);
+                        this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
+                    }
+                    else if (this.radioButtonNhapHang.Checked)
+                    {
+                        userControl.ShowVatLieu(2);
+                        this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
+                    }
                 }
             }  
         }
@@ -617,10 +615,27 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void comboBoxPhuongThucThanhToan_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.comboBoxPhuongThucThanhToan.SelectedIndex == 3)
+            List<ChiTiet> chiTiets = this.GetChiTetHoaDon();
+            if (this.comboBoxPhuongThucThanhToan.SelectedIndex == 0)
+            {
+                double tongTien = 0;
+                foreach(ChiTiet chiTiet in chiTiets)
+                {
+                    if (this.radioButtonXuatHang.Checked)
+                    {
+                        tongTien += chiTiet.VatLieu.GiaXuat * chiTiet.SoLuong;
+                    }
+                    else
+                    {
+                        tongTien += chiTiet.VatLieu.GiaNhap * chiTiet.SoLuong;
+                    }
+                }
+                tongTien -= double.Parse(this.txtTienGiam.Text.Trim());
+                this.txtTienThanhToan.Text = tongTien.ToString();
+            }
+            if (this.comboBoxPhuongThucThanhToan.SelectedIndex == 2)
             {
                 this.txtTienThanhToan.Text = "0";
-                List<ChiTiet> chiTiets = this.GetChiTetHoaDon();
                 this.SetCacGiaTriTienTe(chiTiets);
             }
         }

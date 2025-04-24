@@ -221,19 +221,13 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
                 cmd.Parameters.AddWithValue("@MaPhieu", phieu.MaPhieu);
                 cmd.Parameters.AddWithValue("@ThoiGianLap", phieu.ThoiGianLap);
-                cmd.Parameters.AddWithValue("@MaHoaDon", phieu.HoaDon.MaHoaDon);
-                cmd.Parameters.AddWithValue("@LyDo", phieu.LyDo);
+                cmd.Parameters.AddWithValue("@MaHoaDon", (object)phieu.HoaDon?.MaHoaDon ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@LyDo", (object)phieu.LyDo ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@TongTien", phieu.TongTien);
                 cmd.Parameters.AddWithValue("@LoaiPhieu", phieu.loaiPhieu_toByte());
                 affectedRows = cmd.ExecuteNonQuery();
                 if (affectedRows > 0)
-                {
-                    foreach (ChiTiet chiTiet in phieu.ChiTiets)
-                    {
-                        chiTietService.insertChiTietTraHang(phieu.MaPhieu, chiTiet);
-                    }
-                    transaction.Commit();
-                }
+                transaction.Commit();
             }
             catch (Exception ex)
             {
@@ -246,6 +240,10 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             finally
             {
                 this.myDatabase.CloseConnection();
+                foreach (ChiTiet chiTiet in phieu.ChiTiets)
+                {
+                    chiTietService.insertChiTietTraHang(phieu.MaPhieu, chiTiet);
+                }
             }
             return affectedRows > 0;
         }
@@ -300,6 +298,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.OpenConnection();
                 SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection);
                 cmd.Parameters.AddWithValue("@Key", "%" + key + "%");
+                cmd.Parameters.AddWithValue("@LoaiPhieu", loaiPhieuTraHang);
                 SqlDataReader reader = cmd.ExecuteReader();
                 PhieuTraHang phieuTraHang;
                 while (reader.Read())

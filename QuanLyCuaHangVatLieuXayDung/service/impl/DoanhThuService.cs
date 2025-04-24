@@ -112,5 +112,228 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 myDatabase.CloseConnection();
             }
         }
+        public int TinhTongHoaDonNhap(DateTime tuNgay, DateTime denNgay)
+        {
+            int tongHoaDonNhap = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COUNT(*) AS TongHoaDonNhap
+                                FROM HoaDon
+                                WHERE LoaiHoaDon = 2 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tongHoaDonNhap = reader.GetInt32(reader.GetOrdinal("TongHoaDonNhap"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng hóa đơn nhập: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return tongHoaDonNhap;
+        }
+
+        public int TinhTongHoaDonXuat(DateTime tuNgay, DateTime denNgay)
+        {
+            int tongHoaDonXuat = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COUNT(*) AS TongHoaDonXuat
+                                FROM HoaDon
+                                WHERE LoaiHoaDon = 1 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tongHoaDonXuat = reader.GetInt32(reader.GetOrdinal("TongHoaDonXuat"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng hóa đơn xuất: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return tongHoaDonXuat;
+        }
+
+        public int TinhSoBienLaiTraNo(DateTime tuNgay, DateTime denNgay)
+        {
+            int soBienLaiTraNo = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COUNT(*) AS SoBienLaiTraNo
+                                FROM PhieuGhiNo
+                                WHERE TrangThai = 1 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        soBienLaiTraNo = reader.GetInt32(reader.GetOrdinal("SoBienLaiTraNo"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính số biên lai trả nợ: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return soBienLaiTraNo;
+        }
+
+        public int TinhSoNoChuaTra(DateTime tuNgay, DateTime denNgay)
+        {
+            int soNoChuaTra = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COUNT(*) AS SoNoChuaTra
+                                FROM PhieuGhiNo
+                                WHERE TrangThai = 0 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        soNoChuaTra = reader.GetInt32(reader.GetOrdinal("SoNoChuaTra"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính số nợ chưa trả: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return soNoChuaTra;
+        }
+
+        public decimal TinhTongGiaTriHoaDonNhap(DateTime tuNgay, DateTime denNgay)
+        {
+            decimal tongGiaTriHoaDonNhap = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COALESCE(SUM(TienThanhToan), 0) AS TongGiaTriHoaDonNhap
+                                FROM HoaDon
+                                WHERE LoaiHoaDon = 2 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tongGiaTriHoaDonNhap = reader.GetDecimal(reader.GetOrdinal("TongGiaTriHoaDonNhap"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng giá trị hóa đơn nhập: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return tongGiaTriHoaDonNhap;
+        }
+
+        public decimal TinhTongGiaTriHoaDonXuat(DateTime tuNgay, DateTime denNgay)
+        {
+            decimal tongGiaTriHoaDonXuat = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COALESCE(SUM(TienThanhToan), 0) AS TongGiaTriHoaDonXuat
+                                FROM HoaDon
+                                WHERE LoaiHoaDon = 1 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tongGiaTriHoaDonXuat = reader.GetDecimal(reader.GetOrdinal("TongGiaTriHoaDonXuat"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng giá trị hóa đơn xuất: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return tongGiaTriHoaDonXuat;
+        }
+
+        public decimal TinhTongGiaTriNoChuaTra(DateTime tuNgay, DateTime denNgay)
+        {
+            decimal tongGiaTriNoChuaTra = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                string query = @"SELECT COALESCE(SUM(TienNo), 0) AS TongGiaTriNoChuaTra
+                                FROM PhieuGhiNo
+                                WHERE TrangThai = 0 AND ThoiGianLap BETWEEN @TuNgay AND @DenNgay";
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TuNgay", tuNgay);
+                    cmd.Parameters.AddWithValue("@DenNgay", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tongGiaTriNoChuaTra = reader.GetDecimal(reader.GetOrdinal("TongGiaTriNoChuaTra"));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tính tổng giá trị nợ chưa trả: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return tongGiaTriNoChuaTra;
+        }
     }
 }

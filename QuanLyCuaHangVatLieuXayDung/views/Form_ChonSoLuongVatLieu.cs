@@ -22,9 +22,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private IVatLieuService vatLieuService = new VatLieuService();
         private VatLieu vatLieu;
         private byte loaiHoaDon = 0;
+        private byte loaiPhieuTraHang = 0;
 
         internal VatLieu VatLieu { get => vatLieu; set => vatLieu = value; }
         public byte LoaiHoaDon { get => loaiHoaDon; set => loaiHoaDon = value; }
+        public byte LoaiPhieuTraHang { get => loaiPhieuTraHang; set => loaiPhieuTraHang = value; }
 
         public Form_ChonSoLuongVatLieu()
         {
@@ -32,13 +34,18 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         private void Form_ChonSoLuongVatLieu_Load(object sender, EventArgs e)
         {
+            this.ShowSoLuongVatLieu();
             if (this.loaiHoaDon == 0)
             {
                 this.btnPlus.Enabled = false;
             }
-            else
+            if (this.loaiHoaDon > 0)
             {
-                this.ShowSoLuongVatLieu();
+                this.loaiPhieuTraHang = 0;
+            }
+            else if (this.loaiPhieuTraHang > 0)
+            {
+                this.loaiHoaDon = 0;
             }
         }
         public void ShowSoLuongVatLieu()
@@ -51,11 +58,23 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             else if (this.loaiHoaDon == 2)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
+                if (this.vatLieuService.findByMaVatLieu(this.vatLieu.MaVatLieu) != null)
+                {
+                    filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                }
+                else
+                {
+                    filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                }
             }
-            else if (this.loaiHoaDon == 0)
+
+            if (this.loaiPhieuTraHang == 1)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
+            }
+            else if (this.loaiPhieuTraHang == 2)
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
             }
             float soLuong = 0;
             FileUtility fileUtility = new FileUtility();
@@ -73,6 +92,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             this.txtSoLuong.Text = soLuong.ToString();
         }
+
         //Lấy ra số lượng vật liệu
         public float GetSoLuong()
         {
@@ -172,9 +192,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
                 }
             }
-            else if (this.loaiHoaDon == 0)
+
+            if (this.loaiPhieuTraHang == 1)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
+            }
+            else if (this.loaiPhieuTraHang == 2)
+            {
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
             }
 
             FileUtility fileUtility = new FileUtility();
@@ -188,8 +213,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 return false;
             };
 
-
-            if (!fileUtility.IsExistsObjectInJsonFile<ChiTiet>(filePath, matchPredicate))
+            if (this.GetSoLuong() <= 0)
+            {
+                fileUtility.RemoveObjectFromJsonFile<ChiTiet>(filePath, matchPredicate);
+            }
+            else if (!fileUtility.IsExistsObjectInJsonFile<ChiTiet>(filePath, matchPredicate))
             {
                 fileUtility.AppendObjectJsonFile(chiTiet, filePath);
             }
@@ -219,20 +247,35 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
                 }
             }
-            else if (this.loaiHoaDon == 0)
+
+            if (this.loaiPhieuTraHang == 1)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahang.json");
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangkhachhang.json");
             }
-            FileUtility fileUtility = new FileUtility();
-            Func<JsonElement, bool> matchPredicate = (VatLieu) =>
+            else if (this.loaiPhieuTraHang == 2)
             {
-                return VatLieu.GetProperty("MaVatLieu").ToString() == this.vatLieu.MaVatLieu;
+                filePath = Path.Combine(projectDirectory, "temp", "phieutrahang", "chitietphieutrahangcuahang.json");
+            }
+
+            FileUtility fileUtility = new FileUtility();
+            ChiTiet chiTiet = new ChiTiet(this.vatLieu, this.GetSoLuong());
+            Func<JsonElement, bool> matchPredicate = (ChiTiet) =>
+            {
+                if (ChiTiet.TryGetProperty("VatLieu", out var vatLieuProperty))
+                {
+                    return vatLieuProperty.GetProperty("MaVatLieu").ToString() == this.vatLieu.MaVatLieu;
+                }
+                return false;
             };
             if (fileUtility.IsFileExists(filePath))
             {
-                if (!fileUtility.RemoveObjectFromJsonFile<VatLieu>(filePath, matchPredicate))
+                if (!fileUtility.RemoveObjectFromJsonFile<ChiTiet>(filePath, matchPredicate))
                 {
                     MessageBox.Show("Không tìm thấy vật liệu trong danh sách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    this.Close();
                 }
             }
         }

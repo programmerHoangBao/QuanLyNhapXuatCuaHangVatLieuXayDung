@@ -14,7 +14,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
     {
         private MyDatabase myDatabase = new MyDatabase();
         private IDoiTacService doiTacService = new DoiTacService();
-        private IChiTietService chiTietService = new ChiTietService(); 
+        private IChiTietService chiTietService = new ChiTietService();
         public bool deleteHoaDon(string maHoaDon)
         {
             string query = "DELETE FROM HoaDon WHERE MaHoaDon = @MaHoaDon";
@@ -353,7 +353,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                         }
                     }
                 }
-                    this.myDatabase.CloseConnection();
+                this.myDatabase.CloseConnection();
             }
             return result;
         }
@@ -410,5 +410,39 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
             return hoaDons;
         }
+        public ChiTiet chiTietVatLieuConLaiCuaHoaDon(string maHoaDon, VatLieu vatLieu)
+        {
+            ChiTiet chiTiet = new ChiTiet();
+            chiTiet.VatLieu = vatLieu;
+            chiTiet.SoLuong = 0;
+
+            // Lấy danh sách chi tiết hóa đơn
+            List<ChiTiet> chiTiets = this.chiTietService.GetChiTietHoaDon(maHoaDon);
+            // Lấy danh sách chi tiết trả hàng
+            List<ChiTiet> chiTietTraHang = this.chiTietService.GetChiTietTraHang(maHoaDon);
+
+            // Tính tổng số lượng đã trả hàng cho vật liệu
+            float soLuongDaTra = 0;
+            foreach (ChiTiet ct in chiTietTraHang)
+            {
+                if (ct.VatLieu.MaVatLieu == vatLieu.MaVatLieu)
+                {
+                    soLuongDaTra += ct.SoLuong; // Tổng số lượng đã trả hàng
+                }
+            }
+
+            // Tính số lượng còn lại sau khi trừ đi số lượng trả hàng
+            foreach (ChiTiet ct in chiTiets)
+            {
+                if (ct.VatLieu.MaVatLieu == vatLieu.MaVatLieu)
+                {
+                    chiTiet.SoLuong = ct.SoLuong - soLuongDaTra; // Số lượng còn lại
+                    break;
+                }
+            }
+
+            return chiTiet;
+        }
+
     }
 }
