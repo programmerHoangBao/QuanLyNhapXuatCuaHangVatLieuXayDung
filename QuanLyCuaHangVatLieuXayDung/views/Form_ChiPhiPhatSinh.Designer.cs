@@ -121,7 +121,7 @@
             this.panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelInput.Location = new System.Drawing.Point(0, 60);
             this.panelInput.Name = "panelInput";
-            this.panelInput.Size = new System.Drawing.Size(500, 656);
+            this.panelInput.Size = new System.Drawing.Size(500, 388);
             this.panelInput.TabIndex = 2;
             // 
             // dtpThoiGianLap
@@ -221,9 +221,9 @@
             this.panelButton.Controls.Add(this.btnUpdateVatLieu);
             this.panelButton.Controls.Add(this.btnThem);
             this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButton.Location = new System.Drawing.Point(0, 716);
+            this.panelButton.Location = new System.Drawing.Point(0, 448);
             this.panelButton.Name = "panelButton";
-            this.panelButton.Size = new System.Drawing.Size(500, 172);
+            this.panelButton.Size = new System.Drawing.Size(500, 440);
             this.panelButton.TabIndex = 1;
             // 
             // btnRefresh

@@ -150,7 +150,7 @@ CREATE TABLE ChiTietHoaDon(
 	DonVi NVARCHAR(15) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NgayNhap DATE DEFAULT GETDATE() NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NhaCungCap CHAR(10),	/*đảm bảo tính toàn vẹn dữ liệu*/
-	DirHinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
+	DirHinhAnh NVARCHAR(250),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT FK_ChiTietHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon) 
 		ON DELETE CASCADE,
 	CONSTRAINT FK_VatLieuGiaoDich FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
@@ -202,7 +202,7 @@ CREATE TABLE ChiTietTraHang(
 	DonVi NVARCHAR(15) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NgayNhap DATE DEFAULT GETDATE() NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	NhaCungCap CHAR(10),	/*đảm bảo tính toàn vẹn dữ liệu*/
-	DirHinhAnh NVARCHAR(250) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
+	DirHinhAnh NVARCHAR(250),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT FK_MaPhieuTraHang FOREIGN KEY (MaPhieuTraHang) REFERENCES PhieuTraHang(MaPhieu) 
 		ON DELETE CASCADE,
 	CONSTRAINT FK_VatLieuTraHang FOREIGN KEY (MaVatLieu) REFERENCES VatLieu(MaVatLieu)
@@ -339,7 +339,7 @@ CREATE TABLE BangChamCong(
 	ThoiGianChamCong DATETIME DEFAULT GETDATE() PRIMARY KEY,
 	MaNhanVien CHAR(10) NULL,
 	TenNhanVien NVARCHAR(100) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
-	SoDienThoai CHAR(10) UNIQUE NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
+	SoDienThoai CHAR(10) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	DiaChi NVARCHAR(250),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	Email NVARCHAR(100),	/*đảm bảo tính toàn vẹn dữ liệu*/
 	LuongTrenNgay DECIMAL(18, 2) DEFAULT 250000 NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/

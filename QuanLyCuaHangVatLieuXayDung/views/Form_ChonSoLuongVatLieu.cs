@@ -106,17 +106,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         {
             this.txtSoLuong.Text = soLuong.ToString();
         }
-        public bool checkSoLuongVatLieuCuaHoaDonXuat()
-        {
-            if (this.loaiHoaDon == 1)
-            {
-                if (this.vatLieu.SoLuong >= this.GetSoLuong())
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
         private void txtSoLuong_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Cho phép điều khiển (backspace, delete, ...)
@@ -143,7 +132,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 MessageBox.Show("Giá trị không hợp lệ! Vui lòng nhập số thực.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.txtSoLuong.Focus();
             }
-            else if (!this.checkSoLuongVatLieuCuaHoaDonXuat())
+            else if (loaiHoaDon == 1 && double.Parse(this.txtSoLuong.Text.Trim()) > this.vatLieu.SoLuong)
             {
                 this.txtSoLuong.Text = this.vatLieu.SoLuong.ToString();
             }
