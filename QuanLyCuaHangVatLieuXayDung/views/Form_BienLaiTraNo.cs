@@ -53,7 +53,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 if (bienLaiTraNos == null || !bienLaiTraNos.Any())
                 {
                     dataGridView1.Rows.Clear();
-                    MessageBox.Show("Không có dữ liệu biên lai trả nợ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
                     return;
                 }
 
