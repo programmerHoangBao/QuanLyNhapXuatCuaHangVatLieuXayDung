@@ -305,7 +305,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 string.IsNullOrWhiteSpace(txtSoDienThoai.Text) ||
                 string.IsNullOrWhiteSpace(txtDiaChi.Text) ||
                 string.IsNullOrWhiteSpace(comboBoxVaiTro.Text) ||
-                string.IsNullOrWhiteSpace(txtEmail.Text) ||
                 string.IsNullOrWhiteSpace(txtLuongTrenNgay.Text))
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);

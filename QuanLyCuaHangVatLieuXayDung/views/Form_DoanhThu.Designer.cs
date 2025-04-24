@@ -274,7 +274,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1332, 844);
+            this.ClientSize = new System.Drawing.Size(1332, 1033);
             this.Controls.Add(this.panelMetrics);
             this.Controls.Add(this.chartDoanhThu);
             this.Controls.Add(this.lblTongTienThanhToan);
