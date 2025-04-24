@@ -9,6 +9,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
     internal abstract class PhieuGhiNo
     {
         protected string maPhieu;
+        protected string maHoaDon;
         protected DateTime thoiGianLap;
         protected DateTime thoiGianTra;
         protected double tienNo;
@@ -29,6 +30,7 @@ namespace QuanLyCuaHangVatLieuXayDung.model
             this.hoaDon = hoaDon;
         }
         public string MaPhieu { get => maPhieu; set => maPhieu = value; }
+        public string MaHoaDon { get => maHoaDon; set => maHoaDon = value; }
         public DateTime ThoiGianLap { get => thoiGianLap; set => thoiGianLap = value; }
         public DateTime ThoiGianTra { get => thoiGianTra; set => thoiGianTra = value; }
         public double TienNo { get => tienNo; set => tienNo = value; }

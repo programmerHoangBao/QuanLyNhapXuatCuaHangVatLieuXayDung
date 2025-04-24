@@ -184,12 +184,12 @@
             this.panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelInput.Location = new System.Drawing.Point(0, 60);
             this.panelInput.Name = "panelInput";
-            this.panelInput.Size = new System.Drawing.Size(498, 630);
+            this.panelInput.Size = new System.Drawing.Size(498, 608);
             this.panelInput.TabIndex = 2;
             // 
             // btnUploadImage
             // 
-            this.btnUploadImage.Location = new System.Drawing.Point(107, 584);
+            this.btnUploadImage.Location = new System.Drawing.Point(128, 562);
             this.btnUploadImage.Name = "btnUploadImage";
             this.btnUploadImage.Size = new System.Drawing.Size(300, 40);
             this.btnUploadImage.TabIndex = 17;
@@ -201,7 +201,7 @@
             // 
             this.pictureBoxImageQR.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.pictureBoxImageQR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxImageQR.Location = new System.Drawing.Point(107, 377);
+            this.pictureBoxImageQR.Location = new System.Drawing.Point(128, 355);
             this.pictureBoxImageQR.Name = "pictureBoxImageQR";
             this.pictureBoxImageQR.Size = new System.Drawing.Size(300, 200);
             this.pictureBoxImageQR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -210,7 +210,7 @@
             // 
             // txtSoTK
             // 
-            this.txtSoTK.Location = new System.Drawing.Point(165, 325);
+            this.txtSoTK.Location = new System.Drawing.Point(165, 312);
             this.txtSoTK.Name = "txtSoTK";
             this.txtSoTK.Size = new System.Drawing.Size(300, 37);
             this.txtSoTK.TabIndex = 15;
@@ -219,7 +219,7 @@
             // labelSoTK
             // 
             this.labelSoTK.AutoSize = true;
-            this.labelSoTK.Location = new System.Drawing.Point(13, 328);
+            this.labelSoTK.Location = new System.Drawing.Point(13, 315);
             this.labelSoTK.Name = "labelSoTK";
             this.labelSoTK.Size = new System.Drawing.Size(88, 29);
             this.labelSoTK.TabIndex = 14;
@@ -279,7 +279,7 @@
             "VCBNeo",
             "HLBVN",
             "PGBank"});
-            this.comboBoxNganHang.Location = new System.Drawing.Point(165, 282);
+            this.comboBoxNganHang.Location = new System.Drawing.Point(165, 269);
             this.comboBoxNganHang.Name = "comboBoxNganHang";
             this.comboBoxNganHang.Size = new System.Drawing.Size(300, 37);
             this.comboBoxNganHang.TabIndex = 13;
@@ -287,7 +287,7 @@
             // labelNganHang
             // 
             this.labelNganHang.AutoSize = true;
-            this.labelNganHang.Location = new System.Drawing.Point(13, 282);
+            this.labelNganHang.Location = new System.Drawing.Point(13, 269);
             this.labelNganHang.Name = "labelNganHang";
             this.labelNganHang.Size = new System.Drawing.Size(132, 29);
             this.labelNganHang.TabIndex = 12;
@@ -295,7 +295,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(169, 239);
+            this.txtEmail.Location = new System.Drawing.Point(169, 226);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(300, 37);
             this.txtEmail.TabIndex = 11;
@@ -303,7 +303,7 @@
             // labelEmail
             // 
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(17, 242);
+            this.labelEmail.Location = new System.Drawing.Point(17, 229);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(79, 29);
             this.labelEmail.TabIndex = 10;
@@ -311,7 +311,7 @@
             // 
             // txtDiaChi
             // 
-            this.txtDiaChi.Location = new System.Drawing.Point(169, 147);
+            this.txtDiaChi.Location = new System.Drawing.Point(169, 134);
             this.txtDiaChi.Multiline = true;
             this.txtDiaChi.Name = "txtDiaChi";
             this.txtDiaChi.Size = new System.Drawing.Size(300, 86);
@@ -320,7 +320,7 @@
             // labelDiaChi
             // 
             this.labelDiaChi.AutoSize = true;
-            this.labelDiaChi.Location = new System.Drawing.Point(17, 147);
+            this.labelDiaChi.Location = new System.Drawing.Point(17, 134);
             this.labelDiaChi.Name = "labelDiaChi";
             this.labelDiaChi.Size = new System.Drawing.Size(94, 29);
             this.labelDiaChi.TabIndex = 8;
@@ -328,7 +328,7 @@
             // 
             // txtSoDienThoai
             // 
-            this.txtSoDienThoai.Location = new System.Drawing.Point(169, 104);
+            this.txtSoDienThoai.Location = new System.Drawing.Point(169, 91);
             this.txtSoDienThoai.Name = "txtSoDienThoai";
             this.txtSoDienThoai.Size = new System.Drawing.Size(300, 37);
             this.txtSoDienThoai.TabIndex = 7;
@@ -337,7 +337,7 @@
             // labelSDT
             // 
             this.labelSDT.AutoSize = true;
-            this.labelSDT.Location = new System.Drawing.Point(17, 107);
+            this.labelSDT.Location = new System.Drawing.Point(17, 94);
             this.labelSDT.Name = "labelSDT";
             this.labelSDT.Size = new System.Drawing.Size(155, 29);
             this.labelSDT.TabIndex = 6;
@@ -345,7 +345,7 @@
             // 
             // txtTenDoiTac
             // 
-            this.txtTenDoiTac.Location = new System.Drawing.Point(169, 61);
+            this.txtTenDoiTac.Location = new System.Drawing.Point(169, 48);
             this.txtTenDoiTac.Name = "txtTenDoiTac";
             this.txtTenDoiTac.Size = new System.Drawing.Size(300, 37);
             this.txtTenDoiTac.TabIndex = 5;
@@ -353,7 +353,7 @@
             // labelTenDoiTac
             // 
             this.labelTenDoiTac.AutoSize = true;
-            this.labelTenDoiTac.Location = new System.Drawing.Point(17, 64);
+            this.labelTenDoiTac.Location = new System.Drawing.Point(17, 51);
             this.labelTenDoiTac.Name = "labelTenDoiTac";
             this.labelTenDoiTac.Size = new System.Drawing.Size(137, 29);
             this.labelTenDoiTac.TabIndex = 4;
@@ -361,7 +361,7 @@
             // 
             // txtMaDoiTac
             // 
-            this.txtMaDoiTac.Location = new System.Drawing.Point(169, 18);
+            this.txtMaDoiTac.Location = new System.Drawing.Point(169, 5);
             this.txtMaDoiTac.Name = "txtMaDoiTac";
             this.txtMaDoiTac.Size = new System.Drawing.Size(300, 37);
             this.txtMaDoiTac.TabIndex = 3;
@@ -369,7 +369,7 @@
             // lableMaDoiTac
             // 
             this.lableMaDoiTac.AutoSize = true;
-            this.lableMaDoiTac.Location = new System.Drawing.Point(17, 21);
+            this.lableMaDoiTac.Location = new System.Drawing.Point(17, 8);
             this.lableMaDoiTac.Name = "lableMaDoiTac";
             this.lableMaDoiTac.Size = new System.Drawing.Size(131, 29);
             this.lableMaDoiTac.TabIndex = 2;
@@ -382,9 +382,9 @@
             this.panelButton.Controls.Add(this.btnUpdateDoiTac);
             this.panelButton.Controls.Add(this.btnThemDoiTac);
             this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButton.Location = new System.Drawing.Point(0, 690);
+            this.panelButton.Location = new System.Drawing.Point(0, 668);
             this.panelButton.Name = "panelButton";
-            this.panelButton.Size = new System.Drawing.Size(498, 196);
+            this.panelButton.Size = new System.Drawing.Size(498, 218);
             this.panelButton.TabIndex = 1;
             // 
             // btnRefresh
