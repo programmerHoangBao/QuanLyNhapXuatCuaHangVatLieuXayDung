@@ -382,23 +382,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
         }
 
-        private void btnThemVatLieu_Click(object sender, EventArgs e)
-        {
-            VatLieu vatLieuNew = this.CreateVatLieuInput();
-            if (vatLieuNew != null)
-            {
-                if (this.vatLieuService.insertVatLieu(vatLieuNew))
-                {
-                    MessageBox.Show("Thêm vật liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.resetForm();
-                }
-                else
-                {
-                    MessageBox.Show("Thêm vật liệu thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.fileUtility.DeleteFolder(vatLieuNew.DirHinhAnh);
-                }
-            }
-        }
+        
 
         private void btnUpdateVatLieu_Click(object sender, EventArgs e)
         {
@@ -438,6 +422,24 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             this.resetForm();
+        }
+
+        private void btnThemVatLieu_Click_1(object sender, EventArgs e)
+        {
+            VatLieu vatLieuNew = this.CreateVatLieuInput();
+            if (vatLieuNew != null)
+            {
+                if (this.vatLieuService.insertVatLieu(vatLieuNew))
+                {
+                    MessageBox.Show("Thêm vật liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.resetForm();
+                }
+                else
+                {
+                    MessageBox.Show("Thêm vật liệu thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.fileUtility.DeleteFolder(vatLieuNew.DirHinhAnh);
+                }
+            }
         }
     }
 }

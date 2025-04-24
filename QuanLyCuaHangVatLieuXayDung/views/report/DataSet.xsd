@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet" targetNamespace="http://tempuri.org/DataSetChiTietHoaDon.xsd" xmlns:mstns="http://tempuri.org/DataSetChiTietHoaDon.xsd" xmlns="http://tempuri.org/DataSetChiTietHoaDon.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSet" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ChiTietHoaDon" msprop:Generator_RowEvHandlerName="ChiTietHoaDonRowChangeEventHandler" msprop:Generator_RowDeletedName="ChiTietHoaDonRowDeleted" msprop:Generator_RowDeletingName="ChiTietHoaDonRowDeleting" msprop:Generator_RowEvArgName="ChiTietHoaDonRowChangeEvent" msprop:Generator_TablePropName="ChiTietHoaDon" msprop:Generator_RowChangedName="ChiTietHoaDonRowChanged" msprop:Generator_UserTableName="ChiTietHoaDon" msprop:Generator_RowChangingName="ChiTietHoaDonRowChanging" msprop:Generator_RowClassName="ChiTietHoaDonRow" msprop:Generator_TableClassName="ChiTietHoaDonDataTable" msprop:Generator_TableVarName="tableChiTietHoaDon">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Stt" msprop:Generator_ColumnPropNameInTable="SttColumn" msprop:Generator_ColumnPropNameInRow="Stt" msprop:Generator_UserColumnName="Stt" msprop:Generator_ColumnVarNameInTable="columnStt" type="xs:string" minOccurs="0" />
+              <xs:element name="MaVatlieu" msprop:Generator_ColumnPropNameInTable="MaVatlieuColumn" msprop:Generator_ColumnPropNameInRow="MaVatlieu" msprop:Generator_UserColumnName="MaVatlieu" msprop:Generator_ColumnVarNameInTable="columnMaVatlieu" type="xs:string" minOccurs="0" />
+              <xs:element name="TenVatLieu" msprop:Generator_ColumnPropNameInTable="TenVatLieuColumn" msprop:Generator_ColumnPropNameInRow="TenVatLieu" msprop:Generator_UserColumnName="TenVatLieu" msprop:Generator_ColumnVarNameInTable="columnTenVatLieu" type="xs:string" minOccurs="0" />
+              <xs:element name="Gia" msprop:Generator_ColumnPropNameInTable="GiaColumn" msprop:Generator_ColumnPropNameInRow="Gia" msprop:Generator_UserColumnName="Gia" msprop:Generator_ColumnVarNameInTable="columnGia" type="xs:string" minOccurs="0" />
+              <xs:element name="DonVi" msprop:Generator_ColumnPropNameInTable="DonViColumn" msprop:Generator_ColumnPropNameInRow="DonVi" msprop:Generator_UserColumnName="DonVi" msprop:Generator_ColumnVarNameInTable="columnDonVi" type="xs:string" minOccurs="0" />
+              <xs:element name="SoLuong" msprop:Generator_ColumnPropNameInTable="SoLuongColumn" msprop:Generator_ColumnPropNameInRow="SoLuong" msprop:Generator_UserColumnName="SoLuong" msprop:Generator_ColumnVarNameInTable="columnSoLuong" type="xs:string" minOccurs="0" />
+              <xs:element name="TongTien" msprop:Generator_ColumnPropNameInTable="TongTienColumn" msprop:Generator_ColumnPropNameInRow="TongTien" msprop:Generator_UserColumnName="TongTien" msprop:Generator_ColumnVarNameInTable="columnTongTien" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Image" msprop:Generator_RowClassName="ImageRow" msprop:Generator_RowEvHandlerName="ImageRowChangeEventHandler" msprop:Generator_RowDeletedName="ImageRowDeleted" msprop:Generator_RowDeletingName="ImageRowDeleting" msprop:Generator_RowEvArgName="ImageRowChangeEvent" msprop:Generator_TablePropName="Image" msprop:Generator_RowChangedName="ImageRowChanged" msprop:Generator_UserTableName="Image" msprop:Generator_RowChangingName="ImageRowChanging" msprop:Generator_TableClassName="ImageDataTable" msprop:Generator_TableVarName="tableImage">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ImagePath" msprop:Generator_UserColumnName="ImagePath" msprop:Generator_ColumnPropNameInTable="ImagePathColumn" msprop:Generator_ColumnPropNameInRow="ImagePath" msprop:Generator_ColumnVarNameInTable="columnImagePath" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

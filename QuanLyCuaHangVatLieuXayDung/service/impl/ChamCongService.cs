@@ -20,7 +20,10 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 transaction = this.myDatabase.Connection.BeginTransaction();
 
                 SqlCommand command = new SqlCommand(
-                    "INSERT INTO BANG_CHAM_CONG (MaNV, ThoiGianChamCong) VALUES (@MaNV, @ThoiGian)",
+                    @"INSERT INTO BangChamCong (MaNhanVien, TenNhanVien, SoDienThoai, DiaChi, Email, LuongTrenNgay, ThoiGianChamCong)
+                      SELECT MaNhanVien, Ten, SoDienThoai, DiaChi, Email, LuongTrenNgay, @ThoiGian
+                      FROM NhanVien
+                      WHERE MaNhanVien = @MaNV",
                     this.myDatabase.Connection, transaction);
 
                 command.Parameters.AddWithValue("@MaNV", maNV);
@@ -66,7 +69,10 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.OpenConnection();
 
                 SqlCommand command = new SqlCommand(
-                    "SELECT COUNT(*) FROM BANG_CHAM_CONG WHERE MaNV = @MaNV AND MONTH(ThoiGianChamCong) = @Thang AND YEAR(ThoiGianChamCong) = @Nam",
+                    @"SELECT COUNT(*) FROM BangChamCong 
+                      WHERE MaNhanVien = @MaNV 
+                        AND MONTH(ThoiGianChamCong) = @Thang 
+                        AND YEAR(ThoiGianChamCong) = @Nam",
                     this.myDatabase.Connection);
 
                 command.Parameters.AddWithValue("@MaNV", maNV);
@@ -98,7 +104,9 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.OpenConnection();
 
                 SqlCommand command = new SqlCommand(
-                    "SELECT COUNT(*) FROM BANG_CHAM_CONG WHERE MaNV = @MaNV AND YEAR(ThoiGianChamCong) = @Nam",
+                    @"SELECT COUNT(*) FROM BangChamCong 
+                      WHERE MaNhanVien = @MaNV 
+                        AND YEAR(ThoiGianChamCong) = @Nam",
                     this.myDatabase.Connection);
 
                 command.Parameters.AddWithValue("@MaNV", maNV);
@@ -120,7 +128,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return result;
         }
 
-        private int GetSoNgayCong(string maNV)
+        public int GetSoNgayCong(string maNV)
         {
             int result = 0;
 
@@ -129,7 +137,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.OpenConnection();
 
                 SqlCommand command = new SqlCommand(
-                    "SELECT COUNT(*) FROM BANG_CHAM_CONG WHERE MaNV = @MaNV",
+                    "SELECT COUNT(*) FROM BangChamCong WHERE MaNhanVien = @MaNV",
                     this.myDatabase.Connection);
 
                 command.Parameters.AddWithValue("@MaNV", maNV);
@@ -147,16 +155,14 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             return result;
         }
 
-        private double LayLuongTrenNgay(string maNV)
+        public double LayLuongTrenNgay(string maNV)
         {
             double result = 0;
 
             try
             {
-                this.myDatabase.OpenConnection();
-
                 SqlCommand command = new SqlCommand(
-                    "SELECT LuongTrenNgay FROM NHAN_VIEN WHERE MaNV = @MaNV",
+                    "SELECT LuongTrenNgay FROM NhanVien WHERE MaNhanVien = @MaNV",
                     this.myDatabase.Connection);
 
                 command.Parameters.AddWithValue("@MaNV", maNV);
@@ -167,6 +173,76 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             {
                 MessageBox.Show("Lỗi lấy lương trên ngày: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
+
+            return result;
+        }
+
+        public int TinhSoNgayNghi(string maNV, int thang, int nam)
+        {
+            int ngayDiLam = 0;
+
+            try
+            {
+                this.myDatabase.OpenConnection();
+
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT COUNT(*) 
+              FROM BangChamCong 
+              WHERE MaNhanVien = @ma 
+                AND MONTH(ThoiGianChamCong) = @thang 
+                AND YEAR(ThoiGianChamCong) = @nam
+                AND DAY(ThoiGianChamCong) <= @homNay",
+                    myDatabase.Connection);
+
+                cmd.Parameters.AddWithValue("@ma", maNV);
+                cmd.Parameters.AddWithValue("@thang", thang);
+                cmd.Parameters.AddWithValue("@nam", nam);
+                cmd.Parameters.AddWithValue("@homNay", DateTime.Now.Day); // Giới hạn tới ngày hiện tại
+
+                ngayDiLam = (int)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tính ngày nghỉ: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+
+            // Tổng số ngày từ đầu tháng đến hôm nay
+            int ngayHienTai = DateTime.Now.Day;
+
+            int ngayNghi = ngayHienTai - ngayDiLam;
+            return Math.Max(ngayNghi, 0);
+        }
+
+
+        public bool DaChamCongHomNay(string maNhanVien)
+        {
+            bool result = false;
+
+            try
+            {
+                this.myDatabase.OpenConnection();
+
+                SqlCommand command = new SqlCommand(
+                    @"SELECT COUNT(*) FROM BangChamCong 
+                      WHERE MaNhanVien = @MaNV 
+                      AND CONVERT(date, ThoiGianChamCong) = CONVERT(date, SYSDATETIME())",
+                    this.myDatabase.Connection);
+
+
+                command.Parameters.AddWithValue("@MaNV", maNhanVien);
+
+                int count = (int)command.ExecuteScalar();
+                result = count > 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi kiểm tra chấm công hôm nay: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             finally
             {
                 this.myDatabase.CloseConnection();
@@ -174,5 +250,36 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
 
             return result;
         }
+
+        public bool XoaChamCongHomNay(string maNhanVien)
+        {
+            try
+            {
+                this.myDatabase.OpenConnection();
+
+                SqlCommand command = new SqlCommand(
+                    @"DELETE FROM BangChamCong 
+              WHERE MaNhanVien = @MaNV 
+              AND CAST(ThoiGianChamCong AS DATE) = CAST(GETDATE() AS DATE)",
+                    this.myDatabase.Connection);
+
+                command.Parameters.AddWithValue("@MaNV", maNhanVien);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa chấm công: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                this.myDatabase.CloseConnection();
+            }
+        }
+
+
+
     }
 }

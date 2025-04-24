@@ -257,7 +257,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
             }
             return hoaDons;
         }
-
         public HoaDon findByMaHoaDon(string maHoaDon)
         {
             string query = "SELECT * FROM HoaDon WHERE MaHoaDon = @MaHoaDon";

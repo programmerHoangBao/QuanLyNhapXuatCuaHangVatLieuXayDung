@@ -5,17 +5,12 @@ namespace QuanLyCuaHangVatLieuXayDung.model
 {
     internal class PhieuTraHangTuKhachHang : PhieuTraHang
     {
-        private HoaDonXuat hoaDonXuat;
-
         public PhieuTraHangTuKhachHang()
         {
         }
-
-        public PhieuTraHangTuKhachHang(string maPhieu, DateTime thoiGianLap,string maHoaDon, string lyDo,
-            double tongTien, List<ChiTiet> chiTiets, HoaDonXuat hoaDonXuat)
-            : base(maPhieu, thoiGianLap,maHoaDon, lyDo, tongTien, chiTiets)
+        public PhieuTraHangTuKhachHang(string maPhieu, DateTime thoiGianLap, HoaDon hoaDon, string lyDo,
+            double tongTien, List<ChiTiet> chiTiets) : base(maPhieu, thoiGianLap, hoaDon, lyDo, tongTien, chiTiets)
         {
-            this.hoaDonXuat = hoaDonXuat;
         }
 
         public override string loaiPhieu_toString()
@@ -26,12 +21,6 @@ namespace QuanLyCuaHangVatLieuXayDung.model
         public override byte loaiPhieu_toByte()
         {
             return 1;
-        }
-
-        internal HoaDonXuat HoaDonXuat
-        {
-            get => hoaDonXuat;
-            set => hoaDonXuat = value;
         }
     }
 }

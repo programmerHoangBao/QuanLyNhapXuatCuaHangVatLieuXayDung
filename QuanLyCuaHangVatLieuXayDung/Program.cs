@@ -21,8 +21,7 @@ namespace QuanLyCuaHangVatLieuXayDung
             //form.SetUp();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_TrangChu());
+            Application.Run(new Form_DangNhap());
         }
     }
 }
-    

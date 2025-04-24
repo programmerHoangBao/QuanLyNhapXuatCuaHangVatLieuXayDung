@@ -18,6 +18,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     public partial class Form_DangNhap : Form
     {
         private TaiKhoanService taiKhoanService = new TaiKhoanService();
+        private FileUtility fileUtility = new FileUtility();
         private bool isPasswordVisible = false;
         public Form_DangNhap()
         {
@@ -26,25 +27,18 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         private void Form_DangNhap_Load(object sender, EventArgs e)
         {
             TaiKhoan taiKhoan = this.GetTaiKhoan();
+            this.checkBoxghiNho.Checked = true;
             if (taiKhoan != null)
             {
                 this.textBoxtenDN.Text = taiKhoan.TenDangNhap;
                 this.textBoxmatKhau.Text = taiKhoan.MatKhau;
             }
         }
-        private void writeFileToJson(TaiKhoan taiKhoan)
-        {
-            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string dirTempTrue = Path.Combine(projectDirectory, "temp", "taikhoan", "true", "taikhoan.json");
-            string dirTempFalse = Path.Combine(projectDirectory, "temp", "taikhoan", "false", "taikhoan.json");
-            new FileUtility().WriteObjectJsonFile(taiKhoan, dirTempTrue);
-            new FileUtility().WriteObjectJsonFile(taiKhoan, dirTempFalse);
-        }
         private TaiKhoan GetTaiKhoan()
         {
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             string dirTempFalse = Path.Combine(projectDirectory, "temp", "taikhoan", "true", "taikhoan.json");
-            List<TaiKhoan> taiKhoans = new FileUtility().ReadObjectsFromJsonFile<TaiKhoan>(dirTempFalse);
+            List<TaiKhoan> taiKhoans = this.fileUtility.ReadObjectsFromJsonFile<TaiKhoan>(dirTempFalse);
             if (taiKhoans.Count > 0)
             {
                 return taiKhoans[0];
@@ -58,9 +52,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         {
             {
                 isPasswordVisible = !isPasswordVisible;
-                textBoxmatKhau.UseSystemPasswordChar = !isPasswordVisible;
-
-                
+                textBoxmatKhau.UseSystemPasswordChar = !isPasswordVisible;   
             }
 
         }
@@ -78,28 +70,20 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             string password = textBoxmatKhau.Text;
             TaiKhoan tk = taiKhoanService.login(username, password);
 
-            TaiKhoan taiKhoan = taiKhoanService.login(username, password);
-
             if (tk != null && tk.MatKhau == matKhau)
             {
+                string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+                string taiKhoanJsonFalse = Path.Combine(projectDirectory, "temp", "taikhoan", "false", "taikhoan.json");
+                this.fileUtility.WriteObjectJsonFile(tk, taiKhoanJsonFalse);
                 // Ghi nhớ nếu checkbox được chọn
                 if (checkBoxghiNho.Checked)
                 {
-                    Properties.Settings.Default.TenDangNhap = tenDangNhap;
-                    Properties.Settings.Default.MatKhau = matKhau;
-                    Properties.Settings.Default.Save();
-                }
-                else
-                {
-                    Properties.Settings.Default.TenDangNhap = "";
-                    Properties.Settings.Default.MatKhau = "";
-                    Properties.Settings.Default.Save();
+                    string taiKhoanJsonTrue = Path.Combine(projectDirectory, "temp", "taikhoan", "true", "taikhoan.json");
+                    this.fileUtility.WriteObjectJsonFile(tk, taiKhoanJsonTrue);
                 }
 
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                //Thưc hiện ghi file
-                writeFileToJson(tk);
                 // Ẩn form login, mở form chính
                 this.Hide();
                 new Form_TrangChu().ShowDialog(); // form chính

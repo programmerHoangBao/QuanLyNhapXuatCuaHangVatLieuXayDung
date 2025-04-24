@@ -38,13 +38,14 @@
             this.panelPhieuTraHang = new System.Windows.Forms.Panel();
             this.panelInput = new System.Windows.Forms.Panel();
             this.panelChiTiet = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewChiTiet = new System.Windows.Forms.DataGridView();
             this.STT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MaVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Gia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DonVi = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TongTienVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelTongTien = new System.Windows.Forms.Panel();
             this.labelTongTienTraHang = new System.Windows.Forms.Label();
             this.labelTongTienHoaDon = new System.Windows.Forms.Label();
@@ -69,14 +70,13 @@
             this.ThoiGianLap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LyDo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TongTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TongTienVatLieu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelTop.SuspendLayout();
             this.panelTimKiem.SuspendLayout();
             this.panelRadioButton.SuspendLayout();
             this.panelPhieuTraHang.SuspendLayout();
             this.panelInput.SuspendLayout();
             this.panelChiTiet.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewChiTiet)).BeginInit();
             this.panelTongTien.SuspendLayout();
             this.panelMa.SuspendLayout();
             this.panelButton.SuspendLayout();
@@ -121,6 +121,7 @@
             this.btnTimKiem.TabIndex = 26;
             this.btnTimKiem.Text = "Tìm kiếm";
             this.btnTimKiem.UseVisualStyleBackColor = false;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // panelRadioButton
             // 
@@ -142,6 +143,7 @@
             this.radioButtonTraHangChoNCC.TabStop = true;
             this.radioButtonTraHangChoNCC.Text = "Trả hàng cho nhà cung cấp";
             this.radioButtonTraHangChoNCC.UseVisualStyleBackColor = true;
+            this.radioButtonTraHangChoNCC.CheckedChanged += new System.EventHandler(this.radioButtonTraHangChoNCC_CheckedChanged);
             // 
             // radioButtonTraHangTuKhach
             // 
@@ -153,6 +155,7 @@
             this.radioButtonTraHangTuKhach.TabStop = true;
             this.radioButtonTraHangTuKhach.Text = "Trả hàng từ khách";
             this.radioButtonTraHangTuKhach.UseVisualStyleBackColor = true;
+            this.radioButtonTraHangTuKhach.CheckedChanged += new System.EventHandler(this.radioButtonTraHangTuKhach_CheckedChanged);
             // 
             // panelPhieuTraHang
             // 
@@ -179,18 +182,18 @@
             // 
             // panelChiTiet
             // 
-            this.panelChiTiet.Controls.Add(this.dataGridView1);
+            this.panelChiTiet.Controls.Add(this.dataGridViewChiTiet);
             this.panelChiTiet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelChiTiet.Location = new System.Drawing.Point(0, 293);
             this.panelChiTiet.Name = "panelChiTiet";
             this.panelChiTiet.Size = new System.Drawing.Size(700, 242);
             this.panelChiTiet.TabIndex = 5;
             // 
-            // dataGridView1
+            // dataGridViewChiTiet
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewChiTiet.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewChiTiet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewChiTiet.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.STT,
             this.MaVatLieu,
             this.TenVatLieu,
@@ -198,14 +201,16 @@
             this.DonVi,
             this.SoLuong,
             this.TongTienVatLieu});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(700, 242);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridViewChiTiet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewChiTiet.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewChiTiet.Name = "dataGridViewChiTiet";
+            this.dataGridViewChiTiet.RowHeadersVisible = false;
+            this.dataGridViewChiTiet.RowHeadersWidth = 62;
+            this.dataGridViewChiTiet.RowTemplate.Height = 28;
+            this.dataGridViewChiTiet.Size = new System.Drawing.Size(700, 242);
+            this.dataGridViewChiTiet.TabIndex = 0;
+            this.dataGridViewChiTiet.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewChiTiet_CellContentClick);
+            this.dataGridViewChiTiet.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridViewChiTiet_RowsAdded);
             // 
             // STT
             // 
@@ -242,6 +247,12 @@
             this.SoLuong.HeaderText = "Số lượng";
             this.SoLuong.MinimumWidth = 8;
             this.SoLuong.Name = "SoLuong";
+            // 
+            // TongTienVatLieu
+            // 
+            this.TongTienVatLieu.HeaderText = "Tổng tiền";
+            this.TongTienVatLieu.MinimumWidth = 8;
+            this.TongTienVatLieu.Name = "TongTienVatLieu";
             // 
             // panelTongTien
             // 
@@ -302,6 +313,7 @@
             this.comboBoxMaHoaDon.Name = "comboBoxMaHoaDon";
             this.comboBoxMaHoaDon.Size = new System.Drawing.Size(389, 37);
             this.comboBoxMaHoaDon.TabIndex = 2;
+            this.comboBoxMaHoaDon.SelectedIndexChanged += new System.EventHandler(this.comboBoxMaHoaDon_SelectedIndexChanged);
             // 
             // labelMaphieu
             // 
@@ -373,6 +385,7 @@
             this.btnRefresh.TabIndex = 6;
             this.btnRefresh.Text = "Làm mới";
             this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnXuatPhieu
             // 
@@ -383,6 +396,7 @@
             this.btnXuatPhieu.TabIndex = 6;
             this.btnXuatPhieu.Text = "Xuất phiếu";
             this.btnXuatPhieu.UseVisualStyleBackColor = false;
+            this.btnXuatPhieu.Click += new System.EventHandler(this.btnXuatPhieu_Click);
             // 
             // panelTitle
             // 
@@ -432,6 +446,7 @@
             this.dataGridViewShowPhieuTraHang.RowTemplate.Height = 28;
             this.dataGridViewShowPhieuTraHang.Size = new System.Drawing.Size(626, 888);
             this.dataGridViewShowPhieuTraHang.TabIndex = 0;
+            this.dataGridViewShowPhieuTraHang.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewShowPhieuTraHang_CellContentClick);
             // 
             // MaPhieuTraHang
             // 
@@ -463,12 +478,6 @@
             this.TongTien.MinimumWidth = 8;
             this.TongTien.Name = "TongTien";
             // 
-            // TongTienVatLieu
-            // 
-            this.TongTienVatLieu.HeaderText = "Tổng tiền";
-            this.TongTienVatLieu.MinimumWidth = 8;
-            this.TongTienVatLieu.Name = "TongTienVatLieu";
-            // 
             // Form_TraHang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
@@ -481,6 +490,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "Form_TraHang";
             this.Text = "Form_TraHang";
+            this.Load += new System.EventHandler(this.Form_TraHang_Load);
             this.panelTop.ResumeLayout(false);
             this.panelTimKiem.ResumeLayout(false);
             this.panelTimKiem.PerformLayout();
@@ -489,7 +499,7 @@
             this.panelPhieuTraHang.ResumeLayout(false);
             this.panelInput.ResumeLayout(false);
             this.panelChiTiet.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewChiTiet)).EndInit();
             this.panelTongTien.ResumeLayout(false);
             this.panelTongTien.PerformLayout();
             this.panelMa.ResumeLayout(false);
@@ -530,7 +540,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn LyDo;
         private System.Windows.Forms.DataGridViewTextBoxColumn TongTien;
         private System.Windows.Forms.Panel panelChiTiet;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewChiTiet;
         private System.Windows.Forms.DataGridViewTextBoxColumn STT;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaVatLieu;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenVatLieu;

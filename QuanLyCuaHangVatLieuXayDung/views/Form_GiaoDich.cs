@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,7 +22,7 @@ namespace QuanLyCuaHangVatLieuXayDung.views
     {
         private IVatLieuService vatLieuService = new VatLieuService();
         private IHoaDonService hoaDonService = new HoaDonService();
-        private Form_ChonSoLuongVatLieu formChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+        private IPhieuGhiNoService phieuGhiNoService = new PhieuGhiNoService();
         private FileUtility fileUtility = new FileUtility();
         private StringUtility stringUtility = new StringUtility();
 
@@ -56,36 +58,49 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 userControl = new UserControlShowVatLieu();
                 userControl.VatLieu = vatLieu;
                 userControl.Size = new Size(200, 280);
-                if (this.radioButtonXuatHang.Checked && vatLieu.SoLuong > 0)
-                {
-                    userControl.ShowVatLieu(1);
-                }
-                else if (this.radioButtonNhapHang.Checked)
-                {
-                    userControl.ShowVatLieu(2);
-                }
+                //Thêm sự kiện click
                 if (userControl != null)
                 {
-                    this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
-                    this.formChonSoLuongVatLieu.VatLieu = userControl.VatLieu;
-                    userControl.btnTransactionClick += this.btnTransaction_Click;
-                    this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
+                    userControl.btnTransactionClick += (s, ev) =>
+                    {
+                        this.panelHoaDon.Show();
+                        this.btnAnHoaDon.Enabled = true;
+                        Form_ChonSoLuongVatLieu formChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                        formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
+                        formChonSoLuongVatLieu.VatLieu = vatLieu;
+                        formChonSoLuongVatLieu.ShowDialog();
+                        this.loadVatLieuInHoaDon();
+                    };
+                    if (this.radioButtonXuatHang.Checked && vatLieu.SoLuong > 0)
+                    {
+                        userControl.ShowVatLieu(1);
+                        this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
+                    }
+                    else if (this.radioButtonNhapHang.Checked)
+                    {
+                        userControl.ShowVatLieu(2);
+                        this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
+                    }
                 }
             }  
         }
         private List<ChiTiet> GetChiTetHoaDon()
         {
             string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = "";
+            List<ChiTiet> chiTiets = new List<ChiTiet>();
             if (this.radioButtonXuatHang.Checked)
             {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+                string chiTietPath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+                chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietPath);
             }
             else
             {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
+                string chiTietNhapCu = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapCu);
+                chiTiets.AddRange(this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi));
             }
-            return this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
+            return chiTiets;
         }
         private DoiTac GetDoiTac()
         {
@@ -142,19 +157,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.labelTongHoaDon.Text = "Tổng hóa đơn: " + this.stringUtility.ConvertToVietnameseCurrency(tongTienVatLieu + tienGiam) + "VNĐ";
             this.labelTienThanhToan.Text = "Tiền thanh toán: " + this.stringUtility.ConvertToVietnameseCurrency(double.Parse(this.txtTienThanhToan.Text.Trim())) + "VNĐ";
         }
-        private void loadVatLieuInHoaDon()
+        private void ShowChiTietHoaDon(List<ChiTiet> chiTiets)
         {
-            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
-            string filePath = "";
-            if (this.radioButtonXuatHang.Checked)
-            {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
-            }
-            else 
-            {
-                filePath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json");
-            }
-            List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(filePath);
             this.dataGridViewShowVatLieu.Rows.Clear();
             DataGridViewRow dataGridViewRow;
             foreach (ChiTiet chiTiet in chiTiets)
@@ -170,7 +174,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     gia = chiTiet.VatLieu.GiaNhap;
                 }
                 tongTien = gia * chiTiet.SoLuong;
-
                 dataGridViewRow = new DataGridViewRow();
                 dataGridViewRow.CreateCells(this.dataGridViewShowVatLieu);
                 dataGridViewRow.Cells[1].Value = chiTiet.VatLieu.MaVatLieu;
@@ -181,7 +184,26 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 dataGridViewRow.Cells[6].Value = tongTien;
                 this.dataGridViewShowVatLieu.Rows.Add(dataGridViewRow);
             }
-            this.SetCacGiaTriTienTe(chiTiets);
+        }
+        private void loadVatLieuInHoaDon()
+        {
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            if (this.radioButtonXuatHang.Checked)
+            {
+                string chiTietPath = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+                List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietPath);
+                this.ShowChiTietHoaDon(chiTiets);
+                this.SetCacGiaTriTienTe(chiTiets);
+            }
+            else 
+            {
+                string chiTietNhapCu = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+                string chiTietNhapMoi = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+                List<ChiTiet> chiTiets = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapCu);
+                chiTiets.AddRange(this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoi));
+                this.ShowChiTietHoaDon(chiTiets);
+                this.SetCacGiaTriTienTe(chiTiets);
+            }
         }
         private void loadDoiTacInHoaDon()
         {
@@ -210,14 +232,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
             }
         }
-        private void btnTransaction_Click(object sender, EventArgs e)
-        {
-            this.panelHoaDon.Show();
-            this.btnAnHoaDon.Enabled = true;
-            this.formChonSoLuongVatLieu.ShowDialog();
-            //Hiển thị vật liệu giao dịch trong hóa đơn
-            this.loadVatLieuInHoaDon();
-        }
         private void resetPanelHoaDon()
         {
             this.txtMaHoaDon.Text = new StringUtility().GenerateRandomString(10);
@@ -227,7 +241,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             this.comboBoxPhuongThucThanhToan.SelectedIndex = 0;
             this.txtTienThanhToan.Text = "0";
             this.txtTienGiam.Text = "0";
-            this.labelNoCu.Text = "Nợ cũ:";
             this.labelTongHoaDon.Text = "Tổng hóa đơn:";
             this.labelTienThanhToan.Text = "Tiền thanh toán:";
             this.dataGridViewShowVatLieu.Rows.Clear(); // Xóa tất cả các hàng trong DataGridView
@@ -287,20 +300,30 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
         private void dataGridViewShowVatLieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["MaVatLieu"].Value != null)
+            try
             {
-                string maVatLieu = this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["MaVatLieu"].Value.ToString();
-                float soLuong = float.Parse(this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells["SoLuong"].Value.ToString());
-                VatLieu vatLieu = this.vatLieuService.findByMaVatLieu(maVatLieu);
-                if (vatLieu != null)
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
-                    this.formChonSoLuongVatLieu.VatLieu = vatLieu;
-                    this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
-                    this.formChonSoLuongVatLieu.SetSoLuong(soLuong);
-                    this.formChonSoLuongVatLieu.ShowDialog();
-                    //Cập nhật lại danh sách vật liệu giao dịch trong hóa đơn
-                    this.loadVatLieuInHoaDon();
+                    string maVatLieu = this.dataGridViewShowVatLieu.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    List<ChiTiet> chiTiets = this.GetChiTetHoaDon();
+                    foreach (ChiTiet chiTiet in chiTiets)
+                    {
+                        if (chiTiet.VatLieu.MaVatLieu == maVatLieu)
+                        {
+                            Form_ChonSoLuongVatLieu form_ChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                            form_ChonSoLuongVatLieu.VatLieu = chiTiet.VatLieu;
+                            form_ChonSoLuongVatLieu.SetSoLuong(chiTiet.SoLuong);
+                            form_ChonSoLuongVatLieu.LoaiHoaDon = (this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2);
+                            form_ChonSoLuongVatLieu.ShowDialog();
+                            this.loadVatLieuInHoaDon();
+                            break;
+                        }
+                    }
                 }
+            }
+            catch
+            {
+                return;
             }
         }
 
@@ -386,9 +409,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 if (userControl != null)
                 {
-                    this.formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
-                    this.formChonSoLuongVatLieu.VatLieu = userControl.VatLieu;
-                    userControl.btnTransactionClick += this.btnTransaction_Click;
+
+                    userControl.btnTransactionClick += (s, ev) =>
+                    {
+                        this.panelHoaDon.Show();
+                        this.btnAnHoaDon.Enabled = true;
+                        Form_ChonSoLuongVatLieu formChonSoLuongVatLieu = new Form_ChonSoLuongVatLieu();
+                        formChonSoLuongVatLieu.LoaiHoaDon = this.radioButtonXuatHang.Checked ? (byte)1 : (byte)2;
+                        formChonSoLuongVatLieu.VatLieu = vatLieu;
+                        formChonSoLuongVatLieu.ShowDialog();
+                        this.loadVatLieuInHoaDon();
+                    };
                     this.flowLayoutPanelShowVatLieu.Controls.Add(userControl);
                 }
             }
@@ -459,7 +490,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             }
             this.labelTienThanhToan.Text = "Tiền thanh toán: " + this.stringUtility.ConvertToVietnameseCurrency(double.Parse(this.txtTienThanhToan.Text.Trim())) + "VNĐ";
         }
-
         private void btnXuatHoaDon_Click(object sender, EventArgs e)
         {
             string maHoaDon = this.txtMaHoaDon.Text.Trim();
@@ -471,10 +501,11 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             double soTienThanhToan = double.Parse(this.txtTienThanhToan.Text.Trim());
             DateTime thoiGianLap = DateTime.Now;
             HoaDon hoaDon = null;
+
             if (this.radioButtonXuatHang.Checked)
             {
                 hoaDon = new HoaDonXuat(
-                          maHoaDon, thoiGianLap, doiTac, diaChi, tienGiam, phuongThucThanhToan, soTienThanhToan, chiTiets       
+                          maHoaDon, thoiGianLap, doiTac, diaChi, tienGiam, phuongThucThanhToan, soTienThanhToan, chiTiets
                     );
             }
             else
@@ -483,20 +514,75 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                         maHoaDon, thoiGianLap, doiTac, diaChi, tienGiam, phuongThucThanhToan, soTienThanhToan, chiTiets
                     );
             }
+
+            // Lấy đường dẫn chi tiết hóa đơn xuất và nhập
+            string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string chiTietXuatJson = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonxuat.json");
+            string chiTietNhapCuJson  = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json");
+            string chiTietNhapMoiJson = Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json");
+
+            //Hóa đơn thực hiện thêm vật liệu mới
+            VatLieu vatLieu = null;
+            List<ChiTiet> chiTietNhapMois = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapMoiJson);
+            foreach (ChiTiet chiTiet in chiTietNhapMois)
+            {
+                vatLieu = chiTiet.VatLieu;
+                vatLieu.SoLuong = chiTiet.SoLuong;
+                this.vatLieuService.insertVatLieu(vatLieu);
+            }
+            // Thêm hóa đơn vào cơ sở dữ liệu
             if (this.hoaDonService.insertHoaDon(hoaDon))
             {
                 MessageBox.Show("Tạo hóa đơn thành công!", "Nofitication", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Thực hiện cập nhật lại số lượng vật liệu
                 if (this.radioButtonXuatHang.Checked)
                 {
-                    VatLieu vatLieu = null;
-                    foreach (ChiTiet chiTiet in chiTiets)
+                    //Hóa đơn xuất thực hiện cập nhật số lượng vật liệu
+                    List<ChiTiet> chiTietXuats = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietXuatJson);
+                    foreach (ChiTiet chiTiet in chiTietXuats)
                     {
                         vatLieu = chiTiet.VatLieu;
                         vatLieu.SoLuong = vatLieu.SoLuong - chiTiet.SoLuong;
                         this.vatLieuService.updateVatLieu(vatLieu);
                     }
                 }
-                string projectDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+                else
+                {
+                    //Hóa đơn nhập thực hiện cập nhật số lượng vât liệu cũ
+                    List<ChiTiet> chiTietNhapCus = this.fileUtility.ReadObjectsFromJsonFile<ChiTiet>(chiTietNhapCuJson);
+                    foreach (ChiTiet chiTiet in chiTietNhapCus)
+                    {
+                        vatLieu = chiTiet.VatLieu;
+                        vatLieu.SoLuong = vatLieu.SoLuong + chiTiet.SoLuong;
+                        this.vatLieuService.updateVatLieu(vatLieu);
+                    }
+                }
+
+                // Thực hiện ghi nợ cho hóa đơn có phương thức thanh toán là trả trước và ghi nợ
+                if (hoaDon.PhuongThucThanhToan == 2 || hoaDon.PhuongThucThanhToan == 3)
+                {
+                    string maPhieuGhiNo = this.stringUtility.GenerateRandomString(10);
+                    while (this.phieuGhiNoService.findByMaPhieu(maPhieuGhiNo) != null)
+                    {
+                        maPhieuGhiNo = this.stringUtility.GenerateRandomString(10);
+                    }
+                    DateTime thoiGianTra = DateTime.Now.AddDays(540);
+                    double tienNo = hoaDon.tinhTongTien() - hoaDon.TienThanhToan;
+
+                    if (this.radioButtonXuatHang.Checked && doiTac is KhachHang khachHang && hoaDon is HoaDonXuat hoaDonXuat)
+                    {
+                        PhieuGhiNo phieuGhiNo = new PhieuNoKhachHang(maPhieuGhiNo, hoaDon.ThoiGianLap, thoiGianTra, tienNo, false, khachHang, hoaDonXuat);
+                        this.phieuGhiNoService.insertPhieuGhiNo(phieuGhiNo);
+                    }
+                    else if (this.radioButtonNhapHang.Checked && doiTac is NhaCungCap nhaCungCap && hoaDon is HoaDonNhap hoaDonNhap)
+                    {
+                        PhieuGhiNo phieuGhiNo = new PhieuNoCuaHang(maPhieuGhiNo, hoaDon.ThoiGianLap, thoiGianTra, tienNo, false, nhaCungCap, hoaDonNhap);
+                        this.phieuGhiNoService.insertPhieuGhiNo(phieuGhiNo);
+                    }
+                }
+
+                // Thực hiện xóa các file temp
                 List<string> filePaths = new List<string>();
                 if (this.radioButtonXuatHang.Checked)
                 {
@@ -505,7 +591,8 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 else
                 {
-                    filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhap.json"));
+                    filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieumoi.json"));
+                    filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "chitiethoadonnhapvatlieucu.json"));
                     filePaths.Add(Path.Combine(projectDirectory, "temp", "hoadon", "nhacungcap.json"));
                 }
                 foreach (string path in filePaths)
@@ -514,10 +601,42 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 }
                 this.resetPanelHoaDon();
                 this.ShowVatLieus();
+
+                //Thực hiện in hóa đơn
+                Form_ReportHoaDon form_ReportHoaDon = new Form_ReportHoaDon();
+                form_ReportHoaDon.HoaDon = hoaDon;
+                form_ReportHoaDon.ShowDialog();
             }
             else
             {
                 MessageBox.Show("Tạo hóa đơn thất bại!", "Nofitication", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void comboBoxPhuongThucThanhToan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<ChiTiet> chiTiets = this.GetChiTetHoaDon();
+            if (this.comboBoxPhuongThucThanhToan.SelectedIndex == 0)
+            {
+                double tongTien = 0;
+                foreach(ChiTiet chiTiet in chiTiets)
+                {
+                    if (this.radioButtonXuatHang.Checked)
+                    {
+                        tongTien += chiTiet.VatLieu.GiaXuat * chiTiet.SoLuong;
+                    }
+                    else
+                    {
+                        tongTien += chiTiet.VatLieu.GiaNhap * chiTiet.SoLuong;
+                    }
+                }
+                tongTien -= double.Parse(this.txtTienGiam.Text.Trim());
+                this.txtTienThanhToan.Text = tongTien.ToString();
+            }
+            if (this.comboBoxPhuongThucThanhToan.SelectedIndex == 2)
+            {
+                this.txtTienThanhToan.Text = "0";
+                this.SetCacGiaTriTienTe(chiTiets);
             }
         }
     }

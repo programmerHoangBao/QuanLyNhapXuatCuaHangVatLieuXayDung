@@ -46,7 +46,6 @@
             this.comboBoxPhuongThucThanhToan = new System.Windows.Forms.ComboBox();
             this.labelPhuongThucThanhToan = new System.Windows.Forms.Label();
             this.labelTienGiam = new System.Windows.Forms.Label();
-            this.labelNoCu = new System.Windows.Forms.Label();
             this.txtTienThanhToan = new System.Windows.Forms.TextBox();
             this.labelSoTienThanhToan = new System.Windows.Forms.Label();
             this.labelTienThanhToan = new System.Windows.Forms.Label();
@@ -237,7 +236,7 @@
             // 
             this.panelButtonXuatHoaDon.Controls.Add(this.btnXuatHoaDon);
             this.panelButtonXuatHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelButtonXuatHoaDon.Location = new System.Drawing.Point(0, 275);
+            this.panelButtonXuatHoaDon.Location = new System.Drawing.Point(0, 226);
             this.panelButtonXuatHoaDon.Name = "panelButtonXuatHoaDon";
             this.panelButtonXuatHoaDon.Size = new System.Drawing.Size(818, 128);
             this.panelButtonXuatHoaDon.TabIndex = 9;
@@ -261,7 +260,7 @@
             this.panelPhuongThucThanhToan.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelPhuongThucThanhToan.Location = new System.Drawing.Point(0, 0);
             this.panelPhuongThucThanhToan.Name = "panelPhuongThucThanhToan";
-            this.panelPhuongThucThanhToan.Size = new System.Drawing.Size(818, 275);
+            this.panelPhuongThucThanhToan.Size = new System.Drawing.Size(818, 226);
             this.panelPhuongThucThanhToan.TabIndex = 10;
             // 
             // panelThongTinThanhToan
@@ -269,7 +268,6 @@
             this.panelThongTinThanhToan.Controls.Add(this.comboBoxPhuongThucThanhToan);
             this.panelThongTinThanhToan.Controls.Add(this.labelPhuongThucThanhToan);
             this.panelThongTinThanhToan.Controls.Add(this.labelTienGiam);
-            this.panelThongTinThanhToan.Controls.Add(this.labelNoCu);
             this.panelThongTinThanhToan.Controls.Add(this.txtTienThanhToan);
             this.panelThongTinThanhToan.Controls.Add(this.labelSoTienThanhToan);
             this.panelThongTinThanhToan.Controls.Add(this.labelTienThanhToan);
@@ -278,7 +276,7 @@
             this.panelThongTinThanhToan.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelThongTinThanhToan.Location = new System.Drawing.Point(0, 0);
             this.panelThongTinThanhToan.Name = "panelThongTinThanhToan";
-            this.panelThongTinThanhToan.Size = new System.Drawing.Size(598, 275);
+            this.panelThongTinThanhToan.Size = new System.Drawing.Size(598, 226);
             this.panelThongTinThanhToan.TabIndex = 1;
             // 
             // comboBoxPhuongThucThanhToan
@@ -292,6 +290,7 @@
             this.comboBoxPhuongThucThanhToan.Name = "comboBoxPhuongThucThanhToan";
             this.comboBoxPhuongThucThanhToan.Size = new System.Drawing.Size(200, 37);
             this.comboBoxPhuongThucThanhToan.TabIndex = 1;
+            this.comboBoxPhuongThucThanhToan.SelectedIndexChanged += new System.EventHandler(this.comboBoxPhuongThucThanhToan_SelectedIndexChanged);
             // 
             // labelPhuongThucThanhToan
             // 
@@ -310,16 +309,6 @@
             this.labelTienGiam.Size = new System.Drawing.Size(122, 29);
             this.labelTienGiam.TabIndex = 4;
             this.labelTienGiam.Text = "Tiền giảm:";
-            // 
-            // labelNoCu
-            // 
-            this.labelNoCu.AutoSize = true;
-            this.labelNoCu.Font = new System.Drawing.Font("Times New Roman", 13F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNoCu.Location = new System.Drawing.Point(32, 142);
-            this.labelNoCu.Name = "labelNoCu";
-            this.labelNoCu.Size = new System.Drawing.Size(92, 29);
-            this.labelNoCu.TabIndex = 7;
-            this.labelNoCu.Text = "Nợ cũ: ";
             // 
             // txtTienThanhToan
             // 
@@ -342,7 +331,7 @@
             // labelTienThanhToan
             // 
             this.labelTienThanhToan.AutoSize = true;
-            this.labelTienThanhToan.Location = new System.Drawing.Point(26, 226);
+            this.labelTienThanhToan.Location = new System.Drawing.Point(28, 180);
             this.labelTienThanhToan.Name = "labelTienThanhToan";
             this.labelTienThanhToan.Size = new System.Drawing.Size(176, 29);
             this.labelTienThanhToan.TabIndex = 8;
@@ -351,7 +340,7 @@
             // labelTongHoaDon
             // 
             this.labelTongHoaDon.AutoSize = true;
-            this.labelTongHoaDon.Location = new System.Drawing.Point(28, 186);
+            this.labelTongHoaDon.Location = new System.Drawing.Point(30, 140);
             this.labelTongHoaDon.Name = "labelTongHoaDon";
             this.labelTongHoaDon.Size = new System.Drawing.Size(159, 29);
             this.labelTongHoaDon.TabIndex = 7;
@@ -372,7 +361,7 @@
             this.panelButtonCreateAndAddVatLieu.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelButtonCreateAndAddVatLieu.Location = new System.Drawing.Point(598, 0);
             this.panelButtonCreateAndAddVatLieu.Name = "panelButtonCreateAndAddVatLieu";
-            this.panelButtonCreateAndAddVatLieu.Size = new System.Drawing.Size(220, 275);
+            this.panelButtonCreateAndAddVatLieu.Size = new System.Drawing.Size(220, 226);
             this.panelButtonCreateAndAddVatLieu.TabIndex = 0;
             // 
             // btnChonVatLieu
@@ -648,6 +637,7 @@
             // 
             // flowLayoutPanelShowVatLieu
             // 
+            this.flowLayoutPanelShowVatLieu.AutoScroll = true;
             this.flowLayoutPanelShowVatLieu.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.flowLayoutPanelShowVatLieu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelShowVatLieu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -730,7 +720,6 @@
         private System.Windows.Forms.Label labelTienGiam;
         private System.Windows.Forms.TextBox txtTienThanhToan;
         private System.Windows.Forms.Button btnXuatHoaDon;
-        private System.Windows.Forms.Label labelNoCu;
         private System.Windows.Forms.Label labelTongHoaDon;
         private System.Windows.Forms.Panel panelXuatHoaDon;
         private System.Windows.Forms.Panel panelVatLieu;
