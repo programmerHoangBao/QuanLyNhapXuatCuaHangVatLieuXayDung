@@ -54,12 +54,12 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
             if (string.IsNullOrWhiteSpace(this.txtChiPhi.Text))
             {
-                throw new Exception("Chi phí không được để trống!");
+                MessageBox.Show("Chi phí không được để trống!");
             }
 
             if (!double.TryParse(this.txtChiPhi.Text.Trim(), out double chiPhi))
             {
-                throw new Exception("Chi phí phải là một số hợp lệ!");
+                MessageBox.Show("Chi phí phải là một số hợp lệ!");
             }
 
             return new ChiPhiPhatSinh(maChiPhi, loaiChiPhi, thoiGianLap, moTa, chiPhi);
