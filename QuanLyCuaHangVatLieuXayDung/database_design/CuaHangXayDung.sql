@@ -236,7 +236,7 @@ CREATE TABLE PhieuGhiNo (
 	TrangThai BIT DEFAULT 1 NOT NULL,
 	TenDoiTac NVARCHAR(100) NOT NULL,	/*đảm bảo tính toàn vẹn dữ liệu*/
 	SoDienThoai CHAR(10) NOT NULL,		/*đảm bảo tính toàn vẹn dữ liệu*/
-	DiaChi NVARCHAR(250) NOT NULL,		/*đảm bảo tính toàn vẹn dữ liệu*/
+	DiaChi NVARCHAR(250),		/*đảm bảo tính toàn vẹn dữ liệu*/
 	CONSTRAINT FK_DoiTacNo FOREIGN KEY (MaDoiTac) REFERENCES DoiTac(MaDoiTac) 
 		ON DELETE SET NULL,
 	CONSTRAINT FK_NoTuHoaDon FOREIGN KEY (MaHoaDon) REFERENCES HoaDon(MaHoaDon)

@@ -20,5 +20,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service
         decimal TinhTongGiaTriHoaDonXuat(DateTime tuNgay, DateTime denNgay);
         decimal TinhTongGiaTriNoChuaTra(DateTime tuNgay, DateTime denNgay);
         int TinhSoDonTraHang(DateTime tuNgay, DateTime denNgay);
+        decimal TinhTongTienTraNo(DateTime tuNgay, DateTime denNgay);
     }
 }

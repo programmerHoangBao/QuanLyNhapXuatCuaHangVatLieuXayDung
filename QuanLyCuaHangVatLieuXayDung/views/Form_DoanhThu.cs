@@ -10,17 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using QuanLyCuaHangVatLieuXayDung.utilities;
 
 namespace QuanLyCuaHangVatLieuXayDung.views
 {
     public partial class Form_DoanhThu : Form
     {
         private readonly IDoanhThuService doanhThuService = new DoanhThuService();
+        private StringUtility stringUitility = new StringUtility();
 
         public Form_DoanhThu()
         {
             InitializeComponent();
-
+        }
+        private void Form_DoanhThu_Load(object sender, EventArgs e)
+        {
             // Thêm các tùy chọn vào ComboBox
             comboBoxLocThoiGian.Items.AddRange(new string[] { "Hôm nay", "Tuần này", "Tháng này", "Năm này" });
             comboBoxLocThoiGian.SelectedIndex = 0;
@@ -28,7 +32,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             // Thêm các tùy chọn cho ComboBox loại biểu đồ
             comboBoxLoaiBieuDo.Items.AddRange(new string[] { "Ngày", "Tháng", "Năm" });
             comboBoxLoaiBieuDo.SelectedIndex = 0;
-
             // Đặt ngày mặc định cho DateTimePicker
             dtpTuNgay.Value = DateTime.Now.Date;
             dtpDenNgay.Value = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
@@ -64,23 +67,23 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
 
             // Tính và hiển thị các thông tin
-            int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
-            int tongHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
+            int soHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
+            int soHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
             int soBienLaiTraNo = doanhThuService.TinhSoBienLaiTraNo(tuNgay, denNgay);
             int soNoChuaTra = doanhThuService.TinhSoNoChuaTra(tuNgay, denNgay);
             decimal tongGiaTriHoaDonNhap = doanhThuService.TinhTongGiaTriHoaDonNhap(tuNgay, denNgay);
             decimal tongGiaTriHoaDonXuat = doanhThuService.TinhTongGiaTriHoaDonXuat(tuNgay, denNgay);
             decimal tongGiaTriNoChuaTra = doanhThuService.TinhTongGiaTriNoChuaTra(tuNgay, denNgay);
-            int soDonTraHang = doanhThuService.TinhSoDonTraHang(tuNgay, denNgay);
+            decimal tongTienTraNo = doanhThuService.TinhTongTienTraNo(tuNgay, denNgay);
 
-            lblTongHoaDonNhap.Text = $"Tổng hóa đơn nhập: {tongHoaDonNhap}";
-            lblTongHoaDonXuat.Text = $"Tổng hóa đơn xuất: {tongHoaDonXuat}";
-            lblSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
-            lblSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
-            lblTongGiaTriHoaDonNhap.Text = $"Tổng giá trị hóa đơn nhập: {tongGiaTriHoaDonNhap:N0}";
-            lblTongGiaTriHoaDonXuat.Text = $"Tổng giá trị hóa đơn xuất: {tongGiaTriHoaDonXuat:N0}";
-            lblTongGiaTriNoChuaTra.Text = $"Tổng giá trị nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
-            lblSoDonTraHang.Text = $"Số đơn trả hàng: {soDonTraHang}";
+            labelSoHoaDonNhap.Text = $"Số hóa đơn nhập: {soHoaDonNhap}";
+            labelTongTienHoaDonNhap.Text = $"Tiền nhập: {tongGiaTriHoaDonNhap:N0}";
+            labelSoHoaDonXuat.Text = $"Số hóa đơn xuất: {soHoaDonXuat}";
+            labelTongTienHoaDonXuat.Text = $"Tổng tiền xuất: {tongGiaTriHoaDonXuat:N0}";
+            labelSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
+            labelTienNoChuaTra.Text = $"Tiền nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
+            labelSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
+            labelTienNoDaTra.Text = $"Tiền nợ đã trả: {tongTienTraNo:N0}";
 
             // Vẽ biểu đồ doanh thu
             VeBieuDoDoanhThu(tuNgay, denNgay);
@@ -217,11 +220,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             {
                 MessageBox.Show("Lỗi khi vẽ biểu đồ doanh thu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void Form_DoanhThu_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
