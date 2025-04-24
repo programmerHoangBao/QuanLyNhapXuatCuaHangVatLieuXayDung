@@ -1,4 +1,5 @@
-﻿using QuanLyCuaHangVatLieuXayDung.model;
+﻿using QuanLyCuaHangVatLieuXayDung.config;
+using QuanLyCuaHangVatLieuXayDung.model;
 using QuanLyCuaHangVatLieuXayDung.service.impl;
 using QuanLyCuaHangVatLieuXayDung.utilities;
 using System;
@@ -89,7 +90,17 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             taiKhoan.Email = this.txtEmail.Text.Trim();
             taiKhoan.NganHang = this.cboNganHang.Text.Trim();
             taiKhoan.SoTaiKhoan = this.txtSoTaiKhoan.Text.Trim();
-            taiKhoan.QR = this.qrPath;
+            string saveImagePath = string.Empty;
+            if (!string.IsNullOrEmpty(this.qrPath))
+            {
+                string imageName = Path.GetFileNameWithoutExtension(this.qrPath);
+                string extension = Path.GetExtension(this.qrPath);
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string newImageName = $"{imageName}_{timestamp}{extension}";
+                string dirTaiKhoanData = new FormApp().TAIKHOAN_DATA;
+                saveImagePath = new FileUtility().CopyAndRenameFile(this.qrPath, dirTaiKhoanData, newImageName);
+            }
+            taiKhoan.QR = saveImagePath;
             if (this.taiKhoanService.updateTaiKhoan(taiKhoan))
             {
                 MessageBox.Show("Lưu thông tin tài khoản thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
