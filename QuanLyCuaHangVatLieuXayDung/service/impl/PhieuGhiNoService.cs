@@ -106,6 +106,7 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                     if (phieu != null)
                     {
                         phieu.MaPhieu = reader["MaPhieu"].ToString();
+                        phieu.MaHoaDon = reader["MaHoaDon"].ToString();
                         phieu.ThoiGianLap = DateTime.Parse(reader["ThoiGianLap"].ToString());
                         phieu.ThoiGianTra = DateTime.Parse(reader["ThoiGianTra"].ToString());
                         phieu.TienNo = double.Parse(reader["TienNo"].ToString());
@@ -161,7 +162,6 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 this.myDatabase.OpenConnection();
                 transaction = this.myDatabase.Connection.BeginTransaction();
                 SqlCommand cmd = new SqlCommand(query, this.myDatabase.Connection, transaction);
-
                 cmd.Parameters.AddWithValue("@MaPhieu", phieuGhiNo.MaPhieu);
                 cmd.Parameters.AddWithValue("@ThoiGianLap", phieuGhiNo.ThoiGianLap);
                 cmd.Parameters.AddWithValue("@ThoiGianTra", phieuGhiNo.ThoiGianTra);

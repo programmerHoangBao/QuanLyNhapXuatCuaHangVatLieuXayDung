@@ -122,6 +122,7 @@
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -139,11 +140,13 @@
     <Compile Include="service\IChamCongService.cs" />
     <Compile Include="service\IChiPhiPhatSinhService.cs" />
     <Compile Include="service\IChiTietService.cs" />
+    <Compile Include="service\IDoanhThuService.cs" />
     <Compile Include="service\IHoaDonService.cs" />
     <Compile Include="service\impl\BienLaiTraNoService.cs" />
     <Compile Include="service\impl\ChamCongService.cs" />
     <Compile Include="service\impl\ChiPhiPhatSinhService.cs" />
     <Compile Include="service\impl\ChiTietService.cs" />
+    <Compile Include="service\impl\DoanhThuService.cs" />
     <Compile Include="service\impl\HoaDonService.cs" />
     <Compile Include="service\impl\NhanVienService.cs" />
     <Compile Include="service\impl\PhieuTraHangService.cs" />
@@ -218,6 +221,18 @@
     <Compile Include="views\Form_ChonSoLuongVatLieu.Designer.cs">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_DoanhThu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_DoanhThu.Designer.cs">
+      <DependentUpon>Form_DoanhThu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_DangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_DangNhap.Designer.cs">
+      <DependentUpon>Form_DangNhap.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_DoiTac.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,6 +287,12 @@
     <Compile Include="views\Form_SelectVatLieu.Designer.cs">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_TaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_TaiKhoan.Designer.cs">
+      <DependentUpon>Form_TaiKhoan.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_TaoDoiTacMoi.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,6 +328,9 @@
     </Compile>
     <Compile Include="views\Form_VatLieu.Designer.cs">
       <DependentUpon>Form_VatLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\GradientPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="views\report\DataSet.cs">
       <DependentUpon>DataSet.xsd</DependentUpon>
@@ -351,6 +375,12 @@
     <EmbeddedResource Include="views\Form_ChonSoLuongVatLieu.resx">
       <DependentUpon>Form_ChonSoLuongVatLieu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_DoanhThu.resx">
+      <DependentUpon>Form_DoanhThu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_DangNhap.resx">
+      <DependentUpon>Form_DangNhap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_DoiTac.resx">
       <DependentUpon>Form_DoiTac.cs</DependentUpon>
     </EmbeddedResource>
@@ -377,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_SelectVatLieu.resx">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_TaiKhoan.resx">
+      <DependentUpon>Form_TaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TaoDoiTacMoi.resx">
       <DependentUpon>Form_TaoDoiTacMoi.cs</DependentUpon>
@@ -441,6 +474,7 @@
     <None Include="Resources\minus.png" />
     <None Include="Resources\right-arrow.png" />
     <None Include="Resources\left-arrow.png" />
+    <None Include="Resources\man1.png" />
     <Content Include="service\impl\description.txt" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
