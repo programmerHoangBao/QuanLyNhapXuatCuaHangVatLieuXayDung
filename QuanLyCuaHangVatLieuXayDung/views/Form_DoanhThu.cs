@@ -62,7 +62,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
             // Hiển thị tổng quan
             lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
-            lblTongTienThanhToan.Text = $"Tổng tiền đã thanh toán: {tongTienThanhToan:N0}";
 
             // Tính và hiển thị các thông tin mới
             int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
@@ -133,7 +132,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
                 // Hiển thị tổng quan
                 lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
-                lblTongTienThanhToan.Text = $"Tổng tiền đã thanh toán: {tongTienThanhToan:N0}";
 
                 // Tính và hiển thị các thông tin mới
                 int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
