@@ -352,5 +352,3 @@ GO
 CREATE INDEX idx_bangchamcong_manhanvien ON BangChamCong(MaNhanVien);
 GO
 
-
-select * from PhieuGhiNo;

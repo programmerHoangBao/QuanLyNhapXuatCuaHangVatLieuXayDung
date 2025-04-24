@@ -48,6 +48,7 @@
             this.lblTongGiaTriHoaDonNhap = new System.Windows.Forms.Label();
             this.lblTongGiaTriHoaDonXuat = new System.Windows.Forms.Label();
             this.lblTongGiaTriNoChuaTra = new System.Windows.Forms.Label();
+            this.lblSoDonTraHang = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chartDoanhThu)).BeginInit();
             this.panelMetrics.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +56,7 @@
             // dtpTuNgay
             // 
             this.dtpTuNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpTuNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpTuNgay.Location = new System.Drawing.Point(159, 29);
             this.dtpTuNgay.Name = "dtpTuNgay";
             this.dtpTuNgay.Size = new System.Drawing.Size(283, 30);
@@ -63,6 +65,7 @@
             // dtpDenNgay
             // 
             this.dtpDenNgay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpDenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDenNgay.Location = new System.Drawing.Point(159, 72);
             this.dtpDenNgay.Name = "dtpDenNgay";
             this.dtpDenNgay.Size = new System.Drawing.Size(283, 30);
@@ -178,9 +181,10 @@
             this.panelMetrics.Controls.Add(this.lblTongGiaTriHoaDonNhap);
             this.panelMetrics.Controls.Add(this.lblTongGiaTriHoaDonXuat);
             this.panelMetrics.Controls.Add(this.lblTongGiaTriNoChuaTra);
+            this.panelMetrics.Controls.Add(this.lblSoDonTraHang);
             this.panelMetrics.Location = new System.Drawing.Point(23, 654);
             this.panelMetrics.Name = "panelMetrics";
-            this.panelMetrics.Size = new System.Drawing.Size(1383, 80);
+            this.panelMetrics.Size = new System.Drawing.Size(1383, 100);
             this.panelMetrics.TabIndex = 12;
             this.panelMetrics.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             // 
@@ -190,7 +194,7 @@
             this.lblTongHoaDonNhap.BackColor = System.Drawing.Color.Transparent;
             this.lblTongHoaDonNhap.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblTongHoaDonNhap.ForeColor = System.Drawing.Color.White;
-            this.lblTongHoaDonNhap.Location = new System.Drawing.Point(30, 15);
+            this.lblTongHoaDonNhap.Location = new System.Drawing.Point(30, 10);
             this.lblTongHoaDonNhap.Name = "lblTongHoaDonNhap";
             this.lblTongHoaDonNhap.Size = new System.Drawing.Size(0, 29);
             this.lblTongHoaDonNhap.TabIndex = 0;
@@ -201,10 +205,10 @@
             this.lblTongHoaDonXuat.BackColor = System.Drawing.Color.Transparent;
             this.lblTongHoaDonXuat.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblTongHoaDonXuat.ForeColor = System.Drawing.Color.White;
-            this.lblTongHoaDonXuat.Location = new System.Drawing.Point(380, 15);
+            this.lblTongHoaDonXuat.Location = new System.Drawing.Point(430, 10);
             this.lblTongHoaDonXuat.Name = "lblTongHoaDonXuat";
             this.lblTongHoaDonXuat.Size = new System.Drawing.Size(0, 29);
-            this.lblTongHoaDonXuat.TabIndex = 1;
+            this.lblTongHoaDonXuat.TabIndex = 2;
             // 
             // lblSoBienLaiTraNo
             // 
@@ -212,10 +216,10 @@
             this.lblSoBienLaiTraNo.BackColor = System.Drawing.Color.Transparent;
             this.lblSoBienLaiTraNo.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblSoBienLaiTraNo.ForeColor = System.Drawing.Color.White;
-            this.lblSoBienLaiTraNo.Location = new System.Drawing.Point(730, 15);
+            this.lblSoBienLaiTraNo.Location = new System.Drawing.Point(800, 10);
             this.lblSoBienLaiTraNo.Name = "lblSoBienLaiTraNo";
             this.lblSoBienLaiTraNo.Size = new System.Drawing.Size(0, 29);
-            this.lblSoBienLaiTraNo.TabIndex = 2;
+            this.lblSoBienLaiTraNo.TabIndex = 4;
             // 
             // lblSoNoChuaTra
             // 
@@ -223,10 +227,10 @@
             this.lblSoNoChuaTra.BackColor = System.Drawing.Color.Transparent;
             this.lblSoNoChuaTra.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblSoNoChuaTra.ForeColor = System.Drawing.Color.White;
-            this.lblSoNoChuaTra.Location = new System.Drawing.Point(1080, 15);
+            this.lblSoNoChuaTra.Location = new System.Drawing.Point(1160, 10);
             this.lblSoNoChuaTra.Name = "lblSoNoChuaTra";
             this.lblSoNoChuaTra.Size = new System.Drawing.Size(0, 29);
-            this.lblSoNoChuaTra.TabIndex = 3;
+            this.lblSoNoChuaTra.TabIndex = 6;
             // 
             // lblTongGiaTriHoaDonNhap
             // 
@@ -234,7 +238,7 @@
             this.lblTongGiaTriHoaDonNhap.BackColor = System.Drawing.Color.Transparent;
             this.lblTongGiaTriHoaDonNhap.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblTongGiaTriHoaDonNhap.ForeColor = System.Drawing.Color.White;
-            this.lblTongGiaTriHoaDonNhap.Location = new System.Drawing.Point(30, 45);
+            this.lblTongGiaTriHoaDonNhap.Location = new System.Drawing.Point(30, 60);
             this.lblTongGiaTriHoaDonNhap.Name = "lblTongGiaTriHoaDonNhap";
             this.lblTongGiaTriHoaDonNhap.Size = new System.Drawing.Size(0, 29);
             this.lblTongGiaTriHoaDonNhap.TabIndex = 4;
@@ -245,7 +249,7 @@
             this.lblTongGiaTriHoaDonXuat.BackColor = System.Drawing.Color.Transparent;
             this.lblTongGiaTriHoaDonXuat.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblTongGiaTriHoaDonXuat.ForeColor = System.Drawing.Color.White;
-            this.lblTongGiaTriHoaDonXuat.Location = new System.Drawing.Point(480, 45);
+            this.lblTongGiaTriHoaDonXuat.Location = new System.Drawing.Point(430, 60);
             this.lblTongGiaTriHoaDonXuat.Name = "lblTongGiaTriHoaDonXuat";
             this.lblTongGiaTriHoaDonXuat.Size = new System.Drawing.Size(0, 29);
             this.lblTongGiaTriHoaDonXuat.TabIndex = 5;
@@ -256,16 +260,27 @@
             this.lblTongGiaTriNoChuaTra.BackColor = System.Drawing.Color.Transparent;
             this.lblTongGiaTriNoChuaTra.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
             this.lblTongGiaTriNoChuaTra.ForeColor = System.Drawing.Color.White;
-            this.lblTongGiaTriNoChuaTra.Location = new System.Drawing.Point(930, 45);
+            this.lblTongGiaTriNoChuaTra.Location = new System.Drawing.Point(800, 60);
             this.lblTongGiaTriNoChuaTra.Name = "lblTongGiaTriNoChuaTra";
             this.lblTongGiaTriNoChuaTra.Size = new System.Drawing.Size(0, 29);
             this.lblTongGiaTriNoChuaTra.TabIndex = 6;
+            // 
+            // lblSoDonTraHang
+            // 
+            this.lblSoDonTraHang.AutoSize = true;
+            this.lblSoDonTraHang.BackColor = System.Drawing.Color.Transparent;
+            this.lblSoDonTraHang.Font = new System.Drawing.Font("Calibri", 14F, System.Drawing.FontStyle.Bold);
+            this.lblSoDonTraHang.ForeColor = System.Drawing.Color.White;
+            this.lblSoDonTraHang.Location = new System.Drawing.Point(1160, 60);
+            this.lblSoDonTraHang.Name = "lblSoDonTraHang";
+            this.lblSoDonTraHang.Size = new System.Drawing.Size(0, 29);
+            this.lblSoDonTraHang.TabIndex = 7;
             // 
             // Form_DoanhThu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 675);
+            this.ClientSize = new System.Drawing.Size(1435, 775);
             this.Controls.Add(this.panelMetrics);
             this.Controls.Add(this.chartDoanhThu);
             this.Controls.Add(this.lblTongTienThanhToan);
@@ -281,6 +296,7 @@
             this.Controls.Add(this.dtpTuNgay);
             this.Name = "Form_DoanhThu";
             this.Text = "Doanh thu cửa hàng";
+            this.Load += new System.EventHandler(this.Form_DoanhThu_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chartDoanhThu)).EndInit();
             this.panelMetrics.ResumeLayout(false);
             this.panelMetrics.PerformLayout();
@@ -311,5 +327,6 @@
         private System.Windows.Forms.Label lblTongGiaTriHoaDonNhap;
         private System.Windows.Forms.Label lblTongGiaTriHoaDonXuat;
         private System.Windows.Forms.Label lblTongGiaTriNoChuaTra;
+        private System.Windows.Forms.Label lblSoDonTraHang;
     }
 }
