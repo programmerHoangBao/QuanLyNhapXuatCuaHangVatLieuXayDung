@@ -536,6 +536,12 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             DateTime thoiGianLap = DateTime.Now;
             HoaDon hoaDon = null;
 
+            if (chiTiets.Count <= 0 || this.txtNameDoiTac.Text.Trim() == "" || this.txtSDT.Text.Trim() == "" || this.txtAddress.Text.Trim() == "")
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (this.radioButtonXuatHang.Checked)
             {
                 hoaDon = new HoaDonXuat(
