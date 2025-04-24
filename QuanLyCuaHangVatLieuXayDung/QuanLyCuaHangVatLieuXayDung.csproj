@@ -227,6 +227,12 @@
     <Compile Include="views\Form_DoanhThu.Designer.cs">
       <DependentUpon>Form_DoanhThu.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\Form_DangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_DangNhap.Designer.cs">
+      <DependentUpon>Form_DangNhap.cs</DependentUpon>
+    </Compile>
     <Compile Include="views\Form_DoiTac.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,6 +286,12 @@
     </Compile>
     <Compile Include="views\Form_SelectVatLieu.Designer.cs">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\Form_TaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\Form_TaiKhoan.Designer.cs">
+      <DependentUpon>Form_TaiKhoan.cs</DependentUpon>
     </Compile>
     <Compile Include="views\Form_TaoDoiTacMoi.cs">
       <SubType>Form</SubType>
@@ -366,6 +378,9 @@
     <EmbeddedResource Include="views\Form_DoanhThu.resx">
       <DependentUpon>Form_DoanhThu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_DangNhap.resx">
+      <DependentUpon>Form_DangNhap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="views\Form_DoiTac.resx">
       <DependentUpon>Form_DoiTac.cs</DependentUpon>
     </EmbeddedResource>
@@ -392,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_SelectVatLieu.resx">
       <DependentUpon>Form_SelectVatLieu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\Form_TaiKhoan.resx">
+      <DependentUpon>Form_TaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\Form_TaoDoiTacMoi.resx">
       <DependentUpon>Form_TaoDoiTacMoi.cs</DependentUpon>
@@ -456,6 +474,7 @@
     <None Include="Resources\minus.png" />
     <None Include="Resources\right-arrow.png" />
     <None Include="Resources\left-arrow.png" />
+    <None Include="Resources\man1.png" />
     <Content Include="service\impl\description.txt" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
