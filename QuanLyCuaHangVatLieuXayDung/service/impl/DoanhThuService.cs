@@ -458,5 +458,37 @@ namespace QuanLyCuaHangVatLieuXayDung.service.impl
                 myDatabase.CloseConnection();
             }
         }
+
+        public decimal TinhTongTienTraNo(DateTime tuNgay, DateTime denNgay)
+        {
+            string query = @"SELECT SUM(TienTra) 
+                            FROM BienLaiTraNo 
+                            WHERE ThoiGianTra BETWEEN @NgayBatDau AND @NgayKetThuc";
+            decimal tongTienTraNo = 0;
+            try
+            {
+                myDatabase.OpenConnection();
+                using (SqlCommand cmd = new SqlCommand(query, myDatabase.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@NgayBatDau", tuNgay);
+                    cmd.Parameters.AddWithValue("@NgayKetThuc", denNgay);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tongTienTraNo = reader.IsDBNull(0) ? 0 : reader.GetDecimal(0);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Nofitication", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                myDatabase.CloseConnection();
+            }
+            return tongTienTraNo;
+        }
     }
 }
