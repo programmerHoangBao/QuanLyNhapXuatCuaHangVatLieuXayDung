@@ -10,17 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using QuanLyCuaHangVatLieuXayDung.utilities;
 
 namespace QuanLyCuaHangVatLieuXayDung.views
 {
     public partial class Form_DoanhThu : Form
     {
         private readonly IDoanhThuService doanhThuService = new DoanhThuService();
+        private StringUtility stringUitility = new StringUtility();
 
         public Form_DoanhThu()
         {
             InitializeComponent();
-
+        }
+        private void Form_DoanhThu_Load(object sender, EventArgs e)
+        {
             // Thêm các tùy chọn vào ComboBox
             comboBoxLocThoiGian.Items.AddRange(new string[] { "Hôm nay", "Tuần này", "Tháng này", "Năm này" });
             comboBoxLocThoiGian.SelectedIndex = 0;
@@ -28,7 +32,6 @@ namespace QuanLyCuaHangVatLieuXayDung.views
             // Thêm các tùy chọn cho ComboBox loại biểu đồ
             comboBoxLoaiBieuDo.Items.AddRange(new string[] { "Ngày", "Tháng", "Năm" });
             comboBoxLoaiBieuDo.SelectedIndex = 0;
-
             // Đặt ngày mặc định cho DateTimePicker
             dtpTuNgay.Value = DateTime.Now.Date;
             dtpDenNgay.Value = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
@@ -62,22 +65,25 @@ namespace QuanLyCuaHangVatLieuXayDung.views
 
             // Hiển thị tổng quan
             lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
-            // Tính và hiển thị các thông tin mới
-            int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
-            int tongHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
+
+            // Tính và hiển thị các thông tin
+            int soHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
+            int soHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
             int soBienLaiTraNo = doanhThuService.TinhSoBienLaiTraNo(tuNgay, denNgay);
             int soNoChuaTra = doanhThuService.TinhSoNoChuaTra(tuNgay, denNgay);
             decimal tongGiaTriHoaDonNhap = doanhThuService.TinhTongGiaTriHoaDonNhap(tuNgay, denNgay);
             decimal tongGiaTriHoaDonXuat = doanhThuService.TinhTongGiaTriHoaDonXuat(tuNgay, denNgay);
             decimal tongGiaTriNoChuaTra = doanhThuService.TinhTongGiaTriNoChuaTra(tuNgay, denNgay);
+            decimal tongTienTraNo = doanhThuService.TinhTongTienTraNo(tuNgay, denNgay);
 
-            lblTongHoaDonNhap.Text = $"Tổng hóa đơn nhập: {tongHoaDonNhap}";
-            lblTongHoaDonXuat.Text = $"Tổng hóa đơn xuất: {tongHoaDonXuat}";
-            lblSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
-            lblSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
-            lblTongGiaTriHoaDonNhap.Text = $"Tổng giá trị hóa đơn nhập: {tongGiaTriHoaDonNhap:N0}";
-            lblTongGiaTriHoaDonXuat.Text = $"Tổng giá trị hóa đơn xuất: {tongGiaTriHoaDonXuat:N0}";
-            lblTongGiaTriNoChuaTra.Text = $"Tổng giá trị nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
+            labelSoHoaDonNhap.Text = $"Số hóa đơn nhập: {soHoaDonNhap}";
+            labelTongTienHoaDonNhap.Text = $"Tiền nhập: {tongGiaTriHoaDonNhap:N0}";
+            labelSoHoaDonXuat.Text = $"Số hóa đơn xuất: {soHoaDonXuat}";
+            labelTongTienHoaDonXuat.Text = $"Tổng tiền xuất: {tongGiaTriHoaDonXuat:N0}";
+            labelSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
+            labelTienNoChuaTra.Text = $"Tiền nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
+            labelSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
+            labelTienNoDaTra.Text = $"Tiền nợ đã trả: {tongTienTraNo:N0}";
 
             // Vẽ biểu đồ doanh thu
             VeBieuDoDoanhThu(tuNgay, denNgay);
@@ -107,66 +113,18 @@ namespace QuanLyCuaHangVatLieuXayDung.views
         }
         private void btnXemDoanhThu_Click(object sender, EventArgs e)
         {
-            try
-            {
-                DateTime tuNgay = dtpTuNgay.Value;
-                DateTime denNgay = dtpDenNgay.Value;
-
-                if (tuNgay > denNgay)
-                {
-                    MessageBox.Show("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Tính tổng doanh thu và tổng tiền thanh toán
-                decimal tongDoanhThu = 0;
-                decimal tongTienThanhToan = 0;
-                var doanhThuTheoThoiGian = doanhThuService.TinhDoanhThuTheoKhoangThoiGian(tuNgay, denNgay, comboBoxLoaiBieuDo.SelectedItem.ToString());
-
-                foreach (var doanhThu in doanhThuTheoThoiGian.Values)
-                {
-                    tongTienThanhToan += doanhThu;
-                    tongDoanhThu += doanhThu; // Logic doanh thu cần xem xét lại nếu có thêm yếu tố khác
-                }
-
-                // Hiển thị tổng quan
-                lblTongDoanhThu.Text = $"Tổng doanh thu: {tongDoanhThu:N0}";
-
-                // Tính và hiển thị các thông tin mới
-                int tongHoaDonNhap = doanhThuService.TinhTongHoaDonNhap(tuNgay, denNgay);
-                int tongHoaDonXuat = doanhThuService.TinhTongHoaDonXuat(tuNgay, denNgay);
-                int soBienLaiTraNo = doanhThuService.TinhSoBienLaiTraNo(tuNgay, denNgay);
-                int soNoChuaTra = doanhThuService.TinhSoNoChuaTra(tuNgay, denNgay);
-                decimal tongGiaTriHoaDonNhap = doanhThuService.TinhTongGiaTriHoaDonNhap(tuNgay, denNgay);
-                decimal tongGiaTriHoaDonXuat = doanhThuService.TinhTongGiaTriHoaDonXuat(tuNgay, denNgay);
-                decimal tongGiaTriNoChuaTra = doanhThuService.TinhTongGiaTriNoChuaTra(tuNgay, denNgay);
-
-
-                lblTongHoaDonNhap.Text = $"Tổng hóa đơn nhập: {tongHoaDonNhap}";
-                lblTongHoaDonXuat.Text = $"Tổng hóa đơn xuất: {tongHoaDonXuat}";
-                lblSoBienLaiTraNo.Text = $"Số biên lai trả nợ: {soBienLaiTraNo}";
-                lblSoNoChuaTra.Text = $"Số nợ chưa trả: {soNoChuaTra}";
-                lblTongGiaTriHoaDonNhap.Text = $"Tổng giá trị hóa đơn nhập: {tongGiaTriHoaDonNhap:N0}";
-                lblTongGiaTriHoaDonXuat.Text = $"Tổng giá trị hóa đơn xuất: {tongGiaTriHoaDonXuat:N0}";
-                lblTongGiaTriNoChuaTra.Text = $"Tổng giá trị nợ chưa trả: {tongGiaTriNoChuaTra:N0}";
-
-                // Vẽ biểu đồ doanh thu
-                VeBieuDoDoanhThu(tuNgay, denNgay);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi xem doanh thu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            LoadChartOnFormLoad();
         }
         private void VeBieuDoDoanhThu(DateTime tuNgay, DateTime denNgay)
         {
             try
             {
                 string loaiThoiGian = comboBoxLoaiBieuDo.SelectedItem.ToString();
-                var doanhThuTheoThoiGian = doanhThuService.TinhDoanhThuTheoKhoangThoiGian(tuNgay, denNgay, loaiThoiGian);
+                var doanhThuXuat = doanhThuService.TinhDoanhThuTheoKhoangThoiGian(tuNgay, denNgay, loaiThoiGian);
+                var doanhThuNhap = doanhThuService.TinhDoanhThuNhapTheoKhoangThoiGian(tuNgay, denNgay, loaiThoiGian);
 
                 // Kiểm tra dữ liệu trả về
-                if (doanhThuTheoThoiGian == null || doanhThuTheoThoiGian.Count == 0)
+                if ((doanhThuXuat == null || doanhThuXuat.Count == 0) && (doanhThuNhap == null || doanhThuNhap.Count == 0))
                 {
                     MessageBox.Show("Không có dữ liệu doanh thu trong khoảng thời gian này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -181,23 +139,35 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 chartArea.Name = "ChartAreaDoanhThu";
                 chartDoanhThu.ChartAreas.Add(chartArea);
 
-                // Tạo Series
-                Series series = new Series("DoanhThu");
-                series.ChartType = SeriesChartType.Column; // Biểu đồ cột
-                series.XValueType = ChartValueType.DateTime;
-                series.YValueType = ChartValueType.Double; // Sử dụng Double
-                series.Color = Color.OliveDrab; // Màu xanh olive cho cột
-                series.BorderWidth = 3; // Độ dày viền cột
-                series.IsValueShownAsLabel = true; // Hiển thị giá trị trên cột
-                series.LabelFormat = "N0"; // Định dạng giá trị trên cột
-                series.LabelForeColor = Color.Black; // Màu chữ giá trị trên cột
-                chartDoanhThu.Series.Add(series);
+                // Tạo Series cho doanh thu hóa đơn xuất
+                Series seriesXuat = new Series("DoanhThuXuat");
+                seriesXuat.ChartType = SeriesChartType.Column;
+                seriesXuat.XValueType = ChartValueType.DateTime;
+                seriesXuat.YValueType = ChartValueType.Double;
+                seriesXuat.Color = Color.OliveDrab; // Màu xanh olive cho hóa đơn xuất
+                seriesXuat.BorderWidth = 3;
+                seriesXuat.IsValueShownAsLabel = true;
+                seriesXuat.LabelFormat = "N0";
+                seriesXuat.LabelForeColor = Color.Black;
+                chartDoanhThu.Series.Add(seriesXuat);
+
+                // Tạo Series cho doanh thu hóa đơn nhập
+                Series seriesNhap = new Series("DoanhThuNhap");
+                seriesNhap.ChartType = SeriesChartType.Column;
+                seriesNhap.XValueType = ChartValueType.DateTime;
+                seriesNhap.YValueType = ChartValueType.Double;
+                seriesNhap.Color = Color.SteelBlue; // Màu xanh dương cho hóa đơn nhập
+                seriesNhap.BorderWidth = 3;
+                seriesNhap.IsValueShownAsLabel = true;
+                seriesNhap.LabelFormat = "N0";
+                seriesNhap.LabelForeColor = Color.Black;
+                chartDoanhThu.Series.Add(seriesNhap);
 
                 // Định dạng trục X
                 chartArea.AxisX.LabelStyle.Format = loaiThoiGian.ToLower() == "ngày" ? "dd/MM/yyyy" : loaiThoiGian.ToLower() == "tháng" ? "MM/yyyy" : "yyyy";
                 chartArea.AxisX.IntervalType = loaiThoiGian.ToLower() == "ngày" ? DateTimeIntervalType.Days : loaiThoiGian.ToLower() == "tháng" ? DateTimeIntervalType.Months : DateTimeIntervalType.Years;
-                chartArea.AxisX.Interval = loaiThoiGian.ToLower() == "tháng" && tuNgay.Month == denNgay.Month ? 0 : 1; // Hiển thị đúng khi chỉ có 1 tháng
-                chartArea.AxisX.LabelStyle.Angle = -45; // Xoay nhãn trục X để tránh chồng lấn
+                chartArea.AxisX.Interval = loaiThoiGian.ToLower() == "tháng" && tuNgay.Month == denNgay.Month ? 0 : 1;
+                chartArea.AxisX.LabelStyle.Angle = -45;
                 chartArea.AxisX.IsLabelAutoFit = true;
 
                 // Định dạng trục Y
@@ -212,12 +182,21 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 chartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
 
                 // Điền dữ liệu vào biểu đồ
-                foreach (var kvp in doanhThuTheoThoiGian)
+                foreach (var kvp in doanhThuXuat)
                 {
-                    var point = series.Points.AddXY(kvp.Key, Convert.ToDouble(kvp.Value));
-                    if (kvp.Value == 0) // Ẩn cột nếu doanh thu = 0
+                    var point = seriesXuat.Points.AddXY(kvp.Key, Convert.ToDouble(kvp.Value));
+                    if (kvp.Value == 0)
                     {
-                        series.Points[point].IsEmpty = true;
+                        seriesXuat.Points[point].IsEmpty = true;
+                    }
+                }
+
+                foreach (var kvp in doanhThuNhap)
+                {
+                    var point = seriesNhap.Points.AddXY(kvp.Key, Convert.ToDouble(kvp.Value));
+                    if (kvp.Value == 0)
+                    {
+                        seriesNhap.Points[point].IsEmpty = true;
                     }
                 }
 
@@ -228,6 +207,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 chartDoanhThu.BorderlineColor = Color.Gray;
                 chartDoanhThu.BorderlineDashStyle = ChartDashStyle.Solid;
                 chartDoanhThu.BorderlineWidth = 1;
+
+                // Thêm chú thích (Legend) để phân biệt hai Series
+                chartDoanhThu.Legends.Clear();
+                Legend legend = new Legend("ChartLegend");
+                legend.Docking = Docking.Top;
+                chartDoanhThu.Legends.Add(legend);
+                seriesXuat.LegendText = "Doanh thu hóa đơn xuất";
+                seriesNhap.LegendText = "Doanh thu hóa đơn nhập";
             }
             catch (Exception ex)
             {

@@ -139,7 +139,14 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                     this.txtEmail.Text = doiTacSelect.Email;
                     this.comboBoxNganHang.Text = doiTacSelect.NganHang;
                     this.txtSoTK.Text = doiTacSelect.SoTaiKhoan;
-                    this.pictureBoxImageQR.Image = Image.FromFile(doiTacSelect.QR);
+                    if (!string.IsNullOrEmpty(doiTacSelect.QR))
+                    {
+                        this.pictureBoxImageQR.Image = Image.FromFile(doiTacSelect.QR);
+                    }
+                    else
+                    {
+                        this.pictureBoxImageQR.Image = null;
+                    }
                 }
             }
             catch

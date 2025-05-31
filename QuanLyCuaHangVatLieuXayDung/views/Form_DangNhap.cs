@@ -94,5 +94,16 @@ namespace QuanLyCuaHangVatLieuXayDung.views
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnKhach_Click(object sender, EventArgs e)
+        {
+            // Đăng nhập với vai trò "Khách" - không cần thông tin đăng nhập
+            MessageBox.Show("Đăng nhập với vai trò Khách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Ẩn form login, mở form chính
+            this.Hide();
+            new Form_TrangChu().ShowDialog(); // form chính
+            this.Close();
+        }
     }
 }

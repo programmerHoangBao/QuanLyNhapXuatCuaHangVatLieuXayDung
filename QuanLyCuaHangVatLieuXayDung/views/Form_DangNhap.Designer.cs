@@ -40,6 +40,7 @@
             this.textBoxtenDN = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.labeltenDN = new System.Windows.Forms.Label();
+            this.btnKhach = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -70,6 +71,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnKhach);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.buttnhdangNhap);
             this.panel2.Controls.Add(this.checkBoxghiNho);
@@ -81,7 +83,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 80);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(428, 235);
+            this.panel2.Size = new System.Drawing.Size(428, 242);
             this.panel2.TabIndex = 1;
             // 
             // panel3
@@ -121,7 +123,7 @@
             // buttnhdangNhap
             // 
             this.buttnhdangNhap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.buttnhdangNhap.Location = new System.Drawing.Point(15, 172);
+            this.buttnhdangNhap.Location = new System.Drawing.Point(16, 183);
             this.buttnhdangNhap.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttnhdangNhap.Name = "buttnhdangNhap";
             this.buttnhdangNhap.Size = new System.Drawing.Size(399, 48);
@@ -167,11 +169,23 @@
             this.labeltenDN.TabIndex = 0;
             this.labeltenDN.Text = "Tên đăng nhập:";
             // 
+            // btnKhach
+            // 
+            this.btnKhach.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnKhach.Location = new System.Drawing.Point(16, 145);
+            this.btnKhach.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnKhach.Name = "btnKhach";
+            this.btnKhach.Size = new System.Drawing.Size(181, 37);
+            this.btnKhach.TabIndex = 7;
+            this.btnKhach.Text = "Khách";
+            this.btnKhach.UseVisualStyleBackColor = false;
+            this.btnKhach.Click += new System.EventHandler(this.btnKhach_Click);
+            // 
             // Form_DangNhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(428, 315);
+            this.ClientSize = new System.Drawing.Size(428, 322);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -204,5 +218,6 @@
         private System.Windows.Forms.Label labeltenDN;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnShowPass;
+        private System.Windows.Forms.Button btnKhach;
     }
 }
